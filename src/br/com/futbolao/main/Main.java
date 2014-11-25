@@ -26,7 +26,7 @@ public class Main {
 	private static Competicao competicao;
 
 	public static void main(String[] args) {
-		//teste ok kkkk
+		//teste ok
 		Fachada fachada = null;
 		try {
 			fachada = Fachada.getInstance();
