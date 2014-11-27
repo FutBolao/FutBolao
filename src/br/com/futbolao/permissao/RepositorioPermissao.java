@@ -13,6 +13,7 @@ public class RepositorioPermissao implements IRepositorioPermissao{
 	
 	public static final String NOME_TABELA = "permissao_admin";
 	private Connection connection;
+	@SuppressWarnings("unused")
 	private int dataBase = 0;
 	
 	//construtor padrão, onde seleciona o banco mysql caso não seja executado o construtor com argumento
