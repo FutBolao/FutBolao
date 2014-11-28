@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame {
@@ -105,5 +106,10 @@ public class Principal extends JFrame {
 		
 		JDesktopPane desktopPane = new JDesktopPane();
 		contentPane.add(desktopPane, BorderLayout.CENTER);
+		
+		JInternalFrame internalFrame = new JInternalFrame("New JInternalFrame");
+		internalFrame.setBounds(149, 86, 199, 200);
+		desktopPane.add(internalFrame);
+		internalFrame.setVisible(true);
 	}
 }
