@@ -4,18 +4,22 @@ public class Clube {
 	
 	private int id;
 	private String nome;
+	private String nomeCompleto;
 	private String sigla;
 	private char ativo;
 	
 	
-	public Clube(int id, String nome, String sigla, char ativo) {
+	public Clube(int id, String nome, String nomeCompleto, String sigla, char ativo) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.nomeCompleto = nomeCompleto;
 		this.sigla = sigla;
 		this.ativo = ativo;
 	}
 
+
+	
 
 	public int getId() {
 		return id;
@@ -34,6 +38,15 @@ public class Clube {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getNomeCompleto() {
+		return nomeCompleto;
+	}
+
+
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
 	}
 
 
@@ -59,8 +72,8 @@ public class Clube {
 
 	@Override
 	public String toString() {
-		return "Clube [id=" + id + ", nome=" + nome + ", sigla=" + sigla
-				+ ", ativo=" + ativo + "]";
+		return "Clube [id=" + id + ", nome=" + nome + ", nomeCompleto="
+				+ nomeCompleto + ", sigla=" + sigla + ", ativo=" + ativo + "]";
 	}
 	
 	
