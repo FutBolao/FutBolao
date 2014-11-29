@@ -2,6 +2,7 @@ package br.com.futbolao.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,10 +10,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel;
+import br.com.futbolao.exception.ErroAoInstanciarImagemException;
+import br.com.futbolao.util.Imagem;
+import br.com.futbolao.util.JDesktopPaneComBackground;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame {
+	
+	Imagem imagem = null;
 
 	private JPanel contentPane;
 
@@ -23,6 +31,7 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(new SubstanceOfficeBlue2007LookAndFeel());
 					Principal frame = new Principal();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -36,6 +45,15 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		try {
+			imagem = Imagem.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarImagemException();
+			} catch (ErroAoInstanciarImagemException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setBounds(100, 100, 800, 600);
@@ -104,12 +122,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmListar_3 = new JMenuItem("Listar");
 		mnCompeties.add(mntmListar_3);
 		
-		JDesktopPane desktopPane = new JDesktopPane();
+		JDesktopPane desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());
 		contentPane.add(desktopPane, BorderLayout.CENTER);
-		
-		JInternalFrame internalFrame = new JInternalFrame("New JInternalFrame");
-		internalFrame.setBounds(149, 86, 199, 200);
-		desktopPane.add(internalFrame);
-		internalFrame.setVisible(true);
 	}
 }

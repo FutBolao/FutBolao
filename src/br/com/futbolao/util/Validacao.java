@@ -1,4 +1,4 @@
-package br.com.futbolao.validacao;
+package br.com.futbolao.util;
 
 public class Validacao {
 

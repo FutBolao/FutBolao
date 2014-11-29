@@ -7,7 +7,7 @@ import br.com.futbolao.exception.ApostadorJaCadastradoException;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
-import br.com.futbolao.validacao.Validacao;
+import br.com.futbolao.util.Validacao;
 
 public class ControladorApostador {
 
