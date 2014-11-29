@@ -1,4 +1,4 @@
-package br.com.futbolao.movimentacao.financeira.apostador;
+package br.com.futbolao.movimentacao.financeira.administrador;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,27 +10,27 @@ import br.com.futbolao.conexao.Conexao;
 import br.com.futbolao.conexao.DataBase;
 import br.com.futbolao.exception.MovimentacaoNaoCadastradaException;
 
-public class RepositorioMovimentacaoFinanceiraApostador implements IRepositorioMovimentacaoFinanceiraApostador {
+public class RepositorioMovimentacaoFinanceiraAdministrador implements IRepositorioMovimentacaoFinanceiraAdministrador {
 	
-	public static final String NOME_TABELA = "mov_fin_apostador";
-	public static final String NOME_VIEW = "vw_mov_fin_apostador";
+	public static final String NOME_TABELA = "mov_fin_administrador";
+	public static final String NOME_VIEW = "vw_mov_fin_administrador";
 	private Connection connection;
 	private int dataBase = 0;
 	
 	//construtor padrão, onde seleciona o banco mysql caso não seja executado o construtor com argumento
-	public RepositorioMovimentacaoFinanceiraApostador() throws Exception{
+	public RepositorioMovimentacaoFinanceiraAdministrador() throws Exception{
 		this.connection = Conexao.getConexao(DataBase.MYSQL);
 		this.dataBase = DataBase.MYSQL;
 	}
 	
 	//construtor com argumento, que recebe como argumento o tipo de banco a ser executado.
-	public RepositorioMovimentacaoFinanceiraApostador(int dataBase) throws Exception{
+	public RepositorioMovimentacaoFinanceiraAdministrador(int dataBase) throws Exception{
 		this.connection = Conexao.getConexao(dataBase);
 		this.dataBase = dataBase;
 	}
 
 	@Override
-	public void cadastrar(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) 
+	public void cadastrar(MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador) 
 			throws SQLException, Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -41,9 +41,9 @@ public class RepositorioMovimentacaoFinanceiraApostador implements IRepositorioM
 			} else {
 				ps = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			}
-			ps.setLong(1, movimentacaoFinanceiraApostador.getIdApostador());
-			ps.setString(2, movimentacaoFinanceiraApostador.getTipoMovimentacao());
-			ps.setDouble(3, movimentacaoFinanceiraApostador.getValor());
+			ps.setLong(1, movimentacaoFinanceiraAdministrador.getIdApostador());
+			ps.setString(2, movimentacaoFinanceiraAdministrador.getTipoMovimentacao());
+			ps.setDouble(3, movimentacaoFinanceiraAdministrador.getValor());
 			ps.execute();
 			rs = ps.getGeneratedKeys();
 			int id = 0;
@@ -51,14 +51,14 @@ public class RepositorioMovimentacaoFinanceiraApostador implements IRepositorioM
 			while (rs.next()) {
 				id = rs.getInt(1);
 			}
-			movimentacaoFinanceiraApostador.setId(id);
+			movimentacaoFinanceiraAdministrador.setId(id);
 		ps.close();
 		rs.close();
 	}
 
 	// método para listar rodadas.
-	private ArrayList<MovimentacaoFinanceiraApostador> listar(String complemento) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
-		ArrayList<MovimentacaoFinanceiraApostador> movimentacaoFinanceiraApostadores = new ArrayList<MovimentacaoFinanceiraApostador>();
+	private ArrayList<MovimentacaoFinanceiraAdministrador> listar(String complemento) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
+		ArrayList<MovimentacaoFinanceiraAdministrador> movimentacaoFinanceiraApostadores = new ArrayList<MovimentacaoFinanceiraAdministrador>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
@@ -73,10 +73,10 @@ public class RepositorioMovimentacaoFinanceiraApostador implements IRepositorioM
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
 			while (rs.next()) {
-			MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador = new MovimentacaoFinanceiraApostador
-					(rs.getLong("id"), rs.getLong("id_apostador"), rs.getString("nome_apostador"), rs.getString("tipo_movimentacao"), 
+			MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador = new MovimentacaoFinanceiraAdministrador
+					(rs.getLong("id"), rs.getLong("id_apostador"), rs.getString("nome_administrador"), rs.getString("tipo_movimentacao"), 
 							rs.getDouble("valor"), rs.getString("data_hora"));
-			movimentacaoFinanceiraApostadores.add(movimentacaoFinanceiraApostador);
+			movimentacaoFinanceiraApostadores.add(movimentacaoFinanceiraAdministrador);
 			}
 		}else{
 			throw new MovimentacaoNaoCadastradaException();
@@ -86,11 +86,11 @@ public class RepositorioMovimentacaoFinanceiraApostador implements IRepositorioM
 		return movimentacaoFinanceiraApostadores;
 	}
 	
-	public ArrayList<MovimentacaoFinanceiraApostador> listar() throws SQLException, MovimentacaoNaoCadastradaException, Exception {
+	public ArrayList<MovimentacaoFinanceiraAdministrador> listar() throws SQLException, MovimentacaoNaoCadastradaException, Exception {
 		return listar("");
 	}
 
-	public ArrayList<MovimentacaoFinanceiraApostador> procurar(int idApostador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
+	public ArrayList<MovimentacaoFinanceiraAdministrador> procurar(int idApostador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
 		if (tipoMovimentacao.equals("")) {
 			return listar(" and id_apostador=" + idApostador);
 		}else{
@@ -98,17 +98,17 @@ public class RepositorioMovimentacaoFinanceiraApostador implements IRepositorioM
 		}
 	}
 
-	public void atualizar(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
-		if(movimentacaoFinanceiraApostador != null){
+	public void atualizar(MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
+		if(movimentacaoFinanceiraAdministrador != null){
 			PreparedStatement ps = null;
 			String sql = "";
 			// instrução de update da rodada
-			sql = "UPDATE " + NOME_TABELA + " SET id_apostador=?, tipo_movimentacao=?, valor=?, data_hora=NOW() WHERE id=?;";
+			sql = "UPDATE " + NOME_TABELA + " SET id_administrador=?, tipo_movimentacao=?, valor=?, data_hora=NOW() WHERE id=?;";
 			ps = this.connection.prepareStatement(sql);
-			ps.setLong(1, movimentacaoFinanceiraApostador.getIdApostador());
-			ps.setString(2, movimentacaoFinanceiraApostador.getTipoMovimentacao());
-			ps.setDouble(3, movimentacaoFinanceiraApostador.getValor());
-			ps.setLong(4, movimentacaoFinanceiraApostador.getId());
+			ps.setLong(1, movimentacaoFinanceiraAdministrador.getIdApostador());
+			ps.setString(2, movimentacaoFinanceiraAdministrador.getTipoMovimentacao());
+			ps.setDouble(3, movimentacaoFinanceiraAdministrador.getValor());
+			ps.setLong(4, movimentacaoFinanceiraAdministrador.getId());
 			Integer resultado = ps.executeUpdate();
 			// se a atualização for efetuada com êxito o atributo resultado terá um valor diferente de 0, caso contrario levanta uma exception
 			if (resultado == 0) throw new MovimentacaoNaoCadastradaException();
