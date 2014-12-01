@@ -1,4 +1,4 @@
-package br.com.futbolao.adminstrador;
+package br.com.futbolao.administrador;
 
 import br.com.futbolao.pessoa.Pessoa;
 import br.com.futbolao.util.Endereco;

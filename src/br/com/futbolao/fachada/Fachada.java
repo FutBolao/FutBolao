@@ -3,8 +3,8 @@ package br.com.futbolao.fachada;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import br.com.futbolao.adminstrador.Administrador;
-import br.com.futbolao.adminstrador.ControladorAdministrador;
+import br.com.futbolao.administrador.Administrador;
+import br.com.futbolao.administrador.ControladorAdministrador;
 import br.com.futbolao.apostador.Apostador;
 import br.com.futbolao.apostador.ControladorApostador;
 import br.com.futbolao.clube.Clube;

@@ -16,11 +16,16 @@ import org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel;
 import br.com.futbolao.exception.ErroAoInstanciarImagemException;
 import br.com.futbolao.util.Imagem;
 import br.com.futbolao.util.JDesktopPaneComBackground;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JInternalFrame;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame {
 	
 	Imagem imagem = null;
+	final JDesktopPane desktopPane;
 
 	private JPanel contentPane;
 
@@ -69,6 +74,13 @@ public class Principal extends JFrame {
 		menuBar.add(mnAdministrador);
 		
 		JMenuItem mntmCadastrar = new JMenuItem("Cadastrar");
+		mntmCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Teste teste = new Teste();
+				desktopPane.add(teste);
+				teste.setVisible(true);
+			}
+		});
 		mnAdministrador.add(mntmCadastrar);
 		
 		JMenuItem mntmProcurar = new JMenuItem("Listar");
@@ -122,7 +134,19 @@ public class Principal extends JFrame {
 		JMenuItem mntmListar_3 = new JMenuItem("Listar");
 		mnCompeties.add(mntmListar_3);
 		
-		JDesktopPane desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());
+		desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());
 		contentPane.add(desktopPane, BorderLayout.CENTER);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+			}
+		});
+		btnNewButton.setBounds(183, 108, 89, 23);
+		desktopPane.add(btnNewButton);
+		
+		
+		
 	}
 }

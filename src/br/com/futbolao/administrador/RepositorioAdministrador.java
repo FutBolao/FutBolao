@@ -1,4 +1,4 @@
-package br.com.futbolao.adminstrador;
+package br.com.futbolao.administrador;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
