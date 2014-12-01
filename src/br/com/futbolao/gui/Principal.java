@@ -76,9 +76,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmCadastrar = new JMenuItem("Cadastrar");
 		mntmCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Teste teste = new Teste();
-				desktopPane.add(teste);
-				teste.setVisible(true);
+//				Teste teste = new Teste();
+//				desktopPane.add(teste);
+//				teste.setVisible(true);
 			}
 		});
 		mnAdministrador.add(mntmCadastrar);
@@ -120,6 +120,13 @@ public class Principal extends JFrame {
 		menuBar.add(mnClubes);
 		
 		JMenuItem mntmCadastrar_4 = new JMenuItem("Cadastrar");
+		mntmCadastrar_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ClubeCadastrar clubeCadastrar = new ClubeCadastrar();
+				desktopPane.add(clubeCadastrar);
+				clubeCadastrar.setVisible(true);
+			}
+		});
 		mnClubes.add(mntmCadastrar_4);
 		
 		JMenuItem mntmListar_2 = new JMenuItem("Listar");
@@ -136,15 +143,6 @@ public class Principal extends JFrame {
 		
 		desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());
 		contentPane.add(desktopPane, BorderLayout.CENTER);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		btnNewButton.setBounds(183, 108, 89, 23);
-		desktopPane.add(btnNewButton);
 		
 		
 		
