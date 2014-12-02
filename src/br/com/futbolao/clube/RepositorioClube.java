@@ -34,8 +34,8 @@ public class RepositorioClube implements IRepositorioClube{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
-		if (existe(clube.getNome()) == false){
-			sql = "INSERT INTO " + NOME_TABELA + " (nome, nome_completo, sigla, ativo) VALUES (?,?,?,?);";
+		if (existe(clube.getNomeCompleto()) == false){
+			sql = "INSERT INTO " + NOME_TABELA + " (nome, nome_completo, sigla, ativo, estado, pais) VALUES (?,?,?,?,?,?);";
 			if (this.dataBase == DataBase.ORACLE) {
 				ps = this.connection.prepareStatement(sql, new String[] { "id" });
 			} else {
@@ -45,6 +45,8 @@ public class RepositorioClube implements IRepositorioClube{
 			ps.setString(2, clube.getNomeCompleto());
 			ps.setString(3, clube.getSigla());
 			ps.setString(4, String.valueOf(clube.getAtivo()));
+			ps.setString(5, clube.getEstado());
+			ps.setString(6, clube.getPais());
 			ps.execute();
 			rs = ps.getGeneratedKeys();
 			int id = 0;
@@ -77,7 +79,8 @@ public class RepositorioClube implements IRepositorioClube{
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
 			while (rs.next()) {
-			Clube clube = new Clube(rs.getInt("id"), rs.getString("nome"), rs.getString("nome_completo"), rs.getString("sigla"), rs.getString("ativo").charAt(0));
+			Clube clube = new Clube(rs.getInt("id"), rs.getString("nome"), rs.getString("nome_completo"), rs.getString("sigla"), 
+					rs.getString("ativo").charAt(0), rs.getString("estado"), rs.getString("pais"));
 			clubes.add(clube);
 			}
 		}else{
@@ -104,13 +107,15 @@ public class RepositorioClube implements IRepositorioClube{
 			PreparedStatement ps = null;
 			String sql = "";
 			// instrução de update do clube
-			sql = "UPDATE " + NOME_TABELA + " SET nome=?, nome_completo=?, sigla=?, ativo=? WHERE id=?;";
+			sql = "UPDATE " + NOME_TABELA + " SET nome=?, nome_completo=?, sigla=?, ativo=?, estado=?, pais=? WHERE id=?;";
 			ps = this.connection.prepareStatement(sql);
 			ps.setString(1, clube.getNome());
 			ps.setString(2, clube.getNomeCompleto());
 			ps.setString(3, clube.getSigla());
 			ps.setString(4, String.valueOf(clube.getAtivo()));
-			ps.setInt(5, clube.getId());
+			ps.setString(5, clube.getEstado());
+			ps.setString(6, clube.getPais());
+			ps.setInt(7, clube.getId());
 			Integer resultado = ps.executeUpdate();
 			// se a atualizaçãp for efetuada com êxito o atributo resultado terá um valor diferente de 0, caso contrario levanta uma exception
 			if (resultado == 0) throw new ClubeNaoCadastradoException();
@@ -131,13 +136,13 @@ public class RepositorioClube implements IRepositorioClube{
 	}
 
 	// método para verificar se existe clube pelo nome.
-	public boolean existe(String nome) throws SQLException, Exception {
+	public boolean existe(String nomeCompleto) throws SQLException, Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM " + NOME_TABELA + " WHERE nome=?";
+		String sql = "SELECT * FROM " + NOME_TABELA + " WHERE nome_completo=?";
 		boolean resposta = false;		
 		ps = connection.prepareStatement(sql);
-		ps.setString(1, nome);
+		ps.setString(1, nomeCompleto);
 		rs = ps.executeQuery();
 		if(rs.next()){
 			resposta = true;

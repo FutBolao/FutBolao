@@ -13,5 +13,5 @@ public interface IRepositorioClube {
 	public ArrayList<Clube> listar() throws SQLException, ClubeNaoCadastradoException, Exception;
 	public void atualizar(Clube clube) throws SQLException, ClubeNaoCadastradoException, Exception;
 	public void deletar(int id) throws SQLException, ClubeNaoCadastradoException, Exception;
-	public boolean existe(String nome) throws SQLException, Exception;
+	public boolean existe(String nomeCompleto) throws SQLException, Exception;
 }

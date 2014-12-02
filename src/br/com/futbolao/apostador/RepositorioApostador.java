@@ -55,9 +55,9 @@ public class RepositorioApostador implements IRepositorioApostador {
 				ps.setString(6, apostador.getEndereco().getLogradouro());
 				ps.setString(7, apostador.getEndereco().getNumero());
 				ps.setString(8, apostador.getEndereco().getBairro());
-				ps.setInt(9, apostador.getEndereco().getCidade());
-				ps.setInt(10, apostador.getEndereco().getEstado());
-				ps.setInt(11, apostador.getEndereco().getPais());
+				ps.setString(9, apostador.getEndereco().getCidade());
+				ps.setString(10, apostador.getEndereco().getEstado());
+				ps.setString(11, apostador.getEndereco().getPais());
 				ps.setString(12, apostador.getDataDeNascimento());
 				ps.setString(13, apostador.getUsuario());
 				ps.setString(14, apostador.getSenha());
@@ -97,8 +97,8 @@ public class RepositorioApostador implements IRepositorioApostador {
 			while (rs.next()) {
 				Endereco endereco = new Endereco(rs.getString("logradouro"),
 						rs.getString("numero"), rs.getString("bairro"),
-						rs.getInt("id_cidade"), rs.getInt("id_estado"),
-						rs.getInt("id_pais"));
+						rs.getString("id_cidade"), rs.getString("id_estado"),
+						rs.getString("id_pais"));
 				Apostador apostador = new Apostador(rs.getInt("id"),
 						rs.getString("nome"), rs.getString("cpf"), rs.getString("sexo").charAt(0),
 						rs.getString("telefone"), rs.getString("email"),
@@ -148,9 +148,9 @@ public class RepositorioApostador implements IRepositorioApostador {
 			ps.setString(6, apostador.getEndereco().getLogradouro());
 			ps.setString(7, apostador.getEndereco().getNumero());
 			ps.setString(8, apostador.getEndereco().getBairro());
-			ps.setInt(9, apostador.getEndereco().getCidade());
-			ps.setInt(10, apostador.getEndereco().getEstado());
-			ps.setInt(11, apostador.getEndereco().getPais());
+			ps.setString(9, apostador.getEndereco().getCidade());
+			ps.setString(10, apostador.getEndereco().getEstado());
+			ps.setString(11, apostador.getEndereco().getPais());
 			ps.setString(12, apostador.getDataDeNascimento());
 			ps.setString(13, apostador.getUsuario());
 			ps.setString(14, apostador.getSenha());

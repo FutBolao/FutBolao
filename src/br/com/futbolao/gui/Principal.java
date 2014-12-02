@@ -13,19 +13,21 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.ErroAoInstanciarImagemException;
+import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Imagem;
 import br.com.futbolao.util.JDesktopPaneComBackground;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JInternalFrame;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame {
-	
+	@SuppressWarnings("unused")
+	private Fachada fachada = null;
 	Imagem imagem = null;
 	final JDesktopPane desktopPane;
+	
 
 	private JPanel contentPane;
 
@@ -50,6 +52,15 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		try {
 			imagem = Imagem.getInstance();
 		} catch (Exception e) {
@@ -76,9 +87,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmCadastrar = new JMenuItem("Cadastrar");
 		mntmCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				Teste teste = new Teste();
-//				desktopPane.add(teste);
-//				teste.setVisible(true);
+
 			}
 		});
 		mnAdministrador.add(mntmCadastrar);
@@ -125,6 +134,7 @@ public class Principal extends JFrame {
 				ClubeCadastrar clubeCadastrar = new ClubeCadastrar();
 				desktopPane.add(clubeCadastrar);
 				clubeCadastrar.setVisible(true);
+				clubeCadastrar.setPosicao();
 			}
 		});
 		mnClubes.add(mntmCadastrar_4);
