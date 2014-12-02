@@ -1,4 +1,4 @@
-package br.com.futbolao.clube;
+package br.com.futbolao.pais;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,42 +9,40 @@ import java.util.ArrayList;
 
 import br.com.futbolao.conexao.Conexao;
 import br.com.futbolao.conexao.DataBase;
-import br.com.futbolao.exception.ClubeJaCadastradoException;
-import br.com.futbolao.exception.ClubeNaoCadastradoException;
+import br.com.futbolao.exception.PaisJaCadastradoException;
+import br.com.futbolao.exception.PaisNaoCadastradoException;
 
-public class RepositorioClube implements IRepositorioClube{
+public class RepositorioPais implements IRepositorioPais{
 	
-	public static final String NOME_TABELA = "clube";
+	public static final String NOME_TABELA = "pais";
 	private Connection connection;
 	private int dataBase = 0;
 	
 	//construtor padrão, onde seleciona o banco mysql caso não seja executado o construtor com argumento
-	public RepositorioClube() throws Exception{
+	public RepositorioPais() throws Exception{
 		this.connection = Conexao.getConexao(DataBase.MYSQL);
 		this.dataBase = DataBase.MYSQL;
 	}
 	
 	//construtor com argumento, que recebe como argumento o tipo de banco a ser executado.
-	public RepositorioClube(int dataBase) throws Exception{
+	public RepositorioPais(int dataBase) throws Exception{
 		this.connection = Conexao.getConexao(dataBase);
 		this.dataBase = dataBase;
 	}
 
-	public void cadastrar(Clube clube) throws SQLException,	ClubeJaCadastradoException, Exception {
+	public void cadastrar(Pais pais) throws SQLException, PaisJaCadastradoException, Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
-		if (existe(clube.getNome()) == false){
-			sql = "INSERT INTO " + NOME_TABELA + " (nome, nome_completo, sigla, ativo) VALUES (?,?,?,?);";
+		if (existe(pais.getNome()) == false){
+			sql = "INSERT INTO " + NOME_TABELA + " (nome, sigla) VALUES (?,?);";
 			if (this.dataBase == DataBase.ORACLE) {
 				ps = this.connection.prepareStatement(sql, new String[] { "id" });
 			} else {
 				ps = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			}
-			ps.setString(1, clube.getNome());
-			ps.setString(2, clube.getNomeCompleto());
-			ps.setString(3, clube.getSigla());
-			ps.setString(4, String.valueOf(clube.getAtivo()));
+			ps.setString(1, pais.getNome());
+			ps.setString(2, pais.getSigla());
 			ps.execute();
 			rs = ps.getGeneratedKeys();
 			int id = 0;
@@ -52,17 +50,17 @@ public class RepositorioClube implements IRepositorioClube{
 			while (rs.next()) {
 				id = rs.getInt(1);
 			}
-			clube.setId(id);
+			pais.setId(id);
 		} else {
-			throw new ClubeJaCadastradoException();
+			throw new PaisJaCadastradoException();
 		}
 		ps.close();
 		rs.close();
 	}
 	
 	// método para listar clubes.
-	private ArrayList<Clube> listar(String complemento) throws SQLException, ClubeNaoCadastradoException, Exception {
-		ArrayList<Clube> clubes = new ArrayList<Clube>();
+	private ArrayList<Pais> listar(String complemento) throws SQLException, PaisNaoCadastradoException, Exception {
+		ArrayList<Pais> paises = new ArrayList<Pais>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
@@ -77,57 +75,55 @@ public class RepositorioClube implements IRepositorioClube{
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
 			while (rs.next()) {
-			Clube clube = new Clube(rs.getInt("id"), rs.getString("nome"), rs.getString("nome_completo"), rs.getString("sigla"), rs.getString("ativo").charAt(0));
-			clubes.add(clube);
+			Pais pais = new Pais(rs.getInt("id"), rs.getString("nome"), rs.getString("sigla"));
+			paises.add(pais);
 			}
 		}else{
-			throw new ClubeNaoCadastradoException();
+			throw new PaisNaoCadastradoException();
 		}
 		ps.close();
 		rs.close();
-		return clubes;
+		return paises;
 	}
 	
 	// método para listar clubes.
-	public ArrayList<Clube> procurarPorNome(String nome) throws SQLException, ClubeNaoCadastradoException, Exception{
+	public ArrayList<Pais> procurarPorNome(String nome) throws SQLException, PaisNaoCadastradoException, Exception{
 		return listar(" and nome like '%" + nome + "%'");
 	}
 	
 	// método para listar clubes.
-	public ArrayList<Clube> listar() throws SQLException, ClubeNaoCadastradoException, Exception{
+	public ArrayList<Pais> listar() throws SQLException, PaisNaoCadastradoException, Exception{
 		return listar("");
 	}
 
 	// método para atualizar clube
-	public void atualizar(Clube clube) throws SQLException,	ClubeNaoCadastradoException, Exception {
-		if(clube != null){
+	public void atualizar(Pais pais) throws SQLException, PaisNaoCadastradoException, Exception {
+		if(pais != null){
 			PreparedStatement ps = null;
 			String sql = "";
 			// instrução de update do clube
 			sql = "UPDATE " + NOME_TABELA + " SET nome=?, nome_completo=?, sigla=?, ativo=? WHERE id=?;";
 			ps = this.connection.prepareStatement(sql);
-			ps.setString(1, clube.getNome());
-			ps.setString(2, clube.getNomeCompleto());
-			ps.setString(3, clube.getSigla());
-			ps.setString(4, String.valueOf(clube.getAtivo()));
-			ps.setInt(5, clube.getId());
+			ps.setString(1, pais.getNome());
+			ps.setString(2, pais.getSigla());
+			ps.setInt(3, pais.getId());
 			Integer resultado = ps.executeUpdate();
 			// se a atualizaçãp for efetuada com êxito o atributo resultado terá um valor diferente de 0, caso contrario levanta uma exception
-			if (resultado == 0) throw new ClubeNaoCadastradoException();
+			if (resultado == 0) throw new PaisNaoCadastradoException();
 			// fecha a conexão
 			ps.close();
 		}
 	}
 	
 	// método para deletar clube.
-	public void deletar(int id) throws SQLException, ClubeNaoCadastradoException, Exception {
+	public void deletar(int id) throws SQLException, PaisNaoCadastradoException, Exception {
 		PreparedStatement ps = null;
 		String sql = "DELETE FROM " + NOME_TABELA + " WHERE id=?";
 		ps = connection.prepareStatement(sql);
 		ps.setInt(1, id);
 		Integer resultado = ps.executeUpdate();
 		ps.close();
-		if(resultado == 0) throw new ClubeNaoCadastradoException();
+		if(resultado == 0) throw new PaisNaoCadastradoException();
 	}
 
 	// método para verificar se existe clube pelo nome.
