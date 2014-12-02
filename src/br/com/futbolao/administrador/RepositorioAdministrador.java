@@ -56,9 +56,9 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 				ps.setString(6, administrador.getEndereco().getLogradouro());
 				ps.setString(7, administrador.getEndereco().getNumero());
 				ps.setString(8, administrador.getEndereco().getBairro());
-				ps.setInt(9, administrador.getEndereco().getCidade());
-				ps.setInt(10, administrador.getEndereco().getEstado());
-				ps.setInt(11, administrador.getEndereco().getPais());
+				ps.setString(9, administrador.getEndereco().getCidade());
+				ps.setString(10, administrador.getEndereco().getEstado());
+				ps.setString(11, administrador.getEndereco().getPais());
 				ps.setString(12, administrador.getDataDeNascimento());
 				ps.setString(13, administrador.getUsuario());
 				ps.setString(14, administrador.getSenha());
@@ -98,8 +98,8 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 			while (rs.next()) {
 				Endereco endereco = new Endereco(rs.getString("logradouro"),
 						rs.getString("numero"), rs.getString("bairro"),
-						rs.getInt("id_cidade"), rs.getInt("id_estado"),
-						rs.getInt("id_pais"));
+						rs.getString("id_cidade"), rs.getString("id_estado"),
+						rs.getString("id_pais"));
 				Administrador administrador = new Administrador(rs.getInt("id"),
 						rs.getString("nome"), rs.getString("cpf"), rs.getString("sexo").charAt(0),
 						rs.getString("telefone"), rs.getString("email"),
@@ -147,9 +147,9 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 			ps.setString(6, administrador.getEndereco().getLogradouro());
 			ps.setString(7, administrador.getEndereco().getNumero());
 			ps.setString(8, administrador.getEndereco().getBairro());
-			ps.setInt(9, administrador.getEndereco().getCidade());
-			ps.setInt(10, administrador.getEndereco().getEstado());
-			ps.setInt(11, administrador.getEndereco().getPais());
+			ps.setString(9, administrador.getEndereco().getCidade());
+			ps.setString(10, administrador.getEndereco().getEstado());
+			ps.setString(11, administrador.getEndereco().getPais());
 			ps.setString(12, administrador.getDataDeNascimento());
 			ps.setString(13, administrador.getUsuario());
 			ps.setString(14, administrador.getSenha());
