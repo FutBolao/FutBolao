@@ -8,10 +8,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
 import javax.swing.JButton;
+
 import java.awt.Color;
 
+@SuppressWarnings("serial")
 public class ClubeAlterar extends JInternalFrame {
 	private JTextField campoNomeCompleto;
 	private JTextField campoNome;
@@ -58,8 +59,9 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblNomeCompleto);
 		
 		campoNomeCompleto = new JTextField();
+		campoNomeCompleto.setEditable(false);
 		campoNomeCompleto.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoNomeCompleto.setBounds(98, 36, 306, 20);
+		campoNomeCompleto.setBounds(90, 36, 314, 20);
 		painelForm.add(campoNomeCompleto);
 		campoNomeCompleto.setColumns(10);
 		
@@ -69,6 +71,7 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblNome);
 		
 		campoNome = new JTextField();
+		campoNome.setEditable(false);
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setColumns(10);
 		campoNome.setBounds(10, 92, 306, 20);
@@ -80,6 +83,7 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblSigla);
 		
 		campoSigla = new JTextField();
+		campoSigla.setEditable(false);
 		campoSigla.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSigla.setColumns(10);
 		campoSigla.setBounds(326, 92, 78, 20);
@@ -91,11 +95,13 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblPais);
 		
 		JComboBox campoPais = new JComboBox();
+		campoPais.setEnabled(false);
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setBounds(10, 148, 170, 20);
 		painelForm.add(campoPais);
 		
 		JComboBox campoEstado = new JComboBox();
+		campoEstado.setEnabled(false);
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setBounds(190, 148, 214, 20);
 		painelForm.add(campoEstado);
@@ -106,22 +112,19 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblEstadp);
 		
 		JButton btnCadastrar = new JButton("Alterar");
+		btnCadastrar.setEnabled(false);
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCadastrar.setBounds(10, 179, 89, 23);
 		painelForm.add(btnCadastrar);
 		
-		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpar.setBounds(109, 179, 89, 23);
-		painelForm.add(btnLimpar);
-		
 		JLabel lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblId.setBounds(10, 12, 46, 14);
+		lblId.setBounds(10, 11, 46, 14);
 		painelForm.add(lblId);
 		
 		campoID = new JTextField();
-		campoID.setBounds(10, 37, 70, 20);
+		campoID.setEditable(false);
+		campoID.setBounds(10, 36, 70, 20);
 		painelForm.add(campoID);
 		campoID.setColumns(10);
 
