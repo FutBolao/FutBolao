@@ -78,13 +78,8 @@ public class Fachada {
 		this.controladorApostador.deletar(id);
 	}
 	
-	//Métodos do Administrador
+	//Métodos do Apostador
 	public void cadastrarAdministrador(Administrador administrador) throws SQLException, AdministradorJaCadastradoException, NomeVazioException, CpfInvalidoException, Exception{
-		administrador.setCpf(administrador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
-		administrador.setTelefone(administrador.getTelefone().replace('(', ' ').replace(')', ' ').replace('-', ' '));
-		administrador.setDataDeNascimento(administrador.getDataDeNascimento().substring(6, 10) + "-" 
-				 + administrador.getDataDeNascimento().substring(3, 5) + "-" 
-				 + administrador.getDataDeNascimento().substring(0, 2));
 		this.controladorAdministrador.cadastrar(administrador);
 	}
 		
