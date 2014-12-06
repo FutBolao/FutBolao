@@ -36,7 +36,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdministradorAlterar frame = new AdministradorAlterar();
+					AdministradorAlterar frame = new AdministradorAlterar(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class AdministradorAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdministradorAlterar() {
+	public AdministradorAlterar(int id) {
 		
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().setBackground(Color.WHITE);
