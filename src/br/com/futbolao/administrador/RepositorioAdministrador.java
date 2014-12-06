@@ -41,8 +41,8 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 			// verifico se o apostador já existe na base, caso exista,
 			// levanto a uma exception
 			if (existe(administrador.getCpf()) == false) {
-				sql = "INSERT INTO " + NOME_TABELA + " (cpf, nome, sexo, telefone, email, logradouro, numero, bairro, id_cidade, id_estado, "
-						+ "id_pais ,data_de_nascimento, usuario, senha, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				sql = "INSERT INTO " + NOME_TABELA + " (cpf, nome, sexo, telefone, email, logradouro, numero, bairro, cidade, estado, "
+						+ "pais ,data_de_nascimento, usuario, senha, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				if (this.dataBase == DataBase.ORACLE) {
 					ps = this.connection.prepareStatement(sql, new String[] { "id" });
 				} else {
@@ -98,8 +98,8 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 			while (rs.next()) {
 				Endereco endereco = new Endereco(rs.getString("logradouro"),
 						rs.getString("numero"), rs.getString("bairro"),
-						rs.getString("id_cidade"), rs.getString("id_estado"),
-						rs.getString("id_pais"));
+						rs.getString("cidade"), rs.getString("estado"),
+						rs.getString("pais"));
 				Administrador administrador = new Administrador(rs.getInt("id"),
 						rs.getString("nome"), rs.getString("cpf"), rs.getString("sexo").charAt(0),
 						rs.getString("telefone"), rs.getString("email"),
@@ -136,7 +136,7 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 			String sql = "";
 			// instrução de update do apostador
 			sql = "UPDATE " + NOME_TABELA + " SET cpf=?, nome=?, sexo=?, telefone=?, email=?, logradouro=?, numero=?, bairro=?,"
-					+ " id_cidade=?, id_estado=?, id_pais=?, data_de_nascimento=?, usuario=?, senha=?, ativo=?"
+					+ " cidade=?, estado=?, pais=?, data_de_nascimento=?, usuario=?, senha=?, ativo=?"
 					+ " WHERE id=?;";
 			ps = this.connection.prepareStatement(sql);
 			ps.setString(1, administrador.getCpf());

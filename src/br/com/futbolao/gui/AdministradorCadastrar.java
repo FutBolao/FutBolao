@@ -11,12 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+
 import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.exception.AdministradorJaCadastradoException;
 import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
@@ -27,6 +29,8 @@ import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
 import br.com.futbolao.util.MascaraCampo;
+
+import javax.swing.JPasswordField;
 
 public class AdministradorCadastrar extends JInternalFrame {
 	Fachada fachada = null;
@@ -43,9 +47,8 @@ public class AdministradorCadastrar extends JInternalFrame {
 	private JTextField campoCidade;
 	private JTextField campoEstado;
 	private JTextField campoPais;
-	private JTextField campoSenha;
 	private JComboBox campoSexo;
-	private String[] sexo = {"","MASCULINO","FEMININO"};
+	private JPasswordField campoSenha;
 
 	/**
 	 * Launch the application.
@@ -119,8 +122,9 @@ public class AdministradorCadastrar extends JInternalFrame {
 		mascara.getTelefone().install(campoTelefone);
 		campoTelefone.setColumns(10);
 		
-		JComboBox campoSexo = new JComboBox(sexo);
-		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoSexo = new JComboBox();
+		campoSexo.setEnabled(true);
+		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
 		campoSexo.setBounds(269, 92, 141, 20);
 		getContentPane().add(campoSexo);
 		
@@ -242,13 +246,6 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoPais.setDocument(new FormataCampoPermiteTudo(20));
 		campoPais.setColumns(10);
 		
-		campoSenha = new JTextField();
-		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoSenha.setBounds(220, 372, 190, 20);
-		getContentPane().add(campoSenha);
-		campoSenha.setDocument(new FormataCampoPermiteTudo(50));
-		campoSenha.setColumns(10);
-		
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -268,6 +265,10 @@ public class AdministradorCadastrar extends JInternalFrame {
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCadastrar.setBounds(10, 403, 100, 20);
 		getContentPane().add(btnCadastrar);
+		
+		campoSenha = new JPasswordField();
+		campoSenha.setBounds(220, 373, 190, 20);
+		getContentPane().add(campoSenha);
 
 	}
 	
@@ -298,7 +299,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		String cpf = campoCPF.getText();
 		String telefone = campoTelefone.getText();
 		String email = campoEmail.getText();
-		//String sexo = (String) campoSexo.getSelectedItem();
+		String sexo = (String) campoSexo.getSelectedItem();
 		String logradouro = campoLogradouro.getText();
 		String bairro = campoBairro.getText();
 		String numero = campoNumero.getText();
@@ -412,6 +413,14 @@ public class AdministradorCadastrar extends JInternalFrame {
 				campoSenha.requestFocus();
 			}
 			return false;
+		}else if(sexo.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoSexo.requestFocus();
+			}
+			return false;
 		}else{
 			return true;
 		}
@@ -436,7 +445,6 @@ public class AdministradorCadastrar extends JInternalFrame {
 			String senha = campoSenha.getText();
 			Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 			try {
-				//Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 				fachada.cadastrarAdministrador(new Administrador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, 'S'));
 				limparCampos();
 				try {
