@@ -25,6 +25,8 @@ import br.com.futbolao.clube.Clube;
 import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.fachada.Fachada;
+import br.com.futbolao.exception.ConfirmacaoDeExclusaoException;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -132,6 +134,11 @@ public class ClubeListar extends JInternalFrame {
 		painelBotoes.add(btnAlterar);
 		
 		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				deletar();
+			}
+		});
 		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDeletar.setBounds(109, 12, 89, 23);
 		painelBotoes.add(btnDeletar);
@@ -150,6 +157,7 @@ public class ClubeListar extends JInternalFrame {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void procurar(){
 		try {
+			limparTabela();
 			String procurar = campoProcurar.getText();
 			limparTabela();
 			ArrayList<Clube> lista = new ArrayList<>();
@@ -174,9 +182,32 @@ public class ClubeListar extends JInternalFrame {
 		} catch (ClubeNaoCadastradoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar clube");
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar clube!");
+		}	
+	}
+	
+	private void deletar(){
+		if (tabelaClube.getSelectedRowCount() == 1) {
+			try {
+				throw new ConfirmacaoDeExclusaoException();
+			} catch (ConfirmacaoDeExclusaoException ex) {
+				int confirmacao = JOptionPane.showConfirmDialog(rootPane, ex.getMessage(), "Alerta", JOptionPane.YES_NO_OPTION);
+				if (confirmacao == 0) {
+					try {
+						int linha = tabelaClube.getSelectedRow();
+						int id = (int)tabelaClube.getValueAt(linha, 0);
+						fachada.deletarClube(id);
+						procurar();
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					} catch (ClubeNaoCadastradoException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar deletar clube!");
+					}
+				}
+			}
 		}
-		
 	}
 	
 }
