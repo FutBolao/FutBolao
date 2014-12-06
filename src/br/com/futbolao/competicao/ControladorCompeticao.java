@@ -32,6 +32,10 @@ private IRepositorioCompeticao repositorio;
 		return competicoes;
 	}
 	
+	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return repositorio.listar();
+	}
+	
 	public void atualizar(Competicao competicao) throws SQLException, CompeticaoNaoCadastradaException, Exception{	
 			if (competicao != null) {
 				repositorio.atualizar(competicao);

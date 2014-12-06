@@ -85,6 +85,10 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		rs.close();
 		return competicoes;
 	}
+	
+	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception {
+		return listar("");
+	}
 
 	// método para atualizar competição.
 	public void atualizar(Competicao competicao) throws SQLException, CompeticaoNaoCadastradaException, Exception {

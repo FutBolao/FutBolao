@@ -10,6 +10,7 @@ public interface IRepositorioCompeticao {
 
 	public void cadastrar(Competicao competicao) throws SQLException, CompeticaoJaCadastradaException, Exception;
 	public ArrayList<Competicao> listar(String complemento) throws SQLException, CompeticaoNaoCadastradaException, Exception;
+	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public void atualizar(Competicao competicao) throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public void deletar(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public boolean existe(String nome) throws SQLException, Exception;

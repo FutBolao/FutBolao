@@ -160,6 +160,10 @@ public class Fachada {
 		return this.controladorCompeticao.listar(nome);		
 	}
 	
+	public ArrayList<Competicao> listarCompeticao() throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return this.controladorCompeticao.listar();		
+	}
+	
 	public void atualizaCompeticao(Competicao competicao) throws NomeVazioException, SQLException, CompeticaoNaoCadastradaException, Exception{
 		this.controladorCompeticao.atualizar(competicao);
 	}

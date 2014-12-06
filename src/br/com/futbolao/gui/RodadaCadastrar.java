@@ -7,6 +7,8 @@ import javax.swing.JInternalFrame;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -14,13 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import br.com.futbolao.competicao.Competicao;
+import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
+import br.com.futbolao.fachada.Fachada;
+
 public class RodadaCadastrar extends JInternalFrame {
+	private Fachada fachada;
 	private JTextField campoNRodada;
 	private JTextField campoNJogo;
 	private JTextField campoData;
 	private JTextField campoHora;
 	private JTextField campoResultado1;
 	private JTextField campoResultado2;
+	private JComboBox campoCompeticao;
+	private JComboBox campoClube1;
+	private JComboBox campoClube2;
 
 	/**
 	 * Launch the application.
@@ -60,7 +70,7 @@ public class RodadaCadastrar extends JInternalFrame {
 		lblCompeticao.setBounds(10, 10, 80, 20);
 		painelForm.add(lblCompeticao);
 		
-		JComboBox campoCompeticao = new JComboBox();
+		campoCompeticao = new JComboBox();
 		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCompeticao.setBounds(10, 41, 410, 20);
 		painelForm.add(campoCompeticao);
@@ -118,12 +128,12 @@ public class RodadaCadastrar extends JInternalFrame {
 		lblClube2.setBounds(10, 196, 50, 20);
 		painelForm.add(lblClube2);
 		
-		JComboBox campoClube1 = new JComboBox();
+		campoClube1 = new JComboBox();
 		campoClube1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube1.setBounds(10, 165, 310, 20);
 		painelForm.add(campoClube1);
 		
-		JComboBox campoClube2 = new JComboBox();
+		campoClube2 = new JComboBox();
 		campoClube2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube2.setBounds(10, 227, 310, 20);
 		painelForm.add(campoClube2);
@@ -171,6 +181,25 @@ public class RodadaCadastrar extends JInternalFrame {
 	public void setPosicao() {  
 	    Dimension d = this.getDesktopPane().getSize();  
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
+	}
+	
+	private void popularComboBoxCompeticao(){
+		try {
+			ArrayList<Competicao> competicao = fachada.listarCompeticao();
+			for (int i = 0; i < competicao.size(); i++) {
+				System.out.println(competicao.get(i).getNome());
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CompeticaoNaoCadastradaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
