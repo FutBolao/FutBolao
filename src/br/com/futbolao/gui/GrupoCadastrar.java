@@ -4,18 +4,24 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+import br.com.futbolao.util.JMoneyField;
+
 public class GrupoCadastrar extends JInternalFrame {
-	private JTextField campoValorAposta;
-	private JTextField campoLimiteApostas;
-	private JTextField campoPercentualADM;
+	private JMoneyField campoValorAposta;
+	private JMoneyField campoLimiteApostas;
+	private JMoneyField campoPercentualADM;
 	private JTextField campoLimiteApostador;
 	private JTextField campoEncerramentoAposta;
 	private JTextField campoPontuacaoResultado;
@@ -36,7 +42,9 @@ public class GrupoCadastrar extends JInternalFrame {
 			}
 		});
 	}
-
+	
+	//Esta Classe não está pronta
+	
 	/**
 	 * Create the frame.
 	 */
@@ -58,7 +66,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		lblValorAposta.setBounds(257, 73, 113, 20);
 		painelCadastrar.add(lblValorAposta);
 		
-		campoValorAposta = new JTextField();
+		campoValorAposta = new JMoneyField();
 		campoValorAposta.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoValorAposta.setBounds(257, 104, 113, 20);
 		painelCadastrar.add(campoValorAposta);
@@ -69,7 +77,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		lblLimiteApostas.setBounds(10, 73, 113, 20);
 		painelCadastrar.add(lblLimiteApostas);
 		
-		campoLimiteApostas = new JTextField();
+		campoLimiteApostas = new JMoneyField();
 		campoLimiteApostas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoLimiteApostas.setColumns(10);
 		campoLimiteApostas.setBounds(10, 104, 100, 20);
@@ -80,7 +88,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		lblPercentualdoADM.setBounds(10, 135, 157, 20);
 		painelCadastrar.add(lblPercentualdoADM);
 		
-		campoPercentualADM = new JTextField();
+		campoPercentualADM = new JMoneyField();
 		campoPercentualADM.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPercentualADM.setColumns(10);
 		campoPercentualADM.setBounds(10, 166, 100, 20);
@@ -91,7 +99,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		campoCompeticao.setBounds(10, 42, 295, 20);
 		painelCadastrar.add(campoCompeticao);
 		
-		JLabel lblCompeticao = new JLabel("Selecione a competi\u00E7\u00E3o:");
+		JLabel lblCompeticao = new JLabel("Selecione a competição:");
 		lblCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCompeticao.setBounds(10, 11, 157, 20);
 		painelCadastrar.add(lblCompeticao);
