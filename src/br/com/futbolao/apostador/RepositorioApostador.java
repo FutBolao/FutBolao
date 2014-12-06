@@ -40,8 +40,8 @@ public class RepositorioApostador implements IRepositorioApostador {
 			// verifico se o apostador já existe na base, caso exista,
 			// levanto a uma exception
 			if (existe(apostador.getCpf()) == false) {
-				sql = "INSERT INTO " + NOME_TABELA + " (cpf, nome, sexo, telefone, email, logradouro, numero, bairro, id_cidade, id_estado, "
-						+ "id_pais ,data_de_nascimento, usuario, senha, clube) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				sql = "INSERT INTO " + NOME_TABELA + " (cpf, nome, sexo, telefone, email, logradouro, numero, bairro, cidade, estado, "
+						+ "pais ,data_de_nascimento, usuario, senha, clube) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				if (this.dataBase == DataBase.ORACLE) {
 					ps = this.connection.prepareStatement(sql, new String[] { "id" });
 				} else {

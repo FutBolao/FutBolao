@@ -480,6 +480,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 					JOptionPane.showMessageDialog(rootPane, e.getMessage());
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado no sistema ao tentar cadastrar!");
+				e.printStackTrace();
 				}
 			}
 		}
