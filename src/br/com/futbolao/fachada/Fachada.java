@@ -134,6 +134,10 @@ public class Fachada {
 	public ArrayList<Clube> procurarClubePorNome(String nome) throws SQLException, ClubeNaoCadastradoException, Exception{
 		return this.controladorClube.procurarPorNome(nome);		
 	}
+
+	public Clube procurarClubePorId(int id) throws SQLException, ClubeNaoCadastradoException, Exception{
+		return this.controladorClube.procurarPorId(id);		
+	}
 	
 	public ArrayList<Clube> listarClube() throws SQLException, ClubeNaoCadastradoException, Exception{
 		return this.controladorClube.listar();		

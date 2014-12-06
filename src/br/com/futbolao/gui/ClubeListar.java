@@ -129,6 +129,11 @@ public class ClubeListar extends JInternalFrame {
 		painelBotoes.setLayout(null);
 		
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				alterar();
+			}
+		});
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 11, 89, 23);
 		painelBotoes.add(btnAlterar);
@@ -184,6 +189,18 @@ public class ClubeListar extends JInternalFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar clube!");
 		}	
+	}
+	
+	private void alterar(){
+		if (tabelaClube.getSelectedRowCount() == 1) {
+				int linha = tabelaClube.getSelectedRow();
+				int id = (int)tabelaClube.getValueAt(linha, 0);
+				ClubeAlterar clubeAlterar = new ClubeAlterar(id);
+				Principal principal = new Principal();
+				principal.desktopPane.add(clubeAlterar);
+				clubeAlterar.setVisible(true);
+				clubeAlterar.setPosicao();
+		}
 	}
 	
 	private void deletar(){

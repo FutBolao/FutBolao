@@ -71,6 +71,7 @@ public class RepositorioClube implements IRepositorioClube{
 		sql = "SELECT * FROM " + NOME_TABELA + " ";
 		sql += "WHERE id IS NOT NULL";
 		sql += complemento;
+		sql += " ORDER BY nome";
 		ps = this.connection.prepareStatement(sql);
 		rs = ps.executeQuery();
 		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
@@ -94,6 +95,11 @@ public class RepositorioClube implements IRepositorioClube{
 	// método para listar clubes.
 	public ArrayList<Clube> procurarPorNome(String nome) throws SQLException, ClubeNaoCadastradoException, Exception{
 		return listar(" and nome like '%" + nome + "%'");
+	}
+	
+	// método para listar clubes.
+	public Clube procurarPorId(int id) throws SQLException, ClubeNaoCadastradoException, Exception{
+		return listar(" and id =" + id).get(0);
 	}
 	
 	// método para listar clubes.

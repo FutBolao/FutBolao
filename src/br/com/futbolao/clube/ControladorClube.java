@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import br.com.futbolao.exception.ClubeJaCadastradoException;
 import br.com.futbolao.exception.ClubeNaoCadastradoException;
+import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 
 
@@ -30,6 +31,16 @@ public class ControladorClube {
 			throw new NomeVazioException();
 		}
 		return clubes;
+	}
+
+	public Clube procurarPorId(int id) throws SQLException, IdInvalidoException, Exception{
+		Clube clube = null;
+		if (id > 0) {
+			clube = repositorio.procurarPorId(id);
+		}else {
+			throw new IdInvalidoException();
+		}
+		return clube;
 	}
 	
 	public ArrayList<Clube> listar() throws SQLException, NomeVazioException, Exception{

@@ -10,6 +10,7 @@ public interface IRepositorioClube {
 
 	public void cadastrar(Clube clube) throws SQLException, ClubeJaCadastradoException, Exception;
 	public ArrayList<Clube> procurarPorNome(String nome) throws SQLException, ClubeNaoCadastradoException, Exception;
+	public Clube procurarPorId(int id) throws SQLException, ClubeNaoCadastradoException, Exception;
 	public ArrayList<Clube> listar() throws SQLException, ClubeNaoCadastradoException, Exception;
 	public void atualizar(Clube clube) throws SQLException, ClubeNaoCadastradoException, Exception;
 	public void deletar(int id) throws SQLException, ClubeNaoCadastradoException, Exception;

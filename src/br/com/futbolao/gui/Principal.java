@@ -25,10 +25,8 @@ import java.awt.event.ActionEvent;
 public class Principal extends JFrame {
 	@SuppressWarnings("unused")
 	private Fachada fachada = null;
-	Imagem imagem = null;
-	final JDesktopPane desktopPane;
-	
-
+	private Imagem imagem = null;
+	public final JDesktopPane desktopPane;
 	private JPanel contentPane;
 
 	/**
