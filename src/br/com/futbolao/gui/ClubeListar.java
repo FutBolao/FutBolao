@@ -4,19 +4,37 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.ListSelectionModel;
+
 import java.awt.Font;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 
+import br.com.futbolao.clube.Clube;
+import br.com.futbolao.exception.ClubeNaoCadastradoException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.fachada.Fachada;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+@SuppressWarnings("serial")
 public class ClubeListar extends JInternalFrame {
+	private Fachada fachada = null;
 	private JTextField campoProcurar;
 	private JTable tabelaClube;
+	private DefaultTableModel modeloTabelaClube;
+	private String[] colunaTabelaClube;
 
 	/**
 	 * Launch the application.
@@ -38,6 +56,15 @@ public class ClubeListar extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public ClubeListar() {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Listar Clubes");
 		setClosable(true);
@@ -57,7 +84,11 @@ public class ClubeListar extends JInternalFrame {
 		campoProcurar.setColumns(10);
 		
 		JButton btnProcurar = new JButton("Procurar");
-		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnProcurar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				procurar();
+			}
+		});
 		btnProcurar.setBounds(665, 41, 89, 23);
 		painelTabela.add(btnProcurar);
 		
@@ -66,13 +97,15 @@ public class ClubeListar extends JInternalFrame {
 		painelTabela.add(scrollPaneClube);
 		
 		tabelaClube = new JTable();
-		tabelaClube.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "Nome", "Nome Completo", "Sigla", "Ativo", "Estado", "Pa\u00EDs"
+		tabelaClube.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		colunaTabelaClube = new String[] {"ID", "Nome", "Nome Completo", "Sigla", "Ativo", "Estado", "Pa\u00EDs"};
+		modeloTabelaClube = new DefaultTableModel(new Object[][] {},colunaTabelaClube){
+			boolean[] columnEditables = new boolean[] {false, false, false, false, false, false, false};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
-		));
+		};
+		tabelaClube.setModel(modeloTabelaClube);
 		tabelaClube.getColumnModel().getColumn(0).setPreferredWidth(59);
 		tabelaClube.getColumnModel().getColumn(1).setPreferredWidth(163);
 		tabelaClube.getColumnModel().getColumn(2).setPreferredWidth(226);
@@ -82,26 +115,26 @@ public class ClubeListar extends JInternalFrame {
 		tabelaClube.getColumnModel().getColumn(6).setPreferredWidth(91);
 		scrollPaneClube.setViewportView(tabelaClube);
 		
-		JLabel lblTituloProcurar = new JLabel("Digite o nome do clube desejado:");
+		JLabel lblTituloProcurar = new JLabel("Digite o nome do clube desejado ou deixe em branco para listar todos:");
 		lblTituloProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblTituloProcurar.setBounds(10, 10, 400, 19);
 		painelTabela.add(lblTituloProcurar);
 		
-		JPanel painelbotoes = new JPanel();
-		painelbotoes.setBackground(Color.WHITE);
-		painelbotoes.setBounds(10, 415, 764, 44);
-		getContentPane().add(painelbotoes);
-		painelbotoes.setLayout(null);
+		JPanel painelBotoes = new JPanel();
+		painelBotoes.setBackground(Color.WHITE);
+		painelBotoes.setBounds(10, 415, 764, 44);
+		getContentPane().add(painelBotoes);
+		painelBotoes.setLayout(null);
 		
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 11, 89, 23);
-		painelbotoes.add(btnAlterar);
+		painelBotoes.add(btnAlterar);
 		
 		JButton btnDeletar = new JButton("Deletar");
 		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDeletar.setBounds(109, 12, 89, 23);
-		painelbotoes.add(btnDeletar);
+		painelBotoes.add(btnDeletar);
 
 	}
 
@@ -109,4 +142,41 @@ public class ClubeListar extends JInternalFrame {
 	    Dimension d = this.getDesktopPane().getSize();  
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
+	
+	private void limparTabela(){
+		this.modeloTabelaClube.setNumRows(0);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void procurar(){
+		try {
+			String procurar = campoProcurar.getText();
+			limparTabela();
+			ArrayList<Clube> lista = new ArrayList<>();
+			if (procurar.equals("")){
+				lista = fachada.listarClube();
+			} else {
+				lista = fachada.procurarClubePorNome(procurar);
+			}
+			for (Clube clube: lista) {
+				Vector vector = new Vector();
+				vector.add(clube.getId());
+				vector.add(clube.getNome());
+				vector.add(clube.getNomeCompleto());
+				vector.add(clube.getSigla());
+				vector.add(clube.getAtivo());
+				vector.add(clube.getEstado());
+				vector.add(clube.getPais());
+				modeloTabelaClube.addRow(vector);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (ClubeNaoCadastradoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar clube");
+		}
+		
+	}
+	
 }
