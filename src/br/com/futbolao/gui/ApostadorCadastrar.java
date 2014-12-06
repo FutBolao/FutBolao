@@ -72,6 +72,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public ApostadorCadastrar() {
+		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		setTitle("Cadastro Apostador");
 		setClosable(true);
 		setBounds(100, 100, 447, 520);
@@ -173,10 +174,10 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoNumero.setDocument(new FormataCampoPermiteTudo(6));
 		campoNumero.setColumns(10);
 		
-		JLabel lblPas = new JLabel("Bairro :");
-		lblPas.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPas.setBounds(10, 253, 51, 14);
-		painelForm.add(lblPas);
+		JLabel lblBairro = new JLabel("Bairro :");
+		lblBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblBairro.setBounds(10, 253, 51, 14);
+		painelForm.add(lblBairro);
 		
 		campoBairro = new JTextField();
 		campoBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -185,10 +186,10 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoBairro.setDocument(new FormataCampoPermiteTudo(30));
 		campoBairro.setColumns(10);
 		
-		JLabel lblEstado = new JLabel("Cidade : ");
-		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblEstado.setBounds(210, 253, 51, 14);
-		painelForm.add(lblEstado);
+		JLabel lblCidade = new JLabel("Cidade : ");
+		lblCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblCidade.setBounds(210, 253, 51, 14);
+		painelForm.add(lblCidade);
 		
 		campoCidade = new JTextField();
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -197,10 +198,10 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoCidade.setDocument(new FormataCampoPermiteTudo(30));
 		campoCidade.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Estado :");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(10, 309, 67, 14);
-		painelForm.add(lblNewLabel_1);
+		JLabel lblEstado = new JLabel("Estado :");
+		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEstado.setBounds(10, 309, 67, 14);
+		painelForm.add(lblEstado);
 		
 		campoEstado = new JTextField();
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -227,6 +228,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		painelForm.add(lblClube);
 		
 		campoClube = new JTextField();
+		campoClube.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube.setBounds(10, 390, 121, 20);
 		painelForm.add(campoClube);
 		campoClube.setDocument(new FormataCampoPermiteTudo(30));
@@ -244,10 +246,10 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoUsuario.setDocument(new FormataCampoPermiteTudo(20));
 		campoUsuario.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Senha : ");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(272, 365, 46, 14);
-		painelForm.add(lblNewLabel);
+		JLabel lblSenha = new JLabel("Senha : ");
+		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblSenha.setBounds(272, 365, 46, 14);
+		painelForm.add(lblSenha);
 		
 		campoSenha = new JPasswordField();
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -277,6 +279,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		painelForm.add(btnLimpar);
 		
 		campoSexo = new JComboBox();
+		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSexo.setEnabled(true);
 		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
 		campoSexo.setBounds(282, 102, 115, 20);
