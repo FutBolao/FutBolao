@@ -2,7 +2,6 @@ package br.com.futbolao.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +25,7 @@ public class Principal extends JFrame {
 	@SuppressWarnings("unused")
 	private Fachada fachada = null;
 	private Imagem imagem = null;
-	public final JDesktopPane desktopPane;
+	public static JDesktopPane desktopPane;
 	private JPanel contentPane;
 
 	/**
@@ -221,8 +220,5 @@ public class Principal extends JFrame {
 		
 		desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());
 		contentPane.add(desktopPane, BorderLayout.CENTER);
-		
-		
-		
 	}
 }

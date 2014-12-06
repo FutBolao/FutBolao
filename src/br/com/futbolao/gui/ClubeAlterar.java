@@ -11,19 +11,22 @@ import javax.swing.JTextField;
 
 import java.awt.Font;
 
-import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 import br.com.futbolao.clube.Clube;
+import br.com.futbolao.exception.AlteracaoEfetuadaComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+
+import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")
 public class ClubeAlterar extends JInternalFrame {
@@ -35,6 +38,7 @@ public class ClubeAlterar extends JInternalFrame {
 	JButton btnCadastrar;
 	private JTextField campoEstado;
 	private JTextField campoPais;
+	private JCheckBox campoAtivo;
 
 	/**
 	 * Launch the application.
@@ -55,7 +59,7 @@ public class ClubeAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ClubeAlterar(int id) {
+	public ClubeAlterar(final int id) {
 		try {
 			fachada = Fachada.getInstance();
 		} catch (Exception e) {
@@ -65,7 +69,6 @@ public class ClubeAlterar extends JInternalFrame {
 				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
 			}
 		}
-		preencheCampos(id);
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Alterar Clube");
 		setClosable(true);
@@ -85,7 +88,6 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblNomeCompleto);
 		
 		campoNomeCompleto = new JTextField();
-		campoNomeCompleto.setEditable(false);
 		campoNomeCompleto.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNomeCompleto.setBounds(90, 36, 314, 20);
 		painelForm.add(campoNomeCompleto);
@@ -97,7 +99,6 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblNome);
 		
 		campoNome = new JTextField();
-		campoNome.setEditable(false);
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setColumns(10);
 		campoNome.setBounds(10, 92, 306, 20);
@@ -109,7 +110,6 @@ public class ClubeAlterar extends JInternalFrame {
 		painelForm.add(lblSigla);
 		
 		campoSigla = new JTextField();
-		campoSigla.setEditable(false);
 		campoSigla.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSigla.setColumns(10);
 		campoSigla.setBounds(326, 92, 78, 20);
@@ -128,9 +128,9 @@ public class ClubeAlterar extends JInternalFrame {
 		btnCadastrar = new JButton("Alterar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				alterar(id);
 			}
 		});
-		btnCadastrar.setEnabled(false);
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCadastrar.setBounds(10, 179, 89, 23);
 		painelForm.add(btnCadastrar);
@@ -148,33 +148,29 @@ public class ClubeAlterar extends JInternalFrame {
 		campoId.setColumns(10);
 		
 		campoEstado = new JTextField();
-		campoEstado.setEditable(false);
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setColumns(10);
 		campoEstado.setBounds(10, 148, 188, 20);
 		painelForm.add(campoEstado);
 		
 		campoPais = new JTextField();
-		campoPais.setEditable(false);
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setColumns(10);
 		campoPais.setBounds(208, 148, 196, 20);
 		painelForm.add(campoPais);
-
+		
+		campoAtivo = new JCheckBox("Ativo");
+		campoAtivo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoAtivo.setBounds(345, 180, 59, 23);
+		painelForm.add(campoAtivo);
+		
+		// executa método para preencher os campos.
+		preencheCampos(id);
 	}
 	
 	public void setPosicao() {  
 	    Dimension d = this.getDesktopPane().getSize();  
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
-	}
-	
-	private void habilitaCampos(){
-		campoNome.setEditable(true);
-		campoNomeCompleto.setEditable(true);
-		campoSigla.setEditable(true);
-		campoEstado.setEditable(true);
-		campoPais.setEditable(true);
-		btnCadastrar.setEnabled(true);
 	}
 	
 	private boolean validaCampos(){
@@ -237,7 +233,9 @@ public class ClubeAlterar extends JInternalFrame {
 			campoSigla.setText(clube.getSigla());
 			campoEstado.setText(clube.getEstado());
 			campoPais.setText(clube.getPais());
-			habilitaCampos();
+			if(clube.getAtivo() == 'S'){
+				campoAtivo.setSelected(true);
+			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (ClubeNaoCadastradoException e) {
@@ -247,7 +245,34 @@ public class ClubeAlterar extends JInternalFrame {
 		}
 	}
 	
-	private void alterar(){
-		
+	private void alterar(int id){
+		if(validaCampos()){
+			String nome = campoNome.getText();
+			String nomeCompleto = campoNomeCompleto.getText();
+			String sigla = campoSigla.getText();
+			String estado = campoEstado.getText();
+			String pais = campoPais.getText();
+			char ativo = 'S';
+			if (campoAtivo.isSelected() == false){
+				ativo = 'N';
+			}
+			try {
+				fachada.atualizaClube(new Clube(id, nome, nomeCompleto, sigla, ativo, estado, pais));
+				try {
+					throw new AlteracaoEfetuadaComSucessoException();
+				} catch (AlteracaoEfetuadaComSucessoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				this.dispose();
+			} catch (NomeVazioException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (ClubeNaoCadastradoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao alterar o clube!");
+			}
+		}
 	}
 }

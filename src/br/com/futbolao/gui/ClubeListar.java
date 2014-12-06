@@ -196,8 +196,7 @@ public class ClubeListar extends JInternalFrame {
 				int linha = tabelaClube.getSelectedRow();
 				int id = (int)tabelaClube.getValueAt(linha, 0);
 				ClubeAlterar clubeAlterar = new ClubeAlterar(id);
-				Principal principal = new Principal();
-				principal.desktopPane.add(clubeAlterar);
+				Principal.desktopPane.add(clubeAlterar);
 				clubeAlterar.setVisible(true);
 				clubeAlterar.setPosicao();
 		}
