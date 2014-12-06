@@ -12,7 +12,10 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -21,18 +24,21 @@ import br.com.futbolao.apostador.Apostador;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
+import br.com.futbolao.util.FormataCampoPermiteTudo;
+import br.com.futbolao.util.MascaraCampo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ApostadorCadastrar extends JInternalFrame {
+	private MascaraCampo mascara = new MascaraCampo();
 	private JTextField campoNome;
-	private JTextField campoCpf;
-	private JTextField campoTelefone;
+	private JFormattedTextField campoCpf;
+	private JFormattedTextField campoTelefone;
 	private JTextField campoEmail;
-	private JTextField campoNascimento;
+	private JFormattedTextField campoDatadeNascimento;
 	private JTextField campoUsuario;
-	private JTextField campoSenha;
+	private JPasswordField campoSenha;
 	private JTextField campoRua;
 	private JTextField campoNumero;
 	private JTextField campoBairro;
@@ -83,6 +89,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 45, 385, 20);
 		painelForm.add(campoNome);
+		campoNome.setDocument(new FormataCampoPermiteTudo(100));
 		campoNome.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF :");
@@ -90,10 +97,11 @@ public class ApostadorCadastrar extends JInternalFrame {
 		lblCpf.setBounds(10, 76, 46, 14);
 		painelForm.add(lblCpf);
 		
-		campoCpf = new JTextField();
+		campoCpf = new JFormattedTextField();
 		campoCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCpf.setBounds(10, 101, 121, 20);
 		painelForm.add(campoCpf);
+		mascara.getCpf().install(campoCpf);
 		campoCpf.setColumns(10);
 		
 		JLabel lblDataDeNascimento = new JLabel("Data de Nascimento :");
@@ -101,31 +109,34 @@ public class ApostadorCadastrar extends JInternalFrame {
 		lblDataDeNascimento.setBounds(141, 74, 121, 19);
 		painelForm.add(lblDataDeNascimento);
 		
-		campoNascimento = new JTextField();
-		campoNascimento.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoNascimento.setBounds(141, 101, 131, 20);
-		painelForm.add(campoNascimento);
-		campoNascimento.setColumns(10);
+		campoDatadeNascimento = new JFormattedTextField();
+		campoDatadeNascimento.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoDatadeNascimento.setBounds(141, 101, 131, 20);
+		painelForm.add(campoDatadeNascimento);
+		mascara.getData().install(campoDatadeNascimento);
+		campoDatadeNascimento.setColumns(10);
 		
 		JLabel lblSexo = new JLabel("Sexo :");
 		lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblSexo.setBounds(282, 76, 46, 14);
 		painelForm.add(lblSexo);
 		
-		JComboBox campoSexo = new JComboBox();
-		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoSexo.setBounds(282, 101, 113, 20);
-		painelForm.add(campoSexo);
+		campoSexo = new JComboBox();
+		campoSexo.setEnabled(true);
+		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
+		campoSexo.setBounds(269, 92, 141, 20);
+		getContentPane().add(campoSexo);
 		
 		JLabel lblTelefone = new JLabel("Telefone :");
 		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblTelefone.setBounds(10, 132, 58, 14);
 		painelForm.add(lblTelefone);
 		
-		campoTelefone = new JTextField();
+		campoTelefone = new JFormattedTextField();
 		campoTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoTelefone.setBounds(10, 160, 121, 20);
 		painelForm.add(campoTelefone);
+		mascara.getTelefone().install(campoTelefone);
 		campoTelefone.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email : ");
@@ -137,6 +148,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEmail.setBounds(141, 160, 254, 20);
 		painelForm.add(campoEmail);
+		campoEmail.setDocument(new FormataCampoPermiteTudo(50));
 		campoEmail.setColumns(10);
 		
 		JLabel lblRua = new JLabel("Rua : ");
@@ -148,6 +160,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoRua.setBounds(10, 222, 332, 20);
 		painelForm.add(campoRua);
+		campoRua.setDocument(new FormataCampoPermiteTudo(50));
 		campoRua.setColumns(10);
 		
 		JLabel lblNumero = new JLabel("N\u00BA:");
@@ -159,6 +172,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNumero.setBounds(344, 222, 51, 20);
 		painelForm.add(campoNumero);
+		campoNumero.setDocument(new FormataCampoPermiteTudo(6));
 		campoNumero.setColumns(10);
 		
 		JLabel lblPas = new JLabel("Bairro :");
@@ -170,6 +184,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoBairro.setBounds(10, 278, 190, 20);
 		painelForm.add(campoBairro);
+		campoBairro.setDocument(new FormataCampoPermiteTudo(30));
 		campoBairro.setColumns(10);
 		
 		JLabel lblEstado = new JLabel("Cidade : ");
@@ -181,6 +196,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCidade.setBounds(210, 278, 185, 20);
 		painelForm.add(campoCidade);
+		campoCidade.setDocument(new FormataCampoPermiteTudo(30));
 		campoCidade.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Estado :");
@@ -192,6 +208,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setBounds(10, 334, 190, 20);
 		painelForm.add(campoEstado);
+		campoEstado.setDocument(new FormataCampoPermiteTudo(20));
 		campoEstado.setColumns(10);
 		
 		JLabel lblPais = new JLabel("Pa\u00EDs : ");
@@ -203,6 +220,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setBounds(210, 334, 185, 20);
 		painelForm.add(campoPais);
+		campoPais.setDocument(new FormataCampoPermiteTudo(20));
 		campoPais.setColumns(10);
 		
 		JLabel lblClube = new JLabel("Clube :");
@@ -213,6 +231,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoClube = new JTextField();
 		campoClube.setBounds(10, 390, 121, 20);
 		painelForm.add(campoClube);
+		campoClube.setDocument(new FormataCampoPermiteTudo(30));
 		campoClube.setColumns(10);
 		
 		JLabel lblUsuario = new JLabel("Usuario : ");
@@ -224,6 +243,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoUsuario.setBounds(141, 389, 121, 20);
 		painelForm.add(campoUsuario);
+		campoUsuario.setDocument(new FormataCampoPermiteTudo(20));
 		campoUsuario.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Senha : ");
@@ -231,13 +251,19 @@ public class ApostadorCadastrar extends JInternalFrame {
 		lblNewLabel.setBounds(272, 365, 46, 14);
 		painelForm.add(lblNewLabel);
 		
-		campoSenha = new JTextField();
+		campoSenha = new JPasswordField();
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setBounds(272, 389, 121, 20);
 		painelForm.add(campoSenha);
+		campoSenha.setDocument(new FormataCampoPermiteTudo(50));
 		campoSenha.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cadastar();
+			}
+		});
 		btnCadastrar.setBounds(10, 426, 93, 23);
 		painelForm.add(btnCadastrar);
 		
@@ -264,7 +290,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoEstado.setText("");
 		campoPais.setText("");
 		campoCidade.setText("");
-		campoNascimento.setText("");
+		campoDatadeNascimento.setText("");
 		campoNumero.setText("");
 		campoEmail.setText("");
 		campoRua.setText("");
@@ -278,11 +304,11 @@ public class ApostadorCadastrar extends JInternalFrame {
 	public boolean validarCampos(){
 		String nome = campoNome.getText();
 		String cpf = campoCpf.getText();
-		String dataNascimento = campoNascimento.getText();
+		String dataNascimento = campoDatadeNascimento.getText();
 		String sexo = (String)campoSexo.getSelectedItem();
 		String telefone = campoTelefone.getText();
 		String email = campoEmail.getText();
-		String rua = campoRua.getText();
+		String logradouro = campoRua.getText();
 		String numero = campoNumero.getText();
 		String bairro = campoBairro.getText();
 		String cidade = campoCidade.getText();
@@ -312,7 +338,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoNascimento.requestFocus();
+				campoDatadeNascimento.requestFocus();
 			}
 			return false;
 		} else if (sexo.equals("")) {
@@ -339,7 +365,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 				campoEmail.requestFocus();
 			}
 			return false;
-		} else if (rua.equals("")) {
+		} else if (logradouro.equals("")) {
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -418,12 +444,12 @@ public class ApostadorCadastrar extends JInternalFrame {
 			if(validarCampos()){
 				String nome = campoNome.getText();
 				String cpf = campoCpf.getText();
-				String dataDeNascimento = campoNascimento.getText();
+				String dataDeNascimento = campoDatadeNascimento.getText();
 				String sexoString = (String)campoSexo.getSelectedItem();
 				char sexo = sexoString.charAt(0);
 				String telefone = campoTelefone.getText();
 				String email = campoEmail.getText();
-				String rua = campoRua.getText();
+				String logradouro = campoRua.getText();
 				String numero = campoNumero.getText();
 				String bairro = campoBairro.getText();
 				String cidade = campoCidade.getText();
@@ -432,7 +458,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 				String clube = campoClube.getText();
 				String usuario = campoUsuario.getText();
 				String senha = campoSenha.getText();
-				Endereco endereco = new Endereco(rua, numero, bairro, cidade, estado, pais);
+				Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 				try {
 					fachada.cadastrarApostador(new Apostador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, clube)); 
 				} catch (Exception e) {
