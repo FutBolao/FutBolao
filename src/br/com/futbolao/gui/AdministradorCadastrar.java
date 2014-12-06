@@ -37,7 +37,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 	Fachada fachada = null;
 	private MascaraCampo mascara = new MascaraCampo();
 	private JTextField campoNome;
-	private JFormattedTextField campoCPF;
+	private JFormattedTextField campoCpf;
 	private JFormattedTextField campoTelefone;
 	private JTextField campoEmail;
 	private JTextField campoLogradouro;
@@ -104,12 +104,12 @@ public class AdministradorCadastrar extends JInternalFrame {
 		lblCpf.setBounds(10, 67, 46, 14);
 		getContentPane().add(lblCpf);
 		
-		campoCPF = new JFormattedTextField();
-		campoCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoCPF.setColumns(10);
-		campoCPF.setBounds(10, 92, 120, 20);
-		mascara.getCpf().install(campoCPF);
-		getContentPane().add(campoCPF);
+		campoCpf = new JFormattedTextField();
+		campoCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoCpf.setColumns(10);
+		campoCpf.setBounds(10, 92, 120, 20);
+		mascara.getCpf().install(campoCpf);
+		getContentPane().add(campoCpf);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -282,7 +282,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 	
 	private void limparCampos(){
 		campoNome.setText("");
-		campoCPF.setText("");
+		campoCpf.setText("");
 		campoTelefone.setText("");
 		campoEmail.setText("");
 		campoLogradouro.setText("");
@@ -299,7 +299,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 	
 	private boolean validaCampos(){
 		String nome = campoNome.getText();
-		String cpf = campoCPF.getText();
+		String cpf = campoCpf.getText();
 		String telefone = campoTelefone.getText();
 		String email = campoEmail.getText();
 		String sexo = (String) campoSexo.getSelectedItem();
@@ -325,7 +325,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoCPF.requestFocus();
+				campoCpf.requestFocus();
 			}
 			return false;
 		}else if(telefone.equals("")){
@@ -432,7 +432,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 	private void cadastrar(){
 		if(validaCampos()){
 			String nome = campoNome.getText();
-			String cpf = campoCPF.getText();
+			String cpf = campoCpf.getText();
 			String telefone = campoTelefone.getText();
 			String email = campoEmail.getText();
 			String sexoString = (String) campoSexo.getSelectedItem();

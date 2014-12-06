@@ -15,7 +15,7 @@ import javax.swing.JButton;
 
 public class AdministradorAlterar extends JInternalFrame {
 	private JTextField campoNome;
-	private JTextField campoCPF;
+	private JTextField campoCpf;
 	private JTextField campoTelefone;
 	private JTextField campoEmail;
 	private JTextField campoRua;
@@ -27,7 +27,7 @@ public class AdministradorAlterar extends JInternalFrame {
 	private JTextField campoEstado;
 	private JTextField campoPais;
 	private JTextField campoSenha;
-	private JTextField CampoID;
+	private JTextField CampoId;
 
 	/**
 	 * Launch the application.
@@ -74,11 +74,11 @@ public class AdministradorAlterar extends JInternalFrame {
 		lblCpf.setBounds(10, 67, 46, 14);
 		getContentPane().add(lblCpf);
 		
-		campoCPF = new JTextField();
-		campoCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoCPF.setColumns(10);
-		campoCPF.setBounds(10, 92, 120, 20);
-		getContentPane().add(campoCPF);
+		campoCpf = new JTextField();
+		campoCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoCpf.setColumns(10);
+		campoCpf.setBounds(10, 92, 120, 20);
+		getContentPane().add(campoCpf);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -226,11 +226,11 @@ public class AdministradorAlterar extends JInternalFrame {
 		lblId.setBounds(10, 12, 46, 14);
 		getContentPane().add(lblId);
 		
-		CampoID = new JTextField();
-		CampoID.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		CampoID.setBounds(10, 36, 65, 20);
-		getContentPane().add(CampoID);
-		CampoID.setColumns(10);
+		CampoId = new JTextField();
+		CampoId.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		CampoId.setBounds(10, 36, 65, 20);
+		getContentPane().add(CampoId);
+		CampoId.setColumns(10);
 	
 	}
 	

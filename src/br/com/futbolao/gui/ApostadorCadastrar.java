@@ -76,7 +76,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		setTitle("Cadastro Apostador");
 		setClosable(true);
-		setBounds(100, 100, 447, 520);
+		setBounds(100, 100, 445, 520);
 		getContentPane().setLayout(null);
 		
 		JPanel painelForm = new JPanel();

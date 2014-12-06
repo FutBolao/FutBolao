@@ -14,7 +14,7 @@ import javax.swing.JButton;
 
 public class ApostadorAlterar extends JInternalFrame {
 	private JTextField campoNome;
-	private JTextField campoCPF;
+	private JTextField campoCpf;
 	private JTextField campoDataNasc;
 	private JTextField campoTelefone;
 	private JTextField campoEmail;
@@ -77,11 +77,11 @@ public class ApostadorAlterar extends JInternalFrame {
 		lblCPF.setBounds(10, 76, 46, 14);
 		painelForm.add(lblCPF);
 		
-		campoCPF = new JTextField();
-		campoCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoCPF.setColumns(10);
-		campoCPF.setBounds(10, 101, 121, 20);
-		painelForm.add(campoCPF);
+		campoCpf = new JTextField();
+		campoCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoCpf.setColumns(10);
+		campoCpf.setBounds(10, 101, 121, 20);
+		painelForm.add(campoCpf);
 		
 		JLabel lblDataNasc = new JLabel("Data de Nascimento :");
 		lblDataNasc.setFont(new Font("Tahoma", Font.PLAIN, 12));
