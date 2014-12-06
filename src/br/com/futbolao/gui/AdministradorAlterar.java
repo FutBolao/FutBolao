@@ -182,10 +182,10 @@ public class AdministradorAlterar extends JInternalFrame {
 		lblEstado.setBounds(10, 291, 46, 14);
 		getContentPane().add(lblEstado);
 		
-		JLabel lblPas = new JLabel("Pa\u00EDs:");
-		lblPas.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPas.setBounds(220, 291, 46, 14);
-		getContentPane().add(lblPas);
+		JLabel lblPais = new JLabel("Pa\u00EDs:");
+		lblPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblPais.setBounds(220, 291, 46, 14);
+		getContentPane().add(lblPais);
 		
 		campoCidade = new JTextField();
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));

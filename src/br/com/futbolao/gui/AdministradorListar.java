@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdministradorListar extends JInternalFrame {
 	private JTextField campoProcurar;
-	private JTable table;
+	private JTable tabelaADM;
 
 	/**
 	 * Launch the application.
@@ -43,58 +43,62 @@ public class AdministradorListar extends JInternalFrame {
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 524, 409);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel painelTabela = new JPanel();
+		painelTabela.setBackground(Color.WHITE);
+		painelTabela.setBounds(10, 11, 524, 409);
+		getContentPane().add(painelTabela);
+		painelTabela.setLayout(null);
 		
 		JLabel lblDigiteONome = new JLabel("Digite o nome do administrador desejado:");
 		lblDigiteONome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblDigiteONome.setBounds(10, 10, 400, 19);
-		panel.add(lblDigiteONome);
+		painelTabela.add(lblDigiteONome);
 		
 		campoProcurar = new JTextField();
+		campoProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoProcurar.setBounds(10, 40, 400, 20);
-		panel.add(campoProcurar);
+		painelTabela.add(campoProcurar);
 		campoProcurar.setColumns(10);
 		
 		JButton btnProcurar = new JButton("Procurar");
+		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnProcurar.setBounds(420, 39, 94, 23);
-		panel.add(btnProcurar);
+		painelTabela.add(btnProcurar);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 71, 504, 338);
-		panel.add(scrollPane);
+		JScrollPane scrollPaneADM = new JScrollPane();
+		scrollPaneADM.setBounds(10, 71, 504, 338);
+		painelTabela.add(scrollPaneADM);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		tabelaADM = new JTable();
+		tabelaADM.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tabelaADM.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"ID", "Nome", "CPF", "Ativo"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(52);
-		table.getColumnModel().getColumn(1).setPreferredWidth(206);
-		table.getColumnModel().getColumn(2).setPreferredWidth(140);
-		table.getColumnModel().getColumn(3).setPreferredWidth(38);
-		scrollPane.setViewportView(table);
+		tabelaADM.getColumnModel().getColumn(0).setPreferredWidth(52);
+		tabelaADM.getColumnModel().getColumn(1).setPreferredWidth(206);
+		tabelaADM.getColumnModel().getColumn(2).setPreferredWidth(140);
+		tabelaADM.getColumnModel().getColumn(3).setPreferredWidth(38);
+		scrollPaneADM.setViewportView(tabelaADM);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 419, 524, 40);
-		getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+		JPanel painelBotoes = new JPanel();
+		painelBotoes.setBackground(Color.WHITE);
+		painelBotoes.setBounds(10, 419, 524, 40);
+		getContentPane().add(painelBotoes);
+		painelBotoes.setLayout(null);
 		
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 11, 89, 23);
-		panel_1.add(btnAlterar);
+		painelBotoes.add(btnAlterar);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnRemover.setBounds(109, 12, 89, 23);
-		panel_1.add(btnRemover);
+		painelBotoes.add(btnRemover);
 		setBounds(100, 100, 560, 500);
 
 	}

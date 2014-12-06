@@ -66,32 +66,32 @@ public class CompeticaoCadastrar extends JInternalFrame {
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 364, 198);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel painelForm = new JPanel();
+		painelForm.setBackground(Color.WHITE);
+		painelForm.setBounds(10, 11, 364, 198);
+		getContentPane().add(painelForm);
+		painelForm.setLayout(null);
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNome.setBounds(10, 11, 46, 14);
-		panel.add(lblNome);
+		painelForm.add(lblNome);
 		
 		campoNome = new JTextField();
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 36, 344, 20);
-		panel.add(campoNome);
+		painelForm.add(campoNome);
 		campoNome.setColumns(10);
 		
 		JLabel lblQuantidadeDeRodadas = new JLabel("Quantidade de Rodadas:");
 		lblQuantidadeDeRodadas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblQuantidadeDeRodadas.setBounds(10, 67, 170, 14);
-		panel.add(lblQuantidadeDeRodadas);
+		painelForm.add(lblQuantidadeDeRodadas);
 		
 		campoQntdeRodadas = new JTextField();
 		campoQntdeRodadas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoQntdeRodadas.setBounds(10, 92, 344, 20);
-		panel.add(campoQntdeRodadas);
+		painelForm.add(campoQntdeRodadas);
 		campoQntdeRodadas.setColumns(10);
 		
 		JButton btnLimpar = new JButton("Limpar");
@@ -101,18 +101,18 @@ public class CompeticaoCadastrar extends JInternalFrame {
 			}
 		});
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpar.setBounds(109, 179, 89, 23);
-		panel.add(btnLimpar);
+		btnLimpar.setBounds(109, 166, 89, 23);
+		painelForm.add(btnLimpar);
 		
-		JButton btnNewButton = new JButton("Cadastrar");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cadastrar();
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton.setBounds(10, 167, 89, 20);
-		panel.add(btnNewButton);
+		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnCadastrar.setBounds(10, 167, 89, 20);
+		painelForm.add(btnCadastrar);
 		setBounds(100, 100, 400, 250);
 
 	}

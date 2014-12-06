@@ -123,6 +123,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoTelefone.setColumns(10);
 		
 		campoSexo = new JComboBox();
+		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSexo.setEnabled(true);
 		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
 		campoSexo.setBounds(269, 92, 141, 20);
@@ -220,10 +221,10 @@ public class AdministradorCadastrar extends JInternalFrame {
 		lblEstado.setBounds(10, 291, 46, 14);
 		getContentPane().add(lblEstado);
 		
-		JLabel lblPas = new JLabel("País:");
-		lblPas.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPas.setBounds(220, 291, 46, 14);
-		getContentPane().add(lblPas);
+		JLabel lblPais = new JLabel("País:");
+		lblPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblPais.setBounds(220, 291, 46, 14);
+		getContentPane().add(lblPais);
 		
 		campoCidade = new JTextField();
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -267,6 +268,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		getContentPane().add(btnCadastrar);
 		
 		campoSenha = new JPasswordField();
+		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setBounds(220, 373, 190, 20);
 		getContentPane().add(campoSenha);
 

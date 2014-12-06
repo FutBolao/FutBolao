@@ -43,15 +43,15 @@ public class GrupoListar extends JInternalFrame {
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 964, 346);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel painelTabela = new JPanel();
+		painelTabela.setBackground(Color.WHITE);
+		painelTabela.setBounds(10, 11, 964, 346);
+		getContentPane().add(painelTabela);
+		painelTabela.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 78, 944, 268);
-		panel.add(scrollPane);
+		painelTabela.add(scrollPane);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -75,34 +75,34 @@ public class GrupoListar extends JInternalFrame {
 		campoCompeticao = new JTextField();
 		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCompeticao.setBounds(10, 47, 824, 20);
-		panel.add(campoCompeticao);
+		painelTabela.add(campoCompeticao);
 		campoCompeticao.setColumns(10);
 		
 		JButton btnProcurar = new JButton("Procurar");
 		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnProcurar.setBounds(844, 44, 110, 23);
-		panel.add(btnProcurar);
+		painelTabela.add(btnProcurar);
 		
-		JLabel lblNewLabel = new JLabel("Digite a competi\u00E7\u00E3o:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(10, 16, 135, 20);
-		panel.add(lblNewLabel);
+		JLabel lblCompeticao = new JLabel("Digite a competi\u00E7\u00E3o:");
+		lblCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblCompeticao.setBounds(10, 16, 135, 20);
+		painelTabela.add(lblCompeticao);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 357, 964, 52);
-		getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+		JPanel painelBotoes = new JPanel();
+		painelBotoes.setBackground(Color.WHITE);
+		painelBotoes.setBounds(10, 357, 964, 52);
+		getContentPane().add(painelBotoes);
+		painelBotoes.setLayout(null);
 		
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 18, 89, 23);
-		panel_1.add(btnAlterar);
+		painelBotoes.add(btnAlterar);
 		
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnRemover.setBounds(109, 19, 89, 23);
-		panel_1.add(btnRemover);
+		painelBotoes.add(btnRemover);
 		setBounds(100, 100, 1000, 450);
 
 	}

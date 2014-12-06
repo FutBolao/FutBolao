@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 
 public class ClubeListar extends JInternalFrame {
 	private JTextField campoProcurar;
-	private JTable table;
+	private JTable tabelaClube;
 
 	/**
 	 * Launch the application.
@@ -44,63 +44,64 @@ public class ClubeListar extends JInternalFrame {
 		setBounds(100, 100, 800, 500);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 764, 404);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel painelTabela = new JPanel();
+		painelTabela.setBackground(Color.WHITE);
+		painelTabela.setBounds(10, 11, 764, 404);
+		getContentPane().add(painelTabela);
+		painelTabela.setLayout(null);
 		
 		campoProcurar = new JTextField();
 		campoProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoProcurar.setBounds(10, 40, 645, 23);
-		panel.add(campoProcurar);
+		painelTabela.add(campoProcurar);
 		campoProcurar.setColumns(10);
 		
 		JButton btnProcurar = new JButton("Procurar");
+		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnProcurar.setBounds(665, 41, 89, 23);
-		panel.add(btnProcurar);
+		painelTabela.add(btnProcurar);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 74, 744, 330);
-		panel.add(scrollPane);
+		JScrollPane scrollPaneClube = new JScrollPane();
+		scrollPaneClube.setBounds(10, 74, 744, 330);
+		painelTabela.add(scrollPaneClube);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		tabelaClube = new JTable();
+		tabelaClube.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"ID", "Nome", "Nome Completo", "Sigla", "Ativo", "Estado", "Pa\u00EDs"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(59);
-		table.getColumnModel().getColumn(1).setPreferredWidth(163);
-		table.getColumnModel().getColumn(2).setPreferredWidth(226);
-		table.getColumnModel().getColumn(3).setPreferredWidth(32);
-		table.getColumnModel().getColumn(4).setPreferredWidth(37);
-		table.getColumnModel().getColumn(5).setPreferredWidth(102);
-		table.getColumnModel().getColumn(6).setPreferredWidth(91);
-		scrollPane.setViewportView(table);
+		tabelaClube.getColumnModel().getColumn(0).setPreferredWidth(59);
+		tabelaClube.getColumnModel().getColumn(1).setPreferredWidth(163);
+		tabelaClube.getColumnModel().getColumn(2).setPreferredWidth(226);
+		tabelaClube.getColumnModel().getColumn(3).setPreferredWidth(32);
+		tabelaClube.getColumnModel().getColumn(4).setPreferredWidth(37);
+		tabelaClube.getColumnModel().getColumn(5).setPreferredWidth(102);
+		tabelaClube.getColumnModel().getColumn(6).setPreferredWidth(91);
+		scrollPaneClube.setViewportView(tabelaClube);
 		
 		JLabel lblTituloProcurar = new JLabel("Digite o nome do clube desejado:");
 		lblTituloProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblTituloProcurar.setBounds(10, 10, 400, 19);
-		panel.add(lblTituloProcurar);
+		painelTabela.add(lblTituloProcurar);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 415, 764, 44);
-		getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+		JPanel painelbotoes = new JPanel();
+		painelbotoes.setBackground(Color.WHITE);
+		painelbotoes.setBounds(10, 415, 764, 44);
+		getContentPane().add(painelbotoes);
+		painelbotoes.setLayout(null);
 		
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 11, 89, 23);
-		panel_1.add(btnAlterar);
+		painelbotoes.add(btnAlterar);
 		
 		JButton btnDeletar = new JButton("Deletar");
 		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDeletar.setBounds(109, 12, 89, 23);
-		panel_1.add(btnDeletar);
+		painelbotoes.add(btnDeletar);
 
 	}
 

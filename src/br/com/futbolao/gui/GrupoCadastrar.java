@@ -47,118 +47,118 @@ public class GrupoCadastrar extends JInternalFrame {
 		setBounds(100, 100, 420, 359);
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 384, 310);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel painelCadastrar = new JPanel();
+		painelCadastrar.setBackground(Color.WHITE);
+		painelCadastrar.setBounds(10, 11, 384, 310);
+		getContentPane().add(painelCadastrar);
+		painelCadastrar.setLayout(null);
 		
 		JLabel lblValorAposta = new JLabel("Valor da aposta:");
 		lblValorAposta.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblValorAposta.setBounds(257, 73, 113, 20);
-		panel.add(lblValorAposta);
+		painelCadastrar.add(lblValorAposta);
 		
 		campoValorAposta = new JTextField();
 		campoValorAposta.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoValorAposta.setBounds(257, 104, 113, 20);
-		panel.add(campoValorAposta);
+		painelCadastrar.add(campoValorAposta);
 		campoValorAposta.setColumns(10);
 		
 		JLabel lblLimiteApostas = new JLabel("Limite de apostas:");
 		lblLimiteApostas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblLimiteApostas.setBounds(10, 73, 113, 20);
-		panel.add(lblLimiteApostas);
+		painelCadastrar.add(lblLimiteApostas);
 		
 		campoLimiteApostas = new JTextField();
 		campoLimiteApostas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoLimiteApostas.setColumns(10);
 		campoLimiteApostas.setBounds(10, 104, 100, 20);
-		panel.add(campoLimiteApostas);
+		painelCadastrar.add(campoLimiteApostas);
 		
 		JLabel lblPercentualdoADM = new JLabel("Lucro do ADM %:");
 		lblPercentualdoADM.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblPercentualdoADM.setBounds(10, 135, 157, 20);
-		panel.add(lblPercentualdoADM);
+		painelCadastrar.add(lblPercentualdoADM);
 		
 		campoPercentualADM = new JTextField();
 		campoPercentualADM.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPercentualADM.setColumns(10);
 		campoPercentualADM.setBounds(10, 166, 100, 20);
-		panel.add(campoPercentualADM);
+		painelCadastrar.add(campoPercentualADM);
 		
 		JComboBox campoCompeticao = new JComboBox();
 		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCompeticao.setBounds(10, 42, 295, 20);
-		panel.add(campoCompeticao);
+		painelCadastrar.add(campoCompeticao);
 		
 		JLabel lblCompeticao = new JLabel("Selecione a competi\u00E7\u00E3o:");
 		lblCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCompeticao.setBounds(10, 11, 157, 20);
-		panel.add(lblCompeticao);
+		painelCadastrar.add(lblCompeticao);
 		
-		JLabel lblNewLabel_1 = new JLabel("Rodada:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(315, 11, 55, 20);
-		panel.add(lblNewLabel_1);
+		JLabel lblRodada = new JLabel("Rodada:");
+		lblRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblRodada.setBounds(315, 11, 55, 20);
+		painelCadastrar.add(lblRodada);
 		
 		JComboBox campoRodada = new JComboBox();
 		campoRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoRodada.setBounds(315, 42, 55, 20);
-		panel.add(campoRodada);
+		painelCadastrar.add(campoRodada);
 		
 		JLabel lblLimete_apostas = new JLabel("Apostas por apostador:");
 		lblLimete_apostas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblLimete_apostas.setBounds(120, 73, 127, 20);
-		panel.add(lblLimete_apostas);
+		painelCadastrar.add(lblLimete_apostas);
 		
 		campoLimiteApostador = new JTextField();
 		campoLimiteApostador.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoLimiteApostador.setBounds(120, 104, 127, 20);
-		panel.add(campoLimiteApostador);
+		painelCadastrar.add(campoLimiteApostador);
 		campoLimiteApostador.setColumns(10);
 		
 		JLabel lblEncerramentodaAposta = new JLabel("Encerramento da aposta:");
 		lblEncerramentodaAposta.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblEncerramentodaAposta.setBounds(10, 202, 146, 20);
-		panel.add(lblEncerramentodaAposta);
+		painelCadastrar.add(lblEncerramentodaAposta);
 		
 		campoEncerramentoAposta = new JTextField();
 		campoEncerramentoAposta.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEncerramentoAposta.setBounds(10, 233, 135, 20);
-		panel.add(campoEncerramentoAposta);
+		painelCadastrar.add(campoEncerramentoAposta);
 		campoEncerramentoAposta.setColumns(10);
 		
 		JLabel lblPontuacaoporResultado = new JLabel("Pontos por resultado:");
 		lblPontuacaoporResultado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblPontuacaoporResultado.setBounds(120, 135, 119, 20);
-		panel.add(lblPontuacaoporResultado);
+		painelCadastrar.add(lblPontuacaoporResultado);
 		
 		campoPontuacaoResultado = new JTextField();
 		campoPontuacaoResultado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPontuacaoResultado.setBounds(120, 166, 119, 20);
-		panel.add(campoPontuacaoResultado);
+		painelCadastrar.add(campoPontuacaoResultado);
 		campoPontuacaoResultado.setColumns(10);
 		
 		JLabel lblPontuacaoporPlacar = new JLabel("Pontos por placar:");
 		lblPontuacaoporPlacar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblPontuacaoporPlacar.setBounds(249, 135, 146, 20);
-		panel.add(lblPontuacaoporPlacar);
+		painelCadastrar.add(lblPontuacaoporPlacar);
 		
 		campoPontuacaoporPlacar = new JTextField();
 		campoPontuacaoporPlacar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPontuacaoporPlacar.setBounds(249, 166, 119, 20);
-		panel.add(campoPontuacaoporPlacar);
+		painelCadastrar.add(campoPontuacaoporPlacar);
 		campoPontuacaoporPlacar.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCadastrar.setBounds(10, 275, 89, 23);
-		panel.add(btnCadastrar);
+		painelCadastrar.add(btnCadastrar);
 		
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLimpar.setBounds(109, 275, 89, 23);
-		panel.add(btnLimpar);
+		painelCadastrar.add(btnLimpar);
 
 	}
 	
