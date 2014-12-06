@@ -87,7 +87,10 @@ public class Principal extends JFrame {
 		JMenuItem mntmCadastrar = new JMenuItem("Cadastrar");
 		mntmCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				AdministradorCadastrar administradorCadastrar = new AdministradorCadastrar();
+				desktopPane.add(administradorCadastrar);
+				administradorCadastrar.setVisible(true);
+				administradorCadastrar.setPosicao();
 			}
 		});
 		mnAdministrador.add(mntmCadastrar);

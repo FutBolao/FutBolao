@@ -7,17 +7,30 @@ import javax.swing.JInternalFrame;
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import br.com.futbolao.competicao.Competicao;
+import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
+import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.CompeticaoJaCadastradaException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.NomeVazioException;
+import br.com.futbolao.fachada.Fachada;
+
 public class CompeticaoCadastrar extends JInternalFrame {
+	private Fachada fachada = null;
 	private JTextField campoNome;
-	private JTextField campoQntdeCompeticoes;
+	private JTextField campoQntdeRodadas;
 
 	/**
 	 * Launch the application.
@@ -39,7 +52,16 @@ public class CompeticaoCadastrar extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public CompeticaoCadastrar() {
-		setTitle("Cadastrar Competi\u00E7\u00E3o");
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
+		setTitle("Cadastrar Competição");
 		setClosable(true);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
@@ -61,18 +83,33 @@ public class CompeticaoCadastrar extends JInternalFrame {
 		panel.add(campoNome);
 		campoNome.setColumns(10);
 		
-		JLabel lblQuantidadeDeCompeties = new JLabel("Quantidade de Competi\u00E7\u00F5es:");
-		lblQuantidadeDeCompeties.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblQuantidadeDeCompeties.setBounds(10, 67, 170, 14);
-		panel.add(lblQuantidadeDeCompeties);
+		JLabel lblQuantidadeDeRodadas = new JLabel("Quantidade de Rodadas:");
+		lblQuantidadeDeRodadas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblQuantidadeDeRodadas.setBounds(10, 67, 170, 14);
+		panel.add(lblQuantidadeDeRodadas);
 		
-		campoQntdeCompeticoes = new JTextField();
-		campoQntdeCompeticoes.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoQntdeCompeticoes.setBounds(10, 92, 344, 20);
-		panel.add(campoQntdeCompeticoes);
-		campoQntdeCompeticoes.setColumns(10);
+		campoQntdeRodadas = new JTextField();
+		campoQntdeRodadas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoQntdeRodadas.setBounds(10, 92, 344, 20);
+		panel.add(campoQntdeRodadas);
+		campoQntdeRodadas.setColumns(10);
+		
+		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limparCampos();
+			}
+		});
+		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnLimpar.setBounds(109, 179, 89, 23);
+		panel.add(btnLimpar);
 		
 		JButton btnNewButton = new JButton("Cadastrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cadastrar();
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.setBounds(10, 167, 89, 20);
 		panel.add(btnNewButton);
@@ -80,4 +117,63 @@ public class CompeticaoCadastrar extends JInternalFrame {
 
 	}
 	
+	public void setPosicao() {  
+	    Dimension d = this.getDesktopPane().getSize();  
+	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
+	}
+	
+	private boolean validaCampos(){
+		String nome = campoNome.getText();
+		String qtdRodadas = campoQntdeRodadas.getText();
+		if(nome.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoNome.requestFocus();
+			}
+			return false;
+		}else if(qtdRodadas.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoQntdeRodadas.requestFocus();
+			}
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	private void limparCampos(){
+		campoNome.setText("");
+		campoQntdeRodadas.setText("");
+	}
+	
+	private void cadastrar(){
+		if(validaCampos()){
+			String nome = campoNome.getText();
+			Integer qtdRodadas = Integer.parseInt(campoQntdeRodadas.getText());
+			
+			try {
+				fachada.cadastrarCompeticao(new Competicao(0, nome, qtdRodadas, 'S'));
+				limparCampos();
+				try {
+					throw new CadastroEfetuadoComSucessoException();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+			} catch (NomeVazioException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (CompeticaoJaCadastradaException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado no sistema ao tentar cadastrar!");
+			}
+		}
+	}
+
 }
