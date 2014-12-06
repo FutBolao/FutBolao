@@ -26,6 +26,8 @@ import br.com.futbolao.exception.CompeticaoJaCadastradaException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
+import br.com.futbolao.util.FormataCampoApenasNumeros;
+import br.com.futbolao.util.FormataCampoPermiteTudo;
 
 public class CompeticaoCadastrar extends JInternalFrame {
 	private Fachada fachada = null;
@@ -81,6 +83,7 @@ public class CompeticaoCadastrar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 36, 344, 20);
 		painelForm.add(campoNome);
+		campoNome.setDocument(new FormataCampoPermiteTudo(30));
 		campoNome.setColumns(10);
 		
 		JLabel lblQuantidadeDeRodadas = new JLabel("Quantidade de Rodadas:");
@@ -92,6 +95,7 @@ public class CompeticaoCadastrar extends JInternalFrame {
 		campoQntdeRodadas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoQntdeRodadas.setBounds(10, 92, 344, 20);
 		painelForm.add(campoQntdeRodadas);
+		campoQntdeRodadas.setDocument(new FormataCampoApenasNumeros(4));
 		campoQntdeRodadas.setColumns(10);
 		
 		JButton btnLimpar = new JButton("Limpar");
