@@ -21,7 +21,10 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 import br.com.futbolao.apostador.Apostador;
+import br.com.futbolao.exception.ApostadorJaCadastradoException;
 import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
@@ -29,6 +32,7 @@ import br.com.futbolao.util.MascaraCampo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class ApostadorCadastrar extends JInternalFrame {
 	private MascaraCampo mascara = new MascaraCampo();
@@ -45,8 +49,8 @@ public class ApostadorCadastrar extends JInternalFrame {
 	private JTextField campoCidade;
 	private JTextField campoEstado;
 	private JTextField campoPais;
-	Fachada fachada = null;
 	private JComboBox campoSexo;
+	Fachada fachada = null;
 	private JTextField campoClube;
 	/**
 	 * Launch the application.
@@ -120,12 +124,6 @@ public class ApostadorCadastrar extends JInternalFrame {
 		lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblSexo.setBounds(282, 76, 46, 14);
 		painelForm.add(lblSexo);
-		
-		campoSexo = new JComboBox();
-		campoSexo.setEnabled(true);
-		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
-		campoSexo.setBounds(269, 92, 141, 20);
-		getContentPane().add(campoSexo);
 		
 		JLabel lblTelefone = new JLabel("Telefone :");
 		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -259,6 +257,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoSenha.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cadastar();
@@ -268,6 +267,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		painelForm.add(btnCadastrar);
 		
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
@@ -275,6 +275,12 @@ public class ApostadorCadastrar extends JInternalFrame {
 		});
 		btnLimpar.setBounds(113, 426, 93, 23);
 		painelForm.add(btnLimpar);
+		
+		campoSexo = new JComboBox();
+		campoSexo.setEnabled(true);
+		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
+		campoSexo.setBounds(282, 102, 115, 20);
+		painelForm.add(campoSexo);
 
 	}
 	
@@ -460,9 +466,17 @@ public class ApostadorCadastrar extends JInternalFrame {
 				String senha = campoSenha.getText();
 				Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 				try {
-					fachada.cadastrarApostador(new Apostador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, clube)); 
+					fachada.cadastrarApostador(new Apostador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, clube));
+				} catch (NomeVazioException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				} catch (ApostadorJaCadastradoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				} catch (CpfInvalidoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
 				} catch (Exception e) {
-					// TODO: handle exception
+					JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado no sistema ao tentar cadastrar!");
 				}
 			}
 		}

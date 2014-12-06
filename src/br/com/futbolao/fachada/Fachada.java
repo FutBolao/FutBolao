@@ -52,6 +52,11 @@ public class Fachada {
 	
 	//Métodos do Apostador
 	public void cadastrarApostador(Apostador apostador) throws SQLException, ApostadorJaCadastradoException, NomeVazioException, CpfInvalidoException, Exception{
+		apostador.setCpf(apostador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
+		apostador.setTelefone(apostador.getTelefone().replace('(', ' ').replace(')', ' ').replace('-', ' '));
+		apostador.setDataDeNascimento(apostador.getDataDeNascimento().substring(6, 10) + "-" 
+				 + apostador.getDataDeNascimento().substring(3, 5) + "-" 
+				 + apostador.getDataDeNascimento().substring(0, 2));
 		this.controladorApostador.cadastrar(apostador);
 	}
 	
@@ -71,6 +76,11 @@ public class Fachada {
 	}
 	
 	public void atualizaApostador(Apostador apostador) throws NomeVazioException, CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
+		apostador.setCpf(apostador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
+		apostador.setTelefone(apostador.getTelefone().replace('(', ' ').replace(')', ' ').replace('-', ' '));
+		apostador.setDataDeNascimento(apostador.getDataDeNascimento().substring(6, 10) + "-" 
+				 + apostador.getDataDeNascimento().substring(3, 5) + "-" 
+				 + apostador.getDataDeNascimento().substring(0, 2));
 		this.controladorApostador.atualizar(apostador);
 	}
 	
@@ -104,6 +114,11 @@ public class Fachada {
 	}
 	
 	public void atualizaAdministrador(Administrador administrador) throws NomeVazioException, CpfInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
+		administrador.setCpf(administrador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
+		administrador.setTelefone(administrador.getTelefone().replace('(', ' ').replace(')', ' ').replace('-', ' '));
+		administrador.setDataDeNascimento(administrador.getDataDeNascimento().substring(6, 10) + "-" 
+				 + administrador.getDataDeNascimento().substring(3, 5) + "-" 
+				 + administrador.getDataDeNascimento().substring(0, 2));
 		this.controladorAdministrador.atualizar(administrador);
 	}
 	
