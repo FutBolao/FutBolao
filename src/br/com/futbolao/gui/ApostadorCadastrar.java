@@ -72,6 +72,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public ApostadorCadastrar() {
+		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		setTitle("Cadastro Apostador");
 		setClosable(true);
