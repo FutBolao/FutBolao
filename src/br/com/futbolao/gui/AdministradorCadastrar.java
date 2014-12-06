@@ -3,12 +3,16 @@ package br.com.futbolao.gui;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+
+import br.com.futbolao.util.FormataCampoPermiteTudo;
 
 public class AdministradorCadastrar extends JInternalFrame {
 	private JTextField campoNome;
@@ -62,7 +66,8 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoNome.setBounds(10, 36, 400, 20);
 		getContentPane().add(campoNome);
 		campoNome.setColumns(10);
-		
+		campoNome.setDocument(new FormataCampoPermiteTudo(100));
+		//Pega esse cdg campo.setDocument(new FormataCampoPermiteTudo(60)); (Buscar  o valor no Banco ) 
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCpf.setBounds(10, 67, 46, 14);

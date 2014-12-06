@@ -1,12 +1,15 @@
 package br.com.futbolao.gui;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import java.awt.Font;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
@@ -129,4 +132,11 @@ public class ClubeAlterar extends JInternalFrame {
 		campoID.setColumns(10);
 
 	}
+	
+	public void setPosicao() {  
+	    Dimension d = this.getDesktopPane().getSize();  
+	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
+	}
+	
+	
 }

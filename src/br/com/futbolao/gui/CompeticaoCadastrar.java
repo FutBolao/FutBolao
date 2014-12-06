@@ -1,12 +1,17 @@
 package br.com.futbolao.gui;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -74,5 +79,5 @@ public class CompeticaoCadastrar extends JInternalFrame {
 		setBounds(100, 100, 400, 250);
 
 	}
-
+	
 }

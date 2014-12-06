@@ -1,12 +1,17 @@
 package br.com.futbolao.gui;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -87,4 +92,10 @@ public class CompeticaoAlterar extends JInternalFrame {
 
 	}
 
+	public void setPosicao() {  
+	    Dimension d = this.getDesktopPane().getSize();  
+	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
+	}
+	
+	
 }

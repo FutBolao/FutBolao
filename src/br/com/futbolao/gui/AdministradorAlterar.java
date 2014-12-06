@@ -3,8 +3,11 @@ package br.com.futbolao.gui;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -46,12 +49,14 @@ public class AdministradorAlterar extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public AdministradorAlterar() {
+		
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Alterar Administrador");
 		setClosable(true);
 		setBounds(100, 100, 440, 475);
 		getContentPane().setLayout(null);
+		
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -226,6 +231,14 @@ public class AdministradorAlterar extends JInternalFrame {
 		CampoID.setBounds(10, 36, 65, 20);
 		getContentPane().add(CampoID);
 		CampoID.setColumns(10);
-
+	
 	}
+	
+	public void setPosicao() {  
+	    Dimension d = this.getDesktopPane().getSize();  
+	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
+	}
+	
+	
+	
 }
