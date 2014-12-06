@@ -84,8 +84,8 @@ public class Principal extends JFrame {
 		JMenu mnAdministrador = new JMenu("Administrador");
 		menuBar.add(mnAdministrador);
 		
-		JMenuItem mntmCadastrar = new JMenuItem("Cadastrar");
-		mntmCadastrar.addActionListener(new ActionListener() {
+		JMenuItem mntmAdministradorCadastrar = new JMenuItem("Cadastrar");
+		mntmAdministradorCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AdministradorCadastrar administradorCadastrar = new AdministradorCadastrar();
 				desktopPane.add(administradorCadastrar);
@@ -93,46 +93,76 @@ public class Principal extends JFrame {
 				administradorCadastrar.setPosicao();
 			}
 		});
-		mnAdministrador.add(mntmCadastrar);
+		mnAdministrador.add(mntmAdministradorCadastrar);
 		
-		JMenuItem mntmProcurar = new JMenuItem("Listar");
-		mnAdministrador.add(mntmProcurar);
+		JMenuItem mntmAdministradorListar = new JMenuItem("Listar");
+		mntmAdministradorListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdministradorListar administradorListar = new AdministradorListar();
+				desktopPane.add(administradorListar);
+				administradorListar.setVisible(true);
+				administradorListar.setPosicao();
+			}
+		});
+		mnAdministrador.add(mntmAdministradorListar);
 		
 		JMenu mnApostador = new JMenu("Apostador");
 		menuBar.add(mnApostador);
 		
-		JMenuItem mntmCadastrar_1 = new JMenuItem("Cadastrar");
-		mnApostador.add(mntmCadastrar_1);
+		JMenuItem mntmApostadorCadastrar = new JMenuItem("Cadastrar");
+		mntmApostadorCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		mnApostador.add(mntmApostadorCadastrar);
 		
-		JMenuItem mntmProcurar_1 = new JMenuItem("Listar");
-		mnApostador.add(mntmProcurar_1);
+		JMenuItem mntmApostadorListar = new JMenuItem("Listar");
+		mnApostador.add(mntmApostadorListar);
 		
-		JMenu mnApostas = new JMenu("Apostas");
-		menuBar.add(mnApostas);
+		JMenu mnAposta = new JMenu("Aposta");
+		menuBar.add(mnAposta);
 		
-		JMenuItem mntmCadastrar_2 = new JMenuItem("Cadastrar");
-		mnApostas.add(mntmCadastrar_2);
+		JMenuItem mntmApostaCadastrar = new JMenuItem("Cadastrar");
+		mnAposta.add(mntmApostaCadastrar);
 		
-		JMenuItem mntmListar = new JMenuItem("Listar");
-		mnApostas.add(mntmListar);
+		JMenuItem mntmApostaListar = new JMenuItem("Listar");
+		mnAposta.add(mntmApostaListar);
 		
-		JMenu mnGrupos = new JMenu("Grupos");
-		mnApostas.add(mnGrupos);
+		JMenu mnRodada = new JMenu("Rodada");
+		mnAposta.add(mnRodada);
 		
-		JMenuItem mntmCadastrar_3 = new JMenuItem("Cadastrar");
-		mnGrupos.add(mntmCadastrar_3);
+		JMenuItem mntmRodadaCadastrar = new JMenuItem("Cadastrar");
+		mntmRodadaCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		mnRodada.add(mntmRodadaCadastrar);
 		
-		JMenuItem mntmListar_1 = new JMenuItem("Listar");
-		mnGrupos.add(mntmListar_1);
+		JMenuItem mntmRodadaListar = new JMenuItem("Listar");
+		mntmRodadaListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		mnRodada.add(mntmRodadaListar);
+		
+		JMenu mnGrupo = new JMenu("Grupo");
+		mnAposta.add(mnGrupo);
+		
+		JMenuItem mntmGrupoCadastrar = new JMenuItem("Cadastrar");
+		mnGrupo.add(mntmGrupoCadastrar);
+		
+		JMenuItem mntmGrupoListar = new JMenuItem("Listar");
+		mnGrupo.add(mntmGrupoListar);
 		
 		JMenuItem mntmVerificarGanhadores = new JMenuItem("Verificar Ganhadores");
-		mnApostas.add(mntmVerificarGanhadores);
+		mnAposta.add(mntmVerificarGanhadores);
 		
-		JMenu mnClubes = new JMenu("Clubes");
+		JMenu mnClubes = new JMenu("Clube");
 		menuBar.add(mnClubes);
 		
-		JMenuItem mntmCadastrar_4 = new JMenuItem("Cadastrar");
-		mntmCadastrar_4.addActionListener(new ActionListener() {
+		JMenuItem mntmClubeCadastrar = new JMenuItem("Cadastrar");
+		mntmClubeCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ClubeCadastrar clubeCadastrar = new ClubeCadastrar();
 				desktopPane.add(clubeCadastrar);
@@ -140,19 +170,43 @@ public class Principal extends JFrame {
 				clubeCadastrar.setPosicao();
 			}
 		});
-		mnClubes.add(mntmCadastrar_4);
+		mnClubes.add(mntmClubeCadastrar);
 		
-		JMenuItem mntmListar_2 = new JMenuItem("Listar");
-		mnClubes.add(mntmListar_2);
+		JMenuItem mntmClubeListar = new JMenuItem("Listar");
+		mntmClubeListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ClubeListar clubeListar = new ClubeListar();
+				desktopPane.add(clubeListar);
+				clubeListar.setVisible(true);
+				clubeListar.setPosicao();
+			}
+		});
+		mnClubes.add(mntmClubeListar);
 		
-		JMenu mnCompeties = new JMenu("Competi\u00E7\u00F5es");
+		JMenu mnCompeties = new JMenu("Competi\u00E7\u00E3o");
 		menuBar.add(mnCompeties);
 		
-		JMenuItem mntmCadastrar_5 = new JMenuItem("Cadastrar");
-		mnCompeties.add(mntmCadastrar_5);
+		JMenuItem mntmCompeticaoCadastrar = new JMenuItem("Cadastrar");
+		mntmCompeticaoCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CompeticaoCadastrar competicaoCadastrar = new CompeticaoCadastrar();
+				desktopPane.add(competicaoCadastrar);
+				competicaoCadastrar.setVisible(true);
+				competicaoCadastrar.setPosicao();
+			}
+		});
+		mnCompeties.add(mntmCompeticaoCadastrar);
 		
-		JMenuItem mntmListar_3 = new JMenuItem("Listar");
-		mnCompeties.add(mntmListar_3);
+		JMenuItem mntmCompeticaoListar = new JMenuItem("Listar");
+		mntmCompeticaoListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CompeticaoListar competicaoListar = new CompeticaoListar();
+				desktopPane.add(competicaoListar);
+				competicaoListar.setVisible(true);
+				competicaoListar.setPosicao();
+			}
+		});
+		mnCompeties.add(mntmCompeticaoListar);
 		
 		desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());
 		contentPane.add(desktopPane, BorderLayout.CENTER);
