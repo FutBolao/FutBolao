@@ -23,6 +23,7 @@ import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.exception.AdministradorJaCadastradoException;
 import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
@@ -448,17 +449,13 @@ public class AdministradorCadastrar extends JInternalFrame {
 			Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 			try {
 				fachada.cadastrarAdministrador(new Administrador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, 'S'));
-				limparCampos();
-				try {
-					throw new CadastroEfetuadoComSucessoException();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				}
 			} catch (NomeVazioException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (AdministradorJaCadastradoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (CpfInvalidoException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado no sistema ao tentar cadastrar!");
