@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ public class RodadaCadastrar extends JInternalFrame {
 	private JComboBox campoCompeticao;
 	private JComboBox campoClube1;
 	private JComboBox campoClube2;
+	private ArrayList<String> nomeCompeticao;
 
 	/**
 	 * Launch the application.
@@ -59,6 +61,8 @@ public class RodadaCadastrar extends JInternalFrame {
 		setBounds(100, 100, 465, 363);
 		getContentPane().setLayout(null);
 		
+		popularComboBoxCompeticao();
+		
 		JPanel painelForm = new JPanel();
 		painelForm.setBackground(Color.WHITE);
 		painelForm.setBounds(10, 11, 430, 266);
@@ -70,7 +74,7 @@ public class RodadaCadastrar extends JInternalFrame {
 		lblCompeticao.setBounds(10, 10, 80, 20);
 		painelForm.add(lblCompeticao);
 		
-		campoCompeticao = new JComboBox();
+		campoCompeticao = new JComboBox((ComboBoxModel) nomeCompeticao);
 		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCompeticao.setBounds(10, 41, 410, 20);
 		painelForm.add(campoCompeticao);
@@ -183,12 +187,13 @@ public class RodadaCadastrar extends JInternalFrame {
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
-	private void popularComboBoxCompeticao(){
+	private void  popularComboBoxCompeticao(){
 		try {
-			ArrayList<Competicao> competicao = fachada.listarCompeticao();
-			for (int i = 0; i < competicao.size(); i++) {
-				System.out.println(competicao.get(i).getNome());
+			ArrayList<Competicao> lista = fachada.listarCompeticao();
+			for (Competicao competicao : lista){
+				nomeCompeticao.add(competicao.getNome());
 			}
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -200,6 +205,7 @@ public class RodadaCadastrar extends JInternalFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 }
