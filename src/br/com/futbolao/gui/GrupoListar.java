@@ -12,9 +12,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
 
 public class GrupoListar extends JInternalFrame {
-	private JTextField textField;
+	private JTextField campoCompeticao;
 	private JTable table;
 
 	/**
@@ -71,16 +72,21 @@ public class GrupoListar extends JInternalFrame {
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		scrollPane.setViewportView(table);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textField.setBounds(10, 47, 824, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		campoCompeticao = new JTextField();
+		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoCompeticao.setBounds(10, 47, 824, 20);
+		panel.add(campoCompeticao);
+		campoCompeticao.setColumns(10);
 		
 		JButton btnProcurar = new JButton("Procurar");
 		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnProcurar.setBounds(844, 44, 110, 23);
 		panel.add(btnProcurar);
+		
+		JLabel lblNewLabel = new JLabel("Digite a competi\u00E7\u00E3o:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setBounds(10, 16, 135, 20);
+		panel.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);

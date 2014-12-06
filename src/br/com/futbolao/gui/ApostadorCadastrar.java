@@ -64,7 +64,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 	public ApostadorCadastrar() {
 		setTitle("Cadastro Apostador");
 		setClosable(true);
-		setBounds(100, 100, 435, 521);
+		setBounds(100, 100, 447, 520);
 		getContentPane().setLayout(null);
 		
 		JPanel painelForm = new JPanel();
