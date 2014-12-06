@@ -112,11 +112,24 @@ public class Principal extends JFrame {
 		JMenuItem mntmApostadorCadastrar = new JMenuItem("Cadastrar");
 		mntmApostadorCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ApostadorCadastrar apostadorCadastrar = new ApostadorCadastrar();
+				desktopPane.add(apostadorCadastrar);
+				apostadorCadastrar.setVisible(true);
+				apostadorCadastrar.setPosicao();
 			}
 		});
 		mnApostador.add(mntmApostadorCadastrar);
 		
 		JMenuItem mntmApostadorListar = new JMenuItem("Listar");
+		mntmApostadorListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			ApostadorListar apostadorListar = new ApostadorListar();
+			desktopPane.add(apostadorListar);
+			apostadorListar.setVisible(true);
+			apostadorListar.setPosicao();
+				
+			}
+		});
 		mnApostador.add(mntmApostadorListar);
 		
 		JMenu mnAposta = new JMenu("Aposta");
