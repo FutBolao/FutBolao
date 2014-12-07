@@ -11,14 +11,27 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+import br.com.futbolao.competicao.Competicao;
+import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.RodadaNaoCadastradaException;
+import br.com.futbolao.fachada.Fachada;
+import br.com.futbolao.rodada.Rodada;
 import br.com.futbolao.util.JMoneyField;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class GrupoCadastrar extends JInternalFrame {
+	private Fachada fachada = null;
 	private JMoneyField campoValorAposta;
 	private JMoneyField campoLimiteApostas;
 	private JMoneyField campoPercentualADM;
@@ -26,6 +39,8 @@ public class GrupoCadastrar extends JInternalFrame {
 	private JTextField campoEncerramentoAposta;
 	private JTextField campoPontuacaoResultado;
 	private JTextField campoPontuacaoporPlacar;
+	private JComboBox campoCompeticao;
+	private JComboBox campoRodada;
 
 	/**
 	 * Launch the application.
@@ -49,6 +64,15 @@ public class GrupoCadastrar extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public GrupoCadastrar() {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Grupo Cadastrar");
 		setClosable(true);
@@ -94,7 +118,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		campoPercentualADM.setBounds(10, 166, 100, 20);
 		painelCadastrar.add(campoPercentualADM);
 		
-		JComboBox campoCompeticao = new JComboBox();
+	    campoCompeticao = new JComboBox();
 		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCompeticao.setBounds(10, 42, 295, 20);
 		painelCadastrar.add(campoCompeticao);
@@ -109,7 +133,14 @@ public class GrupoCadastrar extends JInternalFrame {
 		lblRodada.setBounds(315, 11, 55, 20);
 		painelCadastrar.add(lblRodada);
 		
-		JComboBox campoRodada = new JComboBox();
+		campoRodada = new JComboBox();
+		campoRodada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (campoCompeticao.getSelectedIndex() != 0) {
+					listaRodada();
+				}
+			}
+		});
 		campoRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoRodada.setBounds(315, 42, 55, 20);
 		painelCadastrar.add(campoRodada);
@@ -167,6 +198,8 @@ public class GrupoCadastrar extends JInternalFrame {
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLimpar.setBounds(109, 275, 89, 23);
 		painelCadastrar.add(btnLimpar);
+		
+		listaCompeticao();
 
 	}
 	
@@ -174,4 +207,28 @@ public class GrupoCadastrar extends JInternalFrame {
 	    Dimension d = this.getDesktopPane().getSize();  
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
+	
+	private void listaCompeticao(){
+		ArrayList<Competicao> lista = new ArrayList<>();
+		try {
+			campoCompeticao.addItem("");
+			lista = fachada.listarCompeticao();
+			for (Competicao competicao : lista){
+				campoCompeticao.addItem(competicao.getNome());
+			}			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (CompeticaoNaoCadastradaException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao listar as competições!");
+		}
+	}
+	
+	private void listaRodada(){
+		
+	}
+	
+	
+	
 }
