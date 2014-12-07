@@ -7,24 +7,35 @@ import javax.swing.JInternalFrame;
 
 import java.awt.Color;
 
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.sql.SQLException;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import br.com.futbolao.competicao.Competicao;
+import br.com.futbolao.exception.AlteracaoEfetuadaComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
+import br.com.futbolao.util.FormataCampoPermiteTudo;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CompeticaoAlterar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JTextField campoNome;
 	private JTextField campoQntdeRodadas;
 	private JTextField campoID;
+	private JCheckBox campoAtivo;
 
 	/**
 	 * Launch the application.
@@ -45,7 +56,16 @@ public class CompeticaoAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CompeticaoAlterar(int id) {
+	public CompeticaoAlterar(final int id) {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		setTitle("Alterar Competição");
 		setClosable(true);
 		getContentPane().setBackground(Color.WHITE);
@@ -80,6 +100,11 @@ public class CompeticaoAlterar extends JInternalFrame {
 		campoQntdeRodadas.setColumns(10);
 		
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				alterar(id);
+			}
+		});
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 197, 89, 20);
 		painelForm.add(btnAlterar);
@@ -90,13 +115,19 @@ public class CompeticaoAlterar extends JInternalFrame {
 		painelForm.add(lblId);
 		
 		campoID = new JTextField();
-		campoID.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoID.setFont(new Font("Tahoma", Font.BOLD, 12));
+		campoID.setEditable(false);
 		campoID.setBounds(10, 36, 86, 20);
 		painelForm.add(campoID);
 		campoID.setColumns(10);
 		setBounds(100, 100, 400, 280);
 		
-		//preencheCampos(id);
+		campoAtivo = new JCheckBox("Ativo");
+		campoAtivo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoAtivo.setBounds(299, 196, 59, 23);
+		painelForm.add(campoAtivo);
+		
+		preencheCampos(id);
 
 	}
 
@@ -128,7 +159,51 @@ public class CompeticaoAlterar extends JInternalFrame {
 			return true;
 		}
 	}
-
 	
+	private void preencheCampos(int id){
+		try {
+			Competicao competicao = fachada.procurarPorId(id);
+			campoID.setText(String.valueOf(competicao.getId()));
+			campoNome.setText(competicao.getNome());
+			campoQntdeRodadas.setText(String.valueOf(competicao.getQtdRodadas()));
+			if (competicao.getAtivo() == 'S') {
+				campoAtivo.setSelected(true);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (CompeticaoNaoCadastradaException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao preencher os campos!");
+		}
+	}
 	
+	private void alterar(int id){
+		if(validaCampos()){
+			String nome = campoNome.getText();
+			Integer qtdRodadas = Integer.parseInt(campoQntdeRodadas.getText());
+			char ativo = 'S';
+			if (campoAtivo.isSelected() == false){
+				ativo = 'N';
+			}
+			try {
+				fachada.atualizaCompeticao(new Competicao(id, nome, qtdRodadas, ativo));
+				try {
+					throw new AlteracaoEfetuadaComSucessoException();
+				} catch (AlteracaoEfetuadaComSucessoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				this.dispose();
+			} catch (NomeVazioException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (CompeticaoNaoCadastradaException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao alterar a competição!");
+				e.printStackTrace();
+			}
+		}
+	}
 }

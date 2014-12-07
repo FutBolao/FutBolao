@@ -34,6 +34,16 @@ private IRepositorioCompeticao repositorio;
 		return competicoes;
 	}
 	
+	public ArrayList<Competicao> procurarPorNome(String nome) throws SQLException, NomeVazioException, Exception{
+		ArrayList<Competicao> competicoes = new ArrayList<Competicao>();
+		if (!nome.equals("")) {
+			competicoes = repositorio.procurarPorNome(nome);
+		}else {
+			throw new NomeVazioException();
+		}
+		return competicoes;
+	}
+	
 	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception{
 		return repositorio.listar();
 	}

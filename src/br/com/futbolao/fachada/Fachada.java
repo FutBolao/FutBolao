@@ -137,8 +137,8 @@ public class Fachada {
 		this.controladorCompeticao.cadastrar(competicao);
 	}
 	
-	public ArrayList<Competicao> listarCompeticaoPorNome(String nome) throws SQLException, CompeticaoNaoCadastradaException, Exception{
-		return this.controladorCompeticao.listar(nome);		
+	public ArrayList<Competicao> procurarPorNome(String nome) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return this.controladorCompeticao.procurarPorNome(nome);		
 	}
 	
 	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{

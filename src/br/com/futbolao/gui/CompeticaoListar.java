@@ -26,7 +26,9 @@ import javax.swing.JLabel;
 import br.com.futbolao.competicao.Competicao;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.ConfirmacaoDeExclusaoException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.fachada.Fachada;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -58,6 +60,15 @@ public class CompeticaoListar extends JInternalFrame {
 	 */
 	@SuppressWarnings("serial")
 	public CompeticaoListar() {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
@@ -146,7 +157,6 @@ public class CompeticaoListar extends JInternalFrame {
 		this.tabelaModeloCompeticao.setNumRows(0);
 	}
 	
-	@SuppressWarnings({ "unchecked", "unused" })
 	private void procurar(){
 		try {
 			limparTabela();
@@ -156,7 +166,7 @@ public class CompeticaoListar extends JInternalFrame {
 			if (procurar.equals("")){
 				lista = fachada.listarCompeticao();
 			} else {
-				lista = fachada.listarCompeticaoPorNome(procurar);
+				lista = fachada.procurarPorNome(procurar);
 			}
 			for (Competicao competicao : lista) {
 				@SuppressWarnings("rawtypes")
@@ -173,6 +183,7 @@ public class CompeticaoListar extends JInternalFrame {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar competição!");
+			e.printStackTrace();
 		}
 				
 	}

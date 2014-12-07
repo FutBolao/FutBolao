@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 import br.com.futbolao.conexao.Conexao;
 import br.com.futbolao.conexao.DataBase;
 import br.com.futbolao.exception.CompeticaoJaCadastradaException;
@@ -84,6 +85,10 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		ps.close();
 		rs.close();
 		return competicoes;
+	}
+	
+	public ArrayList<Competicao> procurarPorNome(String nome) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return listar(" and nome like '%" + nome + "%'");
 	}
 	
 	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{
