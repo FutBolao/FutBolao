@@ -25,11 +25,13 @@ import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
-import br.com.futbolao.util.FormataCampoPermiteTudo;
+import br.com.futbolao.util.FormataCampoApenasNumeros;
+import br.com.futbolao.util.FormataCampoPermiteTudoUpperCase;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class CompeticaoAlterar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JTextField campoNome;
@@ -86,6 +88,7 @@ public class CompeticaoAlterar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 92, 344, 20);
 		painelForm.add(campoNome);
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoNome.setColumns(10);
 		
 		JLabel lblQuantidadeDeCompeties = new JLabel("Quantidade de Competições:");
@@ -97,6 +100,7 @@ public class CompeticaoAlterar extends JInternalFrame {
 		campoQntdeRodadas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoQntdeRodadas.setBounds(10, 148, 344, 20);
 		painelForm.add(campoQntdeRodadas);
+		campoQntdeRodadas.setDocument(new FormataCampoApenasNumeros(4));
 		campoQntdeRodadas.setColumns(10);
 		
 		JButton btnAlterar = new JButton("Alterar");
