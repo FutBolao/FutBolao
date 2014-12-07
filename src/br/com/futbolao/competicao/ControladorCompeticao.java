@@ -2,8 +2,10 @@ package br.com.futbolao.competicao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import br.com.futbolao.exception.CompeticaoJaCadastradaException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
+import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 
 public class ControladorCompeticao {
@@ -34,6 +36,16 @@ private IRepositorioCompeticao repositorio;
 	
 	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception{
 		return repositorio.listar();
+	}
+	
+	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		Competicao competicao = null;
+		if(id > 0){
+			competicao = repositorio.procurarPorId(id);
+		}else{
+			throw new IdInvalidoException();
+		}
+		return competicao;
 	}
 	
 	public void atualizar(Competicao competicao) throws SQLException, CompeticaoNaoCadastradaException, Exception{	

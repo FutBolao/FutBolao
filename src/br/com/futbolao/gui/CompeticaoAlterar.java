@@ -7,6 +7,7 @@ import javax.swing.JInternalFrame;
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -15,9 +16,14 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import br.com.futbolao.competicao.Competicao;
+import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.fachada.Fachada;
+
 public class CompeticaoAlterar extends JInternalFrame {
+	private Fachada fachada = null;
 	private JTextField campoNome;
-	private JTextField campoQntdeCompeticoes;
+	private JTextField campoQntdeRodadas;
 	private JTextField campoID;
 
 	/**
@@ -27,7 +33,7 @@ public class CompeticaoAlterar extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CompeticaoAlterar frame = new CompeticaoAlterar();
+					CompeticaoAlterar frame = new CompeticaoAlterar(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,8 +45,8 @@ public class CompeticaoAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CompeticaoAlterar() {
-		setTitle("Alterar Competi\u00E7\u00E3o");
+	public CompeticaoAlterar(int id) {
+		setTitle("Alterar Competição");
 		setClosable(true);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
@@ -62,16 +68,16 @@ public class CompeticaoAlterar extends JInternalFrame {
 		painelForm.add(campoNome);
 		campoNome.setColumns(10);
 		
-		JLabel lblQuantidadeDeCompeties = new JLabel("Quantidade de Competi\u00E7\u00F5es:");
+		JLabel lblQuantidadeDeCompeties = new JLabel("Quantidade de Competições:");
 		lblQuantidadeDeCompeties.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblQuantidadeDeCompeties.setBounds(10, 123, 170, 14);
 		painelForm.add(lblQuantidadeDeCompeties);
 		
-		campoQntdeCompeticoes = new JTextField();
-		campoQntdeCompeticoes.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoQntdeCompeticoes.setBounds(10, 148, 344, 20);
-		painelForm.add(campoQntdeCompeticoes);
-		campoQntdeCompeticoes.setColumns(10);
+		campoQntdeRodadas = new JTextField();
+		campoQntdeRodadas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoQntdeRodadas.setBounds(10, 148, 344, 20);
+		painelForm.add(campoQntdeRodadas);
+		campoQntdeRodadas.setColumns(10);
 		
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -89,6 +95,8 @@ public class CompeticaoAlterar extends JInternalFrame {
 		painelForm.add(campoID);
 		campoID.setColumns(10);
 		setBounds(100, 100, 400, 280);
+		
+		//preencheCampos(id);
 
 	}
 
@@ -96,6 +104,31 @@ public class CompeticaoAlterar extends JInternalFrame {
 	    Dimension d = this.getDesktopPane().getSize();  
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
+	
+	private boolean validaCampos(){
+		String nome = campoNome.getText();
+		String qtdRodadas = campoQntdeRodadas.getText();
+		if(nome.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoNome.requestFocus();
+			}
+			return false;
+		}else if(qtdRodadas.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoQntdeRodadas.requestFocus();
+			}
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 	
 	
 }

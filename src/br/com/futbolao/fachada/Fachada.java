@@ -140,6 +140,10 @@ public class Fachada {
 		return this.controladorCompeticao.listar(nome);		
 	}
 	
+	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return this.controladorCompeticao.procurarPorId(id);
+	}
+	
 	public ArrayList<Competicao> listarCompeticao() throws SQLException, CompeticaoNaoCadastradaException, Exception{
 		return this.controladorCompeticao.listar();		
 	}

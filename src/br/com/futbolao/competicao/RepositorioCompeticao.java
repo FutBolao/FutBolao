@@ -86,6 +86,10 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		return competicoes;
 	}
 	
+	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return listar(" and id =" + id).get(0);
+	}
+	
 	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception {
 		return listar("");
 	}
