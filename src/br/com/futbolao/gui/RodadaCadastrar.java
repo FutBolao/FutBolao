@@ -267,6 +267,19 @@ public class RodadaCadastrar extends JInternalFrame {
 			}
 			return false;
 	    }
+		DateFormat horaFormatada = new SimpleDateFormat ("HH:mm");  
+	    horaFormatada.setLenient(false); 
+	    try {  
+	        horaFormatada.parse(hora);  
+	    } catch (ParseException ex) {  
+	    	try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoHora.requestFocus();
+			}
+			return false;
+	    }
 	    if (campoCompeticao.getSelectedIndex() == 0) {
 			try {
 				throw new CampoInvalidoException();
