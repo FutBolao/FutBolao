@@ -4,18 +4,41 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+import br.com.futbolao.administrador.Administrador;
+import br.com.futbolao.apostador.Apostador;
+import br.com.futbolao.exception.AdministradorNaoCadastradoException;
+import br.com.futbolao.exception.AlteracaoEfetuadaComSucessoException;
+import br.com.futbolao.exception.ApostadorNaoCadastradoException;
+import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.IdInvalidoException;
+import br.com.futbolao.exception.NomeVazioException;
+import br.com.futbolao.fachada.Fachada;
+import br.com.futbolao.util.Endereco;
+
 public class ApostadorAlterar extends JInternalFrame {
+	private Fachada fachada = null;
 	private JTextField campoNome;
 	private JTextField campoCpf;
-	private JTextField campoDataNasc;
+	private JTextField campoDatadeNascimento;
 	private JTextField campoTelefone;
 	private JTextField campoEmail;
 	private JTextField campoRua;
@@ -27,6 +50,8 @@ public class ApostadorAlterar extends JInternalFrame {
 	private JTextField campoClube;
 	private JTextField campoUsuario;
 	private JTextField campoSenha;
+	private JComboBox campoSexo;
+	private JTextField campoID;
 
 	/**
 	 * Launch the application.
@@ -35,7 +60,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ApostadorAlterar frame = new ApostadorAlterar();
+					ApostadorAlterar frame = new ApostadorAlterar(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +72,16 @@ public class ApostadorAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ApostadorAlterar() {
+	public ApostadorAlterar(final long id) {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		setTitle("Alterar Apostador");
 		setClosable(true);
 		getContentPane().setBackground(Color.WHITE);
@@ -63,13 +97,13 @@ public class ApostadorAlterar extends JInternalFrame {
 		
 		JLabel lblNome = new JLabel("Nome :");
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNome.setBounds(10, 11, 51, 23);
+		lblNome.setBounds(100, 12, 51, 23);
 		painelForm.add(lblNome);
 		
 		campoNome = new JTextField();
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setColumns(10);
-		campoNome.setBounds(10, 45, 385, 20);
+		campoNome.setBounds(100, 45, 297, 20);
 		painelForm.add(campoNome);
 		
 		JLabel lblCPF = new JLabel("CPF :");
@@ -88,18 +122,18 @@ public class ApostadorAlterar extends JInternalFrame {
 		lblDataNasc.setBounds(141, 74, 121, 19);
 		painelForm.add(lblDataNasc);
 		
-		campoDataNasc = new JTextField();
-		campoDataNasc.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoDataNasc.setColumns(10);
-		campoDataNasc.setBounds(141, 101, 131, 20);
-		painelForm.add(campoDataNasc);
+		campoDatadeNascimento = new JTextField();
+		campoDatadeNascimento.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoDatadeNascimento.setColumns(10);
+		campoDatadeNascimento.setBounds(141, 101, 131, 20);
+		painelForm.add(campoDatadeNascimento);
 		
 		JLabel lblSexo = new JLabel("Sexo :");
 		lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblSexo.setBounds(282, 76, 46, 14);
 		painelForm.add(lblSexo);
 		
-		JComboBox campoSexo = new JComboBox();
+		campoSexo = new JComboBox();
 		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSexo.setBounds(282, 101, 113, 20);
 		painelForm.add(campoSexo);
@@ -234,6 +268,18 @@ public class ApostadorAlterar extends JInternalFrame {
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLimpar.setBounds(113, 426, 93, 23);
 		painelForm.add(btnLimpar);
+		
+		JLabel lblId = new JLabel("ID : ");
+		lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblId.setBounds(10, 16, 46, 14);
+		painelForm.add(lblId);
+		
+		campoID = new JTextField();
+		campoID.setEditable(false);
+		campoID.setFont(new Font("Tahoma", Font.BOLD, 12));
+		campoID.setBounds(10, 46, 67, 20);
+		painelForm.add(campoID);
+		campoID.setColumns(10);
 
 	}
 	
@@ -241,5 +287,243 @@ public class ApostadorAlterar extends JInternalFrame {
 	    Dimension d = this.getDesktopPane().getSize();  
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
-
+	
+	private boolean validaCampos(){
+		String nome = campoNome.getText();
+		String cpf = campoCpf.getText();
+		String telefone = campoTelefone.getText();
+		String email = campoEmail.getText();
+		String sexo = (String) campoSexo.getSelectedItem();
+		String logradouro = campoRua.getText();
+		String bairro = campoBairro.getText();
+		String numero = campoNumero.getText();
+		String usuario = campoUsuario.getText();
+		String dataDeNascimento = campoDatadeNascimento.getText();
+		String cidade = campoCidade.getText();
+		String estado = campoEstado.getText();
+		String pais = campoPais.getText();
+		String senha = campoSenha.getText();
+		String clube = campoClube.getText();
+		DateFormat dataFormatada = new SimpleDateFormat ("dd/MM/yyyy");  
+	    dataFormatada.setLenient(false); 
+	    try {  
+	        dataFormatada.parse(dataDeNascimento);  
+	    } catch (ParseException ex) {  
+	    	try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+	    }
+		if(nome.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoNome.requestFocus();
+			}
+			return false;
+		}else if(cpf.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoCpf.requestFocus();
+			}
+			return false;
+		}else if(telefone.equals("(  )         ") || (!telefone.equals("(  )         ") && telefone.replaceAll(" ", "").length() < 12)){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoTelefone.requestFocus();
+			}
+			return false;
+		}else if(email.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoEmail.requestFocus();
+			}
+			return false;
+		}else if(logradouro.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoRua.requestFocus();
+			}
+			return false;
+		}else if(bairro.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoBairro.requestFocus();
+			}
+			return false;
+		}else if(numero.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoNumero.requestFocus();
+			}
+			return false;
+		}else if(usuario.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoUsuario.requestFocus();
+			}
+			return false;
+		} else if (dataDeNascimento.equals("") || dataDeNascimento.contains(" ")) {
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+		}else if(cidade.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoCidade.requestFocus();
+			}
+			return false;
+		}else if(estado.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoEstado.requestFocus();
+			}
+			return false;
+		}else if(pais.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoPais.requestFocus();
+			}
+			return false;
+		}else if(senha.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoSenha.requestFocus();
+			}
+			return false;
+		}else if(sexo.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoSexo.requestFocus();
+			}
+			return false;
+		}else if(clube.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoClube.requestFocus();
+			}
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	private void preencheCampos(long id) {
+		try {
+			Apostador apostador = fachada.procurarApostadorPorId(id);
+			campoID.setText(String.valueOf(apostador.getId()));
+			campoNome.setText(apostador.getNome());
+			campoCpf.setText(apostador.getCpf());
+			campoDatadeNascimento.setText(apostador.getDataDeNascimento().substring(8, 10) + apostador.getDataDeNascimento().substring(5, 7)
+										+ apostador.getDataDeNascimento().substring(0, 4));
+			String sexo;
+			if(apostador.getSexo() == 'M'){
+				sexo = "Masculino";
+			}else{
+				sexo = "Feminino";
+			}
+			campoSexo.setSelectedItem(sexo);
+			campoTelefone.setText(apostador.getTelefone());
+			campoEmail.setText(apostador.getEmail());
+			campoNumero.setText(apostador.getEndereco().getNumero());
+			campoRua.setText(apostador.getEndereco().getLogradouro());
+			campoCidade.setText(apostador.getEndereco().getCidade());
+			campoEstado.setText(apostador.getEndereco().getEstado());
+			campoPais.setText(apostador.getEndereco().getPais());
+			campoUsuario.setText(apostador.getUsuario());
+			campoSenha.setText(apostador.getSenha());
+			campoClube.setText(apostador.getClube());
+		} catch (IdInvalidoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (ApostadorNaoCadastradoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao preencher os campos!");
+		}
+	}
+	
+	private void alterar(long id){
+		if(validaCampos()){
+			String nome = campoNome.getText();
+			String cpf = campoCpf.getText();
+			String telefone = campoTelefone.getText();
+			String email = campoEmail.getText();
+			String sexoString = (String) campoSexo.getSelectedItem();
+			char sexo = sexoString.charAt(0);
+			String logradouro = campoRua.getText();
+			String bairro = campoBairro.getText();
+			String numero = campoNumero.getText();
+			String usuario = campoUsuario.getText();
+			String dataDeNascimento = campoDatadeNascimento.getText();
+			String cidade = campoCidade.getText();
+			String estado = campoEstado.getText();
+			String pais = campoPais.getText();
+			String senha = campoSenha.getText();
+			String clube = campoClube.getText();
+			try {
+				Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
+				fachada.atualizaApostador(new Apostador(id, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, clube));
+				try {
+					throw new AlteracaoEfetuadaComSucessoException();
+				} catch (AlteracaoEfetuadaComSucessoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				this.dispose();
+			} catch (NomeVazioException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (CpfInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				e.printStackTrace();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (ApostadorNaoCadastradoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao alterar o apostador!");
+				try {
+					throw new AlteracaoEfetuadaComSucessoException();
+				} catch (AlteracaoEfetuadaComSucessoException ex) {
+					JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+				}
+				this.dispose();
+			}
+		}
+		
+	}
 }

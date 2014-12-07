@@ -56,8 +56,8 @@ public class Fachada {
 		this.controladorApostador.cadastrar(apostador);
 	}
 	
-	public Apostador listarApostadorPorCpf(String cpf) throws CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
-		return this.controladorApostador.procurarPorCpf(cpf);
+	public Apostador procurarApostadorPorId(long id) throws CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
+		return this.controladorApostador.procurarPorId(id);
 		
 	}
 	

@@ -3,9 +3,12 @@ package br.com.futbolao.apostador;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import br.com.futbolao.administrador.Administrador;
+import br.com.futbolao.exception.AdministradorNaoCadastradoException;
 import br.com.futbolao.exception.ApostadorJaCadastradoException;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.util.Validacao;
 
@@ -34,12 +37,12 @@ public class ControladorApostador {
 		}
 	}
 	
-	public Apostador procurarPorCpf(String cpf) throws CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
+	public Apostador procurarPorId(long id) throws IdInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
 		Apostador retorno = null;
-		if (Validacao.validaCPF(cpf)) {
-			retorno = repositorio.procurarPorCpf(cpf);
+		if (id < 1) {
+			retorno = repositorio.procurarPorId(id);
 		}else {
-			throw new CpfInvalidoException();
+			throw new IdInvalidoException();
 		}
 		return retorno;
 	}
