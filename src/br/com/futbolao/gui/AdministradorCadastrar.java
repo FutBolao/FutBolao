@@ -45,7 +45,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 	private JFormattedTextField campoCpf;
 	private JFormattedTextField campoTelefone;
 	private JTextField campoEmail;
-	private JTextField campoLogradouro;
+	private JTextField campoRua;
 	private JTextField campoBairro;
 	private JTextField campoNumero;
 	private JTextField campoUsuario;
@@ -159,12 +159,12 @@ public class AdministradorCadastrar extends JInternalFrame {
 		lblRua.setBounds(10, 179, 46, 14);
 		getContentPane().add(lblRua);
 		
-		campoLogradouro = new JTextField();
-		campoLogradouro.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoLogradouro.setBounds(10, 204, 350, 20);
-		getContentPane().add(campoLogradouro);
-		campoLogradouro.setDocument(new FormataCampoPermiteTudoUpperCase(50));
-		campoLogradouro.setColumns(10);
+		campoRua = new JTextField();
+		campoRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoRua.setBounds(10, 204, 350, 20);
+		getContentPane().add(campoRua);
+		campoRua.setDocument(new FormataCampoPermiteTudoUpperCase(50));
+		campoRua.setColumns(10);
 		
 		JLabel lblBairro = new JLabel("Bairro:");
 		lblBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -293,7 +293,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoCpf.setText("");
 		campoTelefone.setText("");
 		campoEmail.setText("");
-		campoLogradouro.setText("");
+		campoRua.setText("");
 		campoBairro.setText("");
 		campoNumero.setText("");
 		campoUsuario.setText("");
@@ -312,7 +312,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		String telefone = campoTelefone.getText();
 		String email = campoEmail.getText();
 		String sexo = (String) campoSexo.getSelectedItem();
-		String logradouro = campoLogradouro.getText();
+		String logradouro = campoRua.getText();
 		String bairro = campoBairro.getText();
 		String numero = campoNumero.getText();
 		String usuario = campoUsuario.getText();
@@ -371,7 +371,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoLogradouro.requestFocus();
+				campoRua.requestFocus();
 			}
 			return false;
 		}else if(bairro.equals("")){
@@ -460,7 +460,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 			String email = campoEmail.getText();
 			String sexoString = (String) campoSexo.getSelectedItem();
 			char sexo = sexoString.charAt(0);
-			String logradouro = campoLogradouro.getText();
+			String logradouro = campoRua.getText();
 			String bairro = campoBairro.getText();
 			String numero = campoNumero.getText();
 			String usuario = campoUsuario.getText();

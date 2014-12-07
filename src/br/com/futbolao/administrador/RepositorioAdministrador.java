@@ -88,6 +88,7 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 		sql = "SELECT * FROM " + NOME_TABELA + " ";
 		sql += "WHERE id IS NOT NULL";
 		sql += complemento;
+		sql += " ORDER BY nome";
 		ps = this.connection.prepareStatement(sql);
 		rs = ps.executeQuery();
 		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
@@ -116,8 +117,8 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 	}
 	
 	// método para procurar apostador por cpf.
-	public Administrador procurarPorCpf(String cpf) throws SQLException, AdministradorNaoCadastradoException, Exception{
-		return listar(" and cpf='" + cpf + "'").get(0);
+	public Administrador procurarPorId(long id) throws SQLException, AdministradorNaoCadastradoException, Exception{
+		return listar(" and id='" + id + "'").get(0);
 	}
 	
 	// método para procurar apostadores por nome.

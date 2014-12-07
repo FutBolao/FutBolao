@@ -20,6 +20,7 @@ import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.CompeticaoJaCadastradaException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.exception.PermissaoJaCadastradaException;
 import br.com.futbolao.exception.PermissaoNaoCadastradaException;
@@ -83,8 +84,8 @@ public class Fachada {
 		this.controladorAdministrador.cadastrar(administrador);
 	}
 		
-	public Administrador procurarAdministradorPorCpf(String cpf) throws CpfInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
-		return this.controladorAdministrador.procurarPorCpf(cpf);
+	public Administrador procurarAdministradorPorId(long id) throws IdInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
+		return this.controladorAdministrador.procurarPorId(id);
 		
 	}
 	

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import br.com.futbolao.exception.AdministradorJaCadastradoException;
 import br.com.futbolao.exception.AdministradorNaoCadastradoException;
 import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.util.Validacao;
 
@@ -34,12 +35,12 @@ public class ControladorAdministrador {
 		}
 	}
 	
-	public Administrador procurarPorCpf(String cpf) throws CpfInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
+	public Administrador procurarPorId(long id) throws IdInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
 		Administrador retorno = null;
-		if (Validacao.validaCPF(cpf)) {
-			retorno = repositorio.procurarPorCpf(cpf);
+		if (id < 1) {
+			retorno = repositorio.procurarPorId(id);
 		}else {
-			throw new CpfInvalidoException();
+			throw new IdInvalidoException();
 		}
 		return retorno;
 	}

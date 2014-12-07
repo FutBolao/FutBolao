@@ -7,13 +7,28 @@ import javax.swing.JInternalFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+import br.com.futbolao.administrador.Administrador;
+import br.com.futbolao.exception.AdministradorNaoCadastradoException;
+import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.IdInvalidoException;
+import br.com.futbolao.fachada.Fachada;
+import br.com.futbolao.util.FormataCampoPermiteTudo;
+
+@SuppressWarnings("serial")
 public class AdministradorAlterar extends JInternalFrame {
+	private Fachada fachada = null;
 	private JTextField campoNome;
 	private JTextField campoCpf;
 	private JTextField campoTelefone;
@@ -28,6 +43,8 @@ public class AdministradorAlterar extends JInternalFrame {
 	private JTextField campoPais;
 	private JTextField campoSenha;
 	private JTextField CampoId;
+	@SuppressWarnings("rawtypes")
+	JComboBox campoSexo;
 
 	/**
 	 * Launch the application.
@@ -48,8 +65,17 @@ public class AdministradorAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdministradorAlterar(int id) {
-		
+	@SuppressWarnings({ "rawtypes" })
+	public AdministradorAlterar(final long id) {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Alterar Administrador");
@@ -91,7 +117,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		getContentPane().add(campoTelefone);
 		campoTelefone.setColumns(10);
 		
-		JComboBox campoSexo = new JComboBox();
+		campoSexo = new JComboBox();
 		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSexo.setBounds(269, 92, 141, 20);
 		getContentPane().add(campoSexo);
@@ -209,6 +235,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setBounds(220, 372, 190, 20);
 		getContentPane().add(campoSenha);
+		campoSenha.setDocument(new FormataCampoPermiteTudo(50));
 		campoSenha.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Alterar");
@@ -232,13 +259,176 @@ public class AdministradorAlterar extends JInternalFrame {
 		getContentPane().add(CampoId);
 		CampoId.setColumns(10);
 	
+		// executa método para preencher os campos.
+		preencheCampos(id);
 	}
-	
+
 	public void setPosicao() {  
 	    Dimension d = this.getDesktopPane().getSize();  
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
+	private boolean validaCampos(){
+		String nome = campoNome.getText();
+		String cpf = campoCpf.getText();
+		String telefone = campoTelefone.getText();
+		String email = campoEmail.getText();
+		String sexo = (String) campoSexo.getSelectedItem();
+		String logradouro = campoRua.getText();
+		String bairro = campoBairro.getText();
+		String numero = campoNumero.getText();
+		String usuario = campoUsuario.getText();
+		String dataDeNascimento = campoDatadeNascimento.getText();
+		String cidade = campoCidade.getText();
+		String estado = campoEstado.getText();
+		String pais = campoPais.getText();
+		String senha = campoSenha.getText();
+		DateFormat dataFormatada = new SimpleDateFormat ("dd/MM/yyyy");  
+	    dataFormatada.setLenient(false); 
+	    try {  
+	        dataFormatada.parse(dataDeNascimento);  
+	    } catch (ParseException ex) {  
+	    	try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+	    }
+		if(nome.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoNome.requestFocus();
+			}
+			return false;
+		}else if(cpf.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoCpf.requestFocus();
+			}
+			return false;
+		}else if(telefone.equals("(  )         ") || (!telefone.equals("(  )         ") && telefone.replaceAll(" ", "").length() < 12)){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoTelefone.requestFocus();
+			}
+			return false;
+		}else if(email.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoEmail.requestFocus();
+			}
+			return false;
+		}else if(logradouro.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoRua.requestFocus();
+			}
+			return false;
+		}else if(bairro.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoBairro.requestFocus();
+			}
+			return false;
+		}else if(numero.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoNumero.requestFocus();
+			}
+			return false;
+		}else if(usuario.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoUsuario.requestFocus();
+			}
+			return false;
+		} else if (dataDeNascimento.equals("") || dataDeNascimento.contains(" ")) {
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+		}else if(cidade.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoCidade.requestFocus();
+			}
+			return false;
+		}else if(estado.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoEstado.requestFocus();
+			}
+			return false;
+		}else if(pais.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoPais.requestFocus();
+			}
+			return false;
+		}else if(senha.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoSenha.requestFocus();
+			}
+			return false;
+		}else if(sexo.equals("")){
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoSexo.requestFocus();
+			}
+			return false;
+		}else{
+			return true;
+		}
+	}
 	
+	private void preencheCampos(long id) {
+		try {
+			Administrador administrador = fachada.procurarAdministradorPorId(id);
+			CampoId.setText(String.valueOf(administrador.getId()));
+			campoNome.setText(administrador.getNome());
+			campoCpf.setText(administrador.getCpf());
+			campoDatadeNascimento.setText(administrador.getDataDeNascimento().substring(8, 10));
+		} catch (IdInvalidoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (AdministradorNaoCadastradoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao preencher os campos!");
+		}
+	}
 	
 }
