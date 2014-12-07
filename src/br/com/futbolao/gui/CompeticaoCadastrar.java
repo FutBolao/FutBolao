@@ -71,7 +71,7 @@ public class CompeticaoCadastrar extends JInternalFrame {
 		
 		JPanel painelForm = new JPanel();
 		painelForm.setBackground(Color.WHITE);
-		painelForm.setBounds(10, 11, 364, 198);
+		painelForm.setBounds(10, 11, 364, 156);
 		getContentPane().add(painelForm);
 		painelForm.setLayout(null);
 		
@@ -106,7 +106,7 @@ public class CompeticaoCadastrar extends JInternalFrame {
 			}
 		});
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpar.setBounds(109, 166, 89, 23);
+		btnLimpar.setBounds(109, 123, 89, 23);
 		painelForm.add(btnLimpar);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
@@ -116,9 +116,9 @@ public class CompeticaoCadastrar extends JInternalFrame {
 			}
 		});
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCadastrar.setBounds(10, 167, 89, 20);
+		btnCadastrar.setBounds(10, 123, 89, 20);
 		painelForm.add(btnCadastrar);
-		setBounds(100, 100, 400, 250);
+		setBounds(100, 100, 400, 205);
 
 	}
 	
