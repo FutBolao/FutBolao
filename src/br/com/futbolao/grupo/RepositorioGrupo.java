@@ -83,8 +83,8 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				Grupo grupo = new Grupo(rs.getLong("id"),
-						rs.getString("nome"),
+				Grupo grupo = new Grupo(rs.getLong("id"),/*
+						rs.getString("nome"),*/
 						rs.getDouble("valor_aposta"),
 						rs.getLong("limite_apostas"),
 						rs.getInt("limite_apostas_por_apostador"),
@@ -106,6 +106,10 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 	// método para listar grupo.
 	public ArrayList<Grupo> procurarPorNome(String nome) throws SQLException, GrupoNaoCadastradoException, Exception{
 		return listar(" and nome like '%" + nome + "%'");
+	}
+	
+	public Grupo procurarPorId(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
+		return listar(" and id =" + id).get(0);
 	}
 	
 	// método para listar grupo.
@@ -142,7 +146,7 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 	}
 	
 	// método para deletar grupo.
-	public void deletar(int id) throws SQLException, GrupoNaoCadastradoException, Exception {
+	public void deletar(long id) throws SQLException, GrupoNaoCadastradoException, Exception {
 		PreparedStatement ps = null;
 		String sql = "DELETE FROM " + NOME_TABELA + " WHERE id=?";
 		ps = connection.prepareStatement(sql);

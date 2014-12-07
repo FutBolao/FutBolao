@@ -20,12 +20,20 @@ import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.CompeticaoJaCadastradaException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.GrupoJaCadastradoException;
+import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.exception.PermissaoJaCadastradaException;
 import br.com.futbolao.exception.PermissaoNaoCadastradaException;
+import br.com.futbolao.exception.RodadaJaCadastradaException;
+import br.com.futbolao.exception.RodadaNaoCadastradaException;
+import br.com.futbolao.grupo.ControladorGrupo;
+import br.com.futbolao.grupo.Grupo;
 import br.com.futbolao.permissao.ControladorPermissao;
 import br.com.futbolao.permissao.Permissao;
+import br.com.futbolao.rodada.ControladorRodada;
+import br.com.futbolao.rodada.Rodada;
 
 public class Fachada {
 	
@@ -35,6 +43,8 @@ public class Fachada {
 	private ControladorClube controladorClube;
 	private ControladorCompeticao controladorCompeticao;
 	private ControladorPermissao controladorPermissao;
+	private ControladorRodada controladorRodada;
+	private ControladorGrupo controladorGrupo;
 	
 	public Fachada() throws Exception {
 		this.controladorApostador = new ControladorApostador();
@@ -42,6 +52,8 @@ public class Fachada {
 		this.controladorClube = new ControladorClube();
 		this.controladorCompeticao = new ControladorCompeticao();
 		this.controladorPermissao = new ControladorPermissao();
+		this.controladorRodada = new ControladorRodada();
+		this.controladorGrupo = new ControladorGrupo();
 	}
 	
 	public static Fachada getInstance() throws Exception {
@@ -172,4 +184,49 @@ public class Fachada {
 	public void deletarPermissao(int administrador) throws SQLException, PermissaoNaoCadastradaException, Exception{
 		this.controladorPermissao.deletar(administrador);
 	}
+	
+	
+	//Métodos da Rodada
+	public void cadastrarRodada(Rodada rodada) throws SQLException, RodadaJaCadastradaException, Exception{
+		this.controladorRodada.cadastrar(rodada);
+	}
+	
+	public ArrayList<Rodada> procurarRodada(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
+		return this.controladorRodada.procurar(idCompeticao, numeroDaRodada);
+	}
+	
+	public ArrayList<Rodada> listarRodada() throws SQLException, RodadaNaoCadastradaException, Exception{
+		return this.controladorRodada.listar();
+	}
+	
+	public void atualizarRodada(Rodada rodada) throws SQLException, RodadaNaoCadastradaException, Exception{
+		this.controladorRodada.atualizar(rodada);
+	}
+	
+	public void deletarRodada(int id) throws SQLException, RodadaNaoCadastradaException, Exception{
+		this.controladorRodada.deletar(id);
+	}
+	
+	
+	//Métodos do Grupo
+	public void cadastrarGrupo(Grupo grupo) throws SQLException, GrupoJaCadastradoException, Exception{
+		this.controladorGrupo.cadastrar(grupo);
+	}
+	
+	public ArrayList<Grupo> procurarPorNome(String nome) throws SQLException, NomeVazioException, Exception{
+		return this.controladorGrupo.procurarPorNome(nome);
+	}
+	
+	public Grupo procurarPorId(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
+		return this.controladorGrupo.procurarPorId(id);
+	}
+	
+	public void atualizar(Grupo grupo) throws SQLException, GrupoNaoCadastradoException, Exception{
+		this.controladorGrupo.atualizar(grupo);
+	}
+	
+	public void deletar(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
+		this.controladorGrupo.deletar(id);
+	}
+	
 }

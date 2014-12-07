@@ -3,7 +3,7 @@ package br.com.futbolao.grupo;
 public class Grupo {
 	
 	private long id;
-	private String nome;
+	//private String nome;
 	private double valorAposta;
 	private long limiteApostas;
 	private int limiteApostasPorApostador;
@@ -14,13 +14,13 @@ public class Grupo {
 	private int pontuacaoPorResultado;
 	private int pontuacaoPorPlacar;
 		
-	public Grupo(long id, String nome, double valorAposta, long limiteApostas,
+	public Grupo(long id, /*String nome,*/ double valorAposta, long limiteApostas,
 			int limiteApostasPorApostador, int percentualLucroAdministrador,
 			String dataEncerramentoAposta, int idCompeticao, int idRodada,
 			int pontuacaoPorResultado, int pontuacaoPorPlacar) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		//this.nome = nome;
 		this.valorAposta = valorAposta;
 		this.limiteApostas = limiteApostas;
 		this.limiteApostasPorApostador = limiteApostasPorApostador;
@@ -40,13 +40,13 @@ public class Grupo {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+//	public String getNome() {
+//		return nome;
+//	}
+//
+//	public void setNome(String nome) {
+//		this.nome = nome;
+//	}
 	
 	public double getValorAposta() {
 		return valorAposta;
@@ -122,7 +122,7 @@ public class Grupo {
 
 	@Override
 	public String toString() {
-		return "Aposta [id=" + id + ", nome=" + nome + ", valorAposta=" + valorAposta
+		return "Aposta [id=" + id + ", valorAposta=" + valorAposta
 				+ ", limiteApostas=" + limiteApostas
 				+ ", limiteApostasPorApostador=" + limiteApostasPorApostador
 				+ ", percentualLucroAdministrador="
