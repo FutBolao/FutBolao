@@ -16,6 +16,18 @@ public class Rodada {
 	private int resultadoClube2;
 	
 	public Rodada(long id, int idCompeticao, int numeroRodada, int idJogo,
+			String dataHora, int clube1,int clube2) {
+		super();
+		this.id = id;
+		this.idCompeticao = idCompeticao;
+		this.numeroRodada = numeroRodada;
+		this.idJogo = idJogo;
+		this.dataHora = dataHora;
+		this.clube1 = clube1;
+		this.clube2 = clube2;
+	}
+	
+	public Rodada(long id, int idCompeticao, int numeroRodada, int idJogo,
 			String dataHora, int clube1, int resultadoClube1, int clube2,
 			int resultadoClube2) {
 		super();

@@ -36,8 +36,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 		ResultSet rs = null;
 		String sql = "";
 		if (existe(rodada.getIdCompeticao(), rodada.getNumeroRodada()) == false){
-			sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, clube1, resultado_clube1, "
-					+ "clube2, resultado_clube2) VALUES (?,?,?,?,?,?,?);";
+			sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, data_hora, clube1, clube2) VALUES (?,?,?,?,?,?);";
 			if (this.dataBase == DataBase.ORACLE) {
 				ps = this.connection.prepareStatement(sql, new String[] { "id" });
 			} else {
@@ -46,16 +45,15 @@ public class RepositorioRodada implements IRepositorioRodada {
 			ps.setInt(1, rodada.getIdCompeticao());
 			ps.setInt(2, rodada.getNumeroRodada());
 			ps.setInt(3, rodada.getIdJogo());
-			ps.setInt(4, rodada.getClube1());
-			ps.setInt(5, rodada.getResultadoClube1());
+			ps.setString(4, rodada.getDataHora());
+			ps.setInt(5, rodada.getClube1());
 			ps.setInt(6, rodada.getClube2());
-			ps.setInt(7, rodada.getResultadoClube2());
 			ps.execute();
 			rs = ps.getGeneratedKeys();
-			int id = 0;
+			long id = 0;
 			// Pegando o identificador gerado a partir do último insert
 			while (rs.next()) {
-				id = rs.getInt(1);
+				id = rs.getLong(1);
 			}
 			rodada.setId(id);
 		} else {

@@ -11,6 +11,7 @@ public class MascaraCampo {
 	private MaskFormatter cep;
 	private MaskFormatter data;
 	private MaskFormatter telefone;
+	private MaskFormatter horaMinuto;
 	
 	public MascaraCampo() {
 		try {
@@ -18,6 +19,7 @@ public class MascaraCampo {
 			cep = new MaskFormatter("#####-###");
 			data = new MaskFormatter("##/##/####");
 			telefone = new MaskFormatter("(##)#########");
+			horaMinuto = new MaskFormatter("##:##");
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Ocorreu um erro inesperado ao tentar formatar o campo");
 		}
@@ -37,5 +39,9 @@ public class MascaraCampo {
 	
 	public MaskFormatter getTelefone() {
 		return telefone;
+	}
+	
+	public MaskFormatter getHoraMinuto() {
+		return horaMinuto;
 	}
 }
