@@ -68,6 +68,7 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		sql = "SELECT * FROM " + NOME_TABELA + " ";
 		sql += "WHERE id IS NOT NULL";
 		sql += complemento;
+		sql += " ORDER BY id DESC;";
 		ps = this.connection.prepareStatement(sql);
 		rs = ps.executeQuery();
 		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
