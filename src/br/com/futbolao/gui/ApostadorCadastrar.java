@@ -30,11 +30,15 @@ import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
+import br.com.futbolao.util.FormataCampoPermiteTudoUpperCase;
 import br.com.futbolao.util.MascaraCampo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @SuppressWarnings("serial")
 public class ApostadorCadastrar extends JInternalFrame {
@@ -109,7 +113,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 45, 385, 20);
 		painelForm.add(campoNome);
-		campoNome.setDocument(new FormataCampoPermiteTudo(100));
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(100));
 		campoNome.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF :");
@@ -162,7 +166,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEmail.setBounds(141, 160, 254, 20);
 		painelForm.add(campoEmail);
-		campoEmail.setDocument(new FormataCampoPermiteTudo(50));
+		campoEmail.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoEmail.setColumns(10);
 		
 		JLabel lblRua = new JLabel("Rua : ");
@@ -174,7 +178,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoRua.setBounds(10, 222, 318, 20);
 		painelForm.add(campoRua);
-		campoRua.setDocument(new FormataCampoPermiteTudo(50));
+		campoRua.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoRua.setColumns(10);
 		
 		JLabel lblNumero = new JLabel("N\u00BA:");
@@ -186,7 +190,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNumero.setBounds(338, 222, 57, 20);
 		painelForm.add(campoNumero);
-		campoNumero.setDocument(new FormataCampoPermiteTudo(6));
+		campoNumero.setDocument(new FormataCampoPermiteTudoUpperCase(6));
 		campoNumero.setColumns(10);
 		
 		JLabel lblBairro = new JLabel("Bairro :");
@@ -198,7 +202,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoBairro.setBounds(10, 278, 190, 20);
 		painelForm.add(campoBairro);
-		campoBairro.setDocument(new FormataCampoPermiteTudo(30));
+		campoBairro.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoBairro.setColumns(10);
 		
 		JLabel lblCidade = new JLabel("Cidade : ");
@@ -210,7 +214,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCidade.setBounds(210, 278, 185, 20);
 		painelForm.add(campoCidade);
-		campoCidade.setDocument(new FormataCampoPermiteTudo(30));
+		campoCidade.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoCidade.setColumns(10);
 		
 		JLabel lblEstado = new JLabel("Estado :");
@@ -222,7 +226,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setBounds(10, 334, 190, 20);
 		painelForm.add(campoEstado);
-		campoEstado.setDocument(new FormataCampoPermiteTudo(20));
+		campoEstado.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoEstado.setColumns(10);
 		
 		JLabel lblPais = new JLabel("Pa\u00EDs : ");
@@ -234,7 +238,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setBounds(210, 334, 185, 20);
 		painelForm.add(campoPais);
-		campoPais.setDocument(new FormataCampoPermiteTudo(20));
+		campoPais.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoPais.setColumns(10);
 		
 		JLabel lblClube = new JLabel("Clube :");
@@ -246,7 +250,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoClube.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube.setBounds(10, 390, 121, 20);
 		painelForm.add(campoClube);
-		campoClube.setDocument(new FormataCampoPermiteTudo(30));
+		campoClube.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoClube.setColumns(10);
 		
 		JLabel lblUsuario = new JLabel("Usuario : ");
@@ -258,7 +262,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoUsuario.setBounds(141, 389, 121, 20);
 		painelForm.add(campoUsuario);
-		campoUsuario.setDocument(new FormataCampoPermiteTudo(20));
+		campoUsuario.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoUsuario.setColumns(10);
 		
 		JLabel lblSenha = new JLabel("Senha : ");
@@ -270,6 +274,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setBounds(272, 389, 121, 20);
 		painelForm.add(campoSenha);
+		campoSenha.setDocument(new FormataCampoPermiteTudo(50));
 		campoSenha.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
@@ -341,6 +346,19 @@ public class ApostadorCadastrar extends JInternalFrame {
 		String clube = campoClube.getText();
 		String usuario = campoUsuario.getText();
 		String senha = campoSenha.getText();
+		DateFormat dataFormatada = new SimpleDateFormat ("dd/MM/yyyy");  
+	    dataFormatada.setLenient(false); 
+	    try {  
+	        dataFormatada.parse(dataNascimento);  
+	    } catch (ParseException ex) {  
+	    	try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+	    }
 		if (nome.equals("")) {
 			try {
 				throw new CampoInvalidoException();
@@ -357,7 +375,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 				campoCpf.requestFocus();
 			}
 			return false;
-		} else if (dataNascimento.equals("")) {
+		} else if (dataNascimento.equals("") || dataNascimento.contains(" ")) {
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -373,7 +391,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 				campoSexo.requestFocus();
 			}
 			return false;
-		} else if (telefone.equals("")) {
+		} else if (telefone.equals("(  )         ") || (!telefone.equals("(  )         ") && telefone.replaceAll(" ", "").length() < 12)) {
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {

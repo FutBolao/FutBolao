@@ -5,11 +5,11 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 @SuppressWarnings("serial")
-public class FormataCampoPermiteTudo extends PlainDocument {
+public class FormataCampoPermiteTudoUpperCase extends PlainDocument {
 	
 	private int quantidadeMaxima;
 	
-	public FormataCampoPermiteTudo(int quantidadeCaracteres) {
+	public FormataCampoPermiteTudoUpperCase(int quantidadeCaracteres) {
 		super();
 		if(quantidadeCaracteres<=0){
 			throw new IllegalArgumentException("Especifique a quantidade de caracteres");
@@ -24,7 +24,7 @@ public class FormataCampoPermiteTudo extends PlainDocument {
 		}
 		int totalQuantia = (getLength()+str.length());
 		if(totalQuantia <= quantidadeMaxima){
-			super.insertString(offset, str, attr);
+			super.insertString(offset, str.toUpperCase(), attr);
 			return;
 		}
 		String nova = str.substring(0,getLength()-quantidadeMaxima);

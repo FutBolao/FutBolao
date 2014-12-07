@@ -20,7 +20,7 @@ import br.com.futbolao.exception.ClubeJaCadastradoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
-import br.com.futbolao.util.FormataCampoPermiteTudo;
+import br.com.futbolao.util.FormataCampoPermiteTudoUpperCase;
 
 import java.awt.Color;
 import java.sql.SQLException;
@@ -87,7 +87,7 @@ public class ClubeCadastrar extends JInternalFrame {
 		campoNomeCompleto.setBounds(10, 36, 394, 20);
 		painelForm.add(campoNomeCompleto);
 		campoNomeCompleto.setColumns(10);
-		campoNomeCompleto.setDocument(new FormataCampoPermiteTudo(60));
+		campoNomeCompleto.setDocument(new FormataCampoPermiteTudoUpperCase(60));
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -98,7 +98,7 @@ public class ClubeCadastrar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setColumns(10);
 		campoNome.setBounds(10, 92, 306, 20);
-		campoNome.setDocument(new FormataCampoPermiteTudo(30));
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		painelForm.add(campoNome);
 		
 		JLabel lblSigla = new JLabel("Sigla:");
@@ -110,7 +110,7 @@ public class ClubeCadastrar extends JInternalFrame {
 		campoSigla.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSigla.setColumns(10);
 		campoSigla.setBounds(326, 92, 78, 20);
-		campoSigla.setDocument(new FormataCampoPermiteTudo(4));
+		campoSigla.setDocument(new FormataCampoPermiteTudoUpperCase(4));
 		painelForm.add(campoSigla);
 		
 		JLabel lblEstado = new JLabel("Estado:");
@@ -147,14 +147,14 @@ public class ClubeCadastrar extends JInternalFrame {
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setColumns(10);
 		campoEstado.setBounds(10, 148, 188, 20);
-		campoEstado.setDocument(new FormataCampoPermiteTudo(20));
+		campoEstado.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		painelForm.add(campoEstado);
 		
 		campoPais = new JTextField();
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setColumns(10);
 		campoPais.setBounds(208, 148, 196, 20);
-		campoPais.setDocument(new FormataCampoPermiteTudo(20));
+		campoPais.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		painelForm.add(campoPais);
 
 	}

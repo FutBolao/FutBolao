@@ -10,6 +10,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
@@ -29,6 +32,7 @@ import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
+import br.com.futbolao.util.FormataCampoPermiteTudoUpperCase;
 import br.com.futbolao.util.MascaraCampo;
 
 import javax.swing.JPasswordField;
@@ -99,7 +103,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 36, 400, 20);
 		getContentPane().add(campoNome);
-		campoNome.setDocument(new FormataCampoPermiteTudo(100));
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(100));
 		campoNome.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF:");
@@ -147,7 +151,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEmail.setBounds(140, 148, 270, 20);
 		getContentPane().add(campoEmail);
-		campoEmail.setDocument(new FormataCampoPermiteTudo(50));
+		campoEmail.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoEmail.setColumns(10);
 		
 		JLabel lblRua = new JLabel("Rua:");
@@ -159,7 +163,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoLogradouro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoLogradouro.setBounds(10, 204, 350, 20);
 		getContentPane().add(campoLogradouro);
-		campoLogradouro.setDocument(new FormataCampoPermiteTudo(50));
+		campoLogradouro.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoLogradouro.setColumns(10);
 		
 		JLabel lblBairro = new JLabel("Bairro:");
@@ -171,7 +175,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoBairro.setBounds(10, 260, 200, 20);
 		getContentPane().add(campoBairro);
-		campoBairro.setDocument(new FormataCampoPermiteTudo(30));
+		campoBairro.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoBairro.setColumns(10);
 		
 		JLabel lblN = new JLabel("N\u00BA:");
@@ -183,7 +187,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNumero.setBounds(364, 204, 46, 20);
 		getContentPane().add(campoNumero);
-		campoNumero.setDocument(new FormataCampoPermiteTudo(6));
+		campoNumero.setDocument(new FormataCampoPermiteTudoUpperCase(6));
 		campoNumero.setColumns(10);
 		
 		JLabel lblUsario = new JLabel("Usuário:");
@@ -195,7 +199,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoUsuario.setBounds(10, 372, 200, 20);
 		getContentPane().add(campoUsuario);
-		campoUsuario.setDocument(new FormataCampoPermiteTudo(20));
+		campoUsuario.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoUsuario.setColumns(10);
 		
 		JLabel lblSenha = new JLabel("Senha:");
@@ -234,21 +238,21 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCidade.setBounds(220, 260, 190, 20);
 		getContentPane().add(campoCidade);
-		campoCidade.setDocument(new FormataCampoPermiteTudo(30));
+		campoCidade.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoCidade.setColumns(10);
 		
 		campoEstado = new JTextField();
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setBounds(10, 316, 200, 20);
 		getContentPane().add(campoEstado);
-		campoEstado.setDocument(new FormataCampoPermiteTudo(20));
+		campoEstado.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoEstado.setColumns(10);
 		
 		campoPais = new JTextField();
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setBounds(220, 316, 190, 20);
 		getContentPane().add(campoPais);
-		campoPais.setDocument(new FormataCampoPermiteTudo(20));
+		campoPais.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoPais.setColumns(10);
 		
 		JButton btnLimpar = new JButton("Limpar");
@@ -274,6 +278,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoSenha = new JPasswordField();
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setBounds(220, 373, 190, 20);
+		campoSenha.setDocument(new FormataCampoPermiteTudo(50));
 		getContentPane().add(campoSenha);
 
 	}
@@ -316,6 +321,19 @@ public class AdministradorCadastrar extends JInternalFrame {
 		String estado = campoEstado.getText();
 		String pais = campoPais.getText();
 		String senha = campoSenha.getText();
+		DateFormat dataFormatada = new SimpleDateFormat ("dd/MM/yyyy");  
+	    dataFormatada.setLenient(false); 
+	    try {  
+	        dataFormatada.parse(dataDeNascimento);  
+	    } catch (ParseException ex) {  
+	    	try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+	    }
 		if(nome.equals("")){
 			try {
 				throw new CampoInvalidoException();
@@ -332,7 +350,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 				campoCpf.requestFocus();
 			}
 			return false;
-		}else if(telefone.equals("")){
+		}else if(telefone.equals("(  )         ") || (!telefone.equals("(  )         ") && telefone.replaceAll(" ", "").length() < 12)){
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -380,7 +398,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 				campoUsuario.requestFocus();
 			}
 			return false;
-		} else if (dataDeNascimento.equals("")) {
+		} else if (dataDeNascimento.equals("") || dataDeNascimento.contains(" ")) {
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
