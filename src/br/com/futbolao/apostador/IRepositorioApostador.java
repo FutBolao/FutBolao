@@ -9,7 +9,7 @@ import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 public interface IRepositorioApostador {
 	
 	public void cadastrar(Apostador apostador) throws SQLException, ApostadorJaCadastradoException, Exception;
-	public Apostador procurarPorCpf(String cpf) throws SQLException, ApostadorNaoCadastradoException, Exception;
+	public Apostador procurarPorId(long id) throws SQLException, ApostadorNaoCadastradoException, Exception;
 	public ArrayList<Apostador> procurarPorNome(String nome) throws SQLException, ApostadorNaoCadastradoException, Exception;
 	public ArrayList<Apostador> listar() throws SQLException, ApostadorNaoCadastradoException, Exception;
 	public void atualizar(Apostador apostador) throws SQLException, ApostadorNaoCadastradoException, Exception;

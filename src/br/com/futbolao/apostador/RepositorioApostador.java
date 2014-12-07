@@ -98,8 +98,8 @@ public class RepositorioApostador implements IRepositorioApostador {
 			while (rs.next()) {
 				Endereco endereco = new Endereco(rs.getString("logradouro"),
 						rs.getString("numero"), rs.getString("bairro"),
-						rs.getString("id_cidade"), rs.getString("id_estado"),
-						rs.getString("id_pais"));
+						rs.getString("cidade"), rs.getString("estado"),
+						rs.getString("pais"));
 				Apostador apostador = new Apostador(rs.getInt("id"),
 						rs.getString("nome"), rs.getString("cpf"), rs.getString("sexo").charAt(0),
 						rs.getString("telefone"), rs.getString("email"),
@@ -117,13 +117,13 @@ public class RepositorioApostador implements IRepositorioApostador {
 	}
 	
 	// método para procurar apostador por cpf.
-	public Apostador procurarPorCpf(String cpf) throws SQLException, ApostadorNaoCadastradoException, Exception{
-		return listar(" and cpf='" + cpf + "'").get(0);
+	public Apostador procurarPorId(long id) throws SQLException, ApostadorNaoCadastradoException, Exception{
+		return listar(" and id='" + id + "'").get(0);
 	}
 	
 	// método para procurar apostadores por nome.
 	public ArrayList<Apostador> procurarPorNome(String nome) throws SQLException, ApostadorNaoCadastradoException, Exception{
-		return listar(" and cpf='%" + nome + "%'");
+		return listar(" and nome like '%" + nome + "%'");
 	}
 	
 	// método para listar apostadores.
@@ -138,7 +138,7 @@ public class RepositorioApostador implements IRepositorioApostador {
 			String sql = "";
 			// instrução de update do apostador
 			sql = "UPDATE " + NOME_TABELA + " SET cpf=?, nome=?, sexo=?, telefone=?, email=?, logradouro=?, numero=?, bairro=?,"
-					+ " id_cidade=?, id_estado=?, id_pais=?, data_de_nascimento=?, usuario=?, senha=?, clube=?"
+					+ " cidade=?, estado=?, pais=?, data_de_nascimento=?, usuario=?, senha=?, clube=?"
 					+ " WHERE id=?;";
 			ps = this.connection.prepareStatement(sql);
 			ps.setString(1, apostador.getCpf());
