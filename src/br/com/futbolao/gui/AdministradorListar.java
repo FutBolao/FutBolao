@@ -32,12 +32,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+@SuppressWarnings("serial")
 public class AdministradorListar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JTextField campoProcurar;
-	private JTable tabelaADM;
-	private DefaultTableModel tabelaModeloADM;
-	private String[] colunaTabelaADM;
+	private JTable tabelaAdministrador;
+	private DefaultTableModel modeloTabelaAdministrador;
+	private String[] colunaTabelaAdministrador;
 
 	/**
 	 * Launch the application.
@@ -91,6 +92,11 @@ public class AdministradorListar extends JInternalFrame {
 		campoProcurar.setColumns(10);
 		
 		JButton btnProcurar = new JButton("Procurar");
+		btnProcurar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				procurar();
+			}
+		});
 		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnProcurar.setBounds(420, 39, 94, 23);
 		painelTabela.add(btnProcurar);
@@ -99,22 +105,22 @@ public class AdministradorListar extends JInternalFrame {
 		scrollPaneADM.setBounds(10, 71, 504, 338);
 		painelTabela.add(scrollPaneADM);
 		
-		tabelaADM = new JTable();
-		tabelaADM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		colunaTabelaADM = new String[] {"ID", "Nome", "CPF", "Ativo"};
-		tabelaModeloADM = new DefaultTableModel(new Object[][] {},colunaTabelaADM){
+		tabelaAdministrador = new JTable();
+		tabelaAdministrador.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		colunaTabelaAdministrador = new String[] {"ID", "Nome", "CPF", "Ativo"};
+		modeloTabelaAdministrador = new DefaultTableModel(new Object[][] {},colunaTabelaAdministrador){
 			boolean[] columnEditables = new boolean[] {false, false, false, false};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		};
-		tabelaADM.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		tabelaADM.setModel(tabelaModeloADM);
-		tabelaADM.getColumnModel().getColumn(0).setPreferredWidth(52);
-		tabelaADM.getColumnModel().getColumn(1).setPreferredWidth(206);
-		tabelaADM.getColumnModel().getColumn(2).setPreferredWidth(140);
-		tabelaADM.getColumnModel().getColumn(3).setPreferredWidth(38);
-		scrollPaneADM.setViewportView(tabelaADM);
+		tabelaAdministrador.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tabelaAdministrador.setModel(modeloTabelaAdministrador);
+		tabelaAdministrador.getColumnModel().getColumn(0).setPreferredWidth(52);
+		tabelaAdministrador.getColumnModel().getColumn(1).setPreferredWidth(206);
+		tabelaAdministrador.getColumnModel().getColumn(2).setPreferredWidth(140);
+		tabelaAdministrador.getColumnModel().getColumn(3).setPreferredWidth(38);
+		scrollPaneADM.setViewportView(tabelaAdministrador);
 		
 		JPanel painelBotoes = new JPanel();
 		painelBotoes.setBackground(Color.WHITE);
@@ -150,9 +156,10 @@ public class AdministradorListar extends JInternalFrame {
 	}
 	
 	private void limparTabela(){
-		this.tabelaModeloADM.setNumRows(0);
+		this.modeloTabelaAdministrador.setNumRows(0);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void procurar(){
 		try {
 			limparTabela();
@@ -170,10 +177,11 @@ public class AdministradorListar extends JInternalFrame {
 				vector.add(administrador.getNome());
 				vector.add(administrador.getCpf());
 				vector.add(administrador.getAtivo());
-				tabelaModeloADM.addRow(vector);
+				modeloTabelaAdministrador.addRow(vector);
 			}			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			e.printStackTrace();
 		} catch (AdministradorNaoCadastradoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (Exception e) {
@@ -181,10 +189,11 @@ public class AdministradorListar extends JInternalFrame {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	private void alterar(){
-		if (tabelaADM.getSelectedRowCount() == 1) {
-			int linha = tabelaADM.getSelectedRow();
-			int id = (int) tabelaADM.getValueAt(linha, 0);
+		if (tabelaAdministrador.getSelectedRowCount() == 1) {
+			int linha = tabelaAdministrador.getSelectedRow();
+			int id = (int) tabelaAdministrador.getValueAt(linha, 0);
 			AdministradorAlterar administradorAlterar = new AdministradorAlterar(id);
 			Principal principal = new Principal();
 			principal.desktopPane.add(administradorAlterar);
@@ -196,15 +205,15 @@ public class AdministradorListar extends JInternalFrame {
 	}
 	
 	private void deletar(){
-		if(tabelaADM.getSelectedRowCount() == 1){
+		if(tabelaAdministrador.getSelectedRowCount() == 1){
 			try {
 				throw new ConfirmacaoDeExclusaoException();
 			} catch (ConfirmacaoDeExclusaoException ex) {
 				int confirmacao = JOptionPane.showConfirmDialog(rootPane, ex.getMessage(), "Alerta", JOptionPane.YES_NO_OPTION);
 				if (confirmacao == 0) {
 					try {
-						int linha = tabelaADM.getSelectedRow();
-						int id = (int) tabelaADM.getValueAt(linha, 0);
+						int linha = tabelaAdministrador.getSelectedRow();
+						int id = (int) tabelaAdministrador.getValueAt(linha, 0);
 						fachada.deletarAdministrador(id);
 						procurar();
 					} catch (SQLException e) {
@@ -212,7 +221,7 @@ public class AdministradorListar extends JInternalFrame {
 					} catch (AdministradorNaoCadastradoException e) {
 						JOptionPane.showMessageDialog(rootPane, e.getMessage());
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar deletar clube!");
+						JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar deletar administrador!");
 					}
 					
 				}

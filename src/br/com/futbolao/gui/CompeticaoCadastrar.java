@@ -29,6 +29,7 @@ import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.FormataCampoApenasNumeros;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
 
+@SuppressWarnings("serial")
 public class CompeticaoCadastrar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JTextField campoNome;
@@ -162,12 +163,12 @@ public class CompeticaoCadastrar extends JInternalFrame {
 			
 			try {
 				fachada.cadastrarCompeticao(new Competicao(0, nome, qtdRodadas, 'S'));
-				limparCampos();
 				try {
 					throw new CadastroEfetuadoComSucessoException();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(rootPane, e.getMessage());
 				}
+				limparCampos();
 			} catch (NomeVazioException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (SQLException e) {

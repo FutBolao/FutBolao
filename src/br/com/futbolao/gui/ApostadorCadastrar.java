@@ -341,9 +341,6 @@ public class ApostadorCadastrar extends JInternalFrame {
 		String clube = campoClube.getText();
 		String usuario = campoUsuario.getText();
 		String senha = campoSenha.getText();
-		int dia = Integer.parseInt(dataNascimento.substring(0, 2));
-		int mes = Integer.parseInt(dataNascimento.substring(3, 5));
-		int ano = Integer.parseInt(dataNascimento.substring(6, 10));
 		if (nome.equals("")) {
 			try {
 				throw new CampoInvalidoException();
@@ -361,30 +358,6 @@ public class ApostadorCadastrar extends JInternalFrame {
 			}
 			return false;
 		} else if (dataNascimento.equals("")) {
-			try {
-				throw new CampoInvalidoException();
-			} catch (CampoInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoDatadeNascimento.requestFocus();
-			}
-			return false;
-		} else if (dia < 1 || dia > 31) {
-			try {
-				throw new CampoInvalidoException();
-			} catch (CampoInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoDatadeNascimento.requestFocus();
-			}
-			return false;
-		} else if (mes < 1 || mes > 12) {
-			try {
-				throw new CampoInvalidoException();
-			} catch (CampoInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoDatadeNascimento.requestFocus();
-			}
-			return false;
-		} else if (ano < 1) {
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {

@@ -21,6 +21,7 @@ import javax.swing.JButton;
 
 import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.exception.AdministradorJaCadastradoException;
+import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
@@ -315,9 +316,6 @@ public class AdministradorCadastrar extends JInternalFrame {
 		String estado = campoEstado.getText();
 		String pais = campoPais.getText();
 		String senha = campoSenha.getText();
-		int dia = Integer.parseInt(dataDeNascimento.substring(0, 2));
-		int mes = Integer.parseInt(dataDeNascimento.substring(3, 5));
-		int ano = Integer.parseInt(dataDeNascimento.substring(6, 10));
 		if(nome.equals("")){
 			try {
 				throw new CampoInvalidoException();
@@ -383,30 +381,6 @@ public class AdministradorCadastrar extends JInternalFrame {
 			}
 			return false;
 		} else if (dataDeNascimento.equals("")) {
-			try {
-				throw new CampoInvalidoException();
-			} catch (CampoInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoDatadeNascimento.requestFocus();
-			}
-			return false;
-		} else if (dia < 1 || dia > 31) {
-			try {
-				throw new CampoInvalidoException();
-			} catch (CampoInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoDatadeNascimento.requestFocus();
-			}
-			return false;
-		} else if (mes < 1 || mes > 12) {
-			try {
-				throw new CampoInvalidoException();
-			} catch (CampoInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoDatadeNascimento.requestFocus();
-			}
-			return false;
-		} else if (ano < 1) {
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -480,6 +454,12 @@ public class AdministradorCadastrar extends JInternalFrame {
 			Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 			try {
 				fachada.cadastrarAdministrador(new Administrador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, 'S'));
+				try {
+					throw new CadastroEfetuadoComSucessoException();
+				} catch (CadastroEfetuadoComSucessoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				limparCampos();
 			} catch (NomeVazioException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (SQLException e) {

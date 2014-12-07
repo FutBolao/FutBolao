@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 import br.com.futbolao.conexao.Conexao;
 import br.com.futbolao.conexao.DataBase;
 import br.com.futbolao.exception.ApostadorJaCadastradoException;
@@ -102,7 +103,7 @@ public class RepositorioApostador implements IRepositorioApostador {
 				Apostador apostador = new Apostador(rs.getInt("id"),
 						rs.getString("nome"), rs.getString("cpf"), rs.getString("sexo").charAt(0),
 						rs.getString("telefone"), rs.getString("email"),
-						endereco, rs.getString("data_de_nascimento"),
+						endereco, String.valueOf(rs.getDate("data_de_nascimento")),
 						rs.getString("usuario"), rs.getString("senha"),
 						rs.getString("clube"));
 				apostadores.add(apostador);

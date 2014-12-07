@@ -134,6 +134,11 @@ public class ClubeCadastrar extends JInternalFrame {
 		painelForm.add(btnCadastrar);
 		
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limparCampos();
+			}
+		});
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLimpar.setBounds(109, 179, 89, 23);
 		painelForm.add(btnLimpar);
