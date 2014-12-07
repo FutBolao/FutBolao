@@ -185,22 +185,19 @@ public class AdministradorListar extends JInternalFrame {
 		} catch (AdministradorNaoCadastradoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar clube!");
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar administrador!");
 		}
 	}
 	
-	@SuppressWarnings("static-access")
 	private void alterar(){
 		if (tabelaAdministrador.getSelectedRowCount() == 1) {
 			int linha = tabelaAdministrador.getSelectedRow();
 			long id = (long) tabelaAdministrador.getValueAt(linha, 0);
 			AdministradorAlterar administradorAlterar = new AdministradorAlterar(id);
-			Principal principal = new Principal();
-			principal.desktopPane.add(administradorAlterar);
+			Principal.desktopPane.add(administradorAlterar);
 			administradorAlterar.setVisible(true);
 			administradorAlterar.setPosicao();
-		}
-		
+		}	
 	}
 	
 	private void deletar(){

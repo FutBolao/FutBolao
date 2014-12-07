@@ -86,7 +86,6 @@ public class Fachada {
 		
 	public Administrador procurarAdministradorPorId(long id) throws IdInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
 		return this.controladorAdministrador.procurarPorId(id);
-		
 	}
 	
 	public ArrayList<Administrador> procurarAdministradorPorNome(String nome) throws NomeVazioException, SQLException, AdministradorNaoCadastradoException, Exception{

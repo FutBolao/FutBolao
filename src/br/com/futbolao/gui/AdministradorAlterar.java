@@ -12,8 +12,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -29,27 +32,31 @@ import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
+import br.com.futbolao.util.FormataCampoPermiteTudoUpperCase;
+import br.com.futbolao.util.MascaraCampo;
 
 import javax.swing.JCheckBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class AdministradorAlterar extends JInternalFrame {
 	private Fachada fachada = null;
+	private MascaraCampo mascara = new MascaraCampo();
 	private JTextField campoNome;
-	private JTextField campoCpf;
-	private JTextField campoTelefone;
+	private JFormattedTextField campoCpf;
+	private JFormattedTextField campoTelefone;
 	private JTextField campoEmail;
 	private JTextField campoRua;
 	private JTextField campoBairro;
 	private JTextField campoNumero;
 	private JTextField campoUsuario;
-	private JTextField campoDatadeNascimento;
+	private JFormattedTextField campoDatadeNascimento;
 	private JTextField campoCidade;
 	private JTextField campoEstado;
 	private JTextField campoPais;
-	private JTextField campoSenha;
+	private JPasswordField campoSenha;
 	private JTextField CampoId;
 	@SuppressWarnings("rawtypes")
 	JComboBox campoSexo;
@@ -74,7 +81,7 @@ public class AdministradorAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AdministradorAlterar(final long id) {
 		try {
 			fachada = Fachada.getInstance();
@@ -102,6 +109,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(94, 36, 316, 20);
 		getContentPane().add(campoNome);
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(100));
 		campoNome.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF:");
@@ -109,10 +117,11 @@ public class AdministradorAlterar extends JInternalFrame {
 		lblCpf.setBounds(10, 67, 46, 14);
 		getContentPane().add(lblCpf);
 		
-		campoCpf = new JTextField();
+		campoCpf = new JFormattedTextField();
 		campoCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCpf.setColumns(10);
 		campoCpf.setBounds(10, 92, 120, 20);
+		mascara.getCpf().install(campoCpf);
 		getContentPane().add(campoCpf);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
@@ -120,14 +129,16 @@ public class AdministradorAlterar extends JInternalFrame {
 		lblTelefone.setBounds(10, 123, 65, 14);
 		getContentPane().add(lblTelefone);
 		
-		campoTelefone = new JTextField();
+		campoTelefone = new JFormattedTextField();
 		campoTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoTelefone.setBounds(10, 148, 120, 20);
 		getContentPane().add(campoTelefone);
+		mascara.getTelefone().install(campoTelefone);
 		campoTelefone.setColumns(10);
 		
 		campoSexo = new JComboBox();
 		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
 		campoSexo.setBounds(269, 92, 141, 20);
 		getContentPane().add(campoSexo);
 		
@@ -145,6 +156,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEmail.setBounds(140, 148, 270, 20);
 		getContentPane().add(campoEmail);
+		campoEmail.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoEmail.setColumns(10);
 		
 		JLabel lblRua = new JLabel("Rua:");
@@ -156,6 +168,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoRua.setBounds(10, 204, 350, 20);
 		getContentPane().add(campoRua);
+		campoRua.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoRua.setColumns(10);
 		
 		JLabel lblBairro = new JLabel("Bairro:");
@@ -167,6 +180,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoBairro.setBounds(10, 260, 200, 20);
 		getContentPane().add(campoBairro);
+		campoBairro.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoBairro.setColumns(10);
 		
 		JLabel lblN = new JLabel("N\u00BA:");
@@ -178,6 +192,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNumero.setBounds(364, 204, 46, 20);
 		getContentPane().add(campoNumero);
+		campoNumero.setDocument(new FormataCampoPermiteTudoUpperCase(6));
 		campoNumero.setColumns(10);
 		
 		JLabel lblUsario = new JLabel("Usu\u00E1rio:");
@@ -189,6 +204,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoUsuario.setBounds(10, 372, 200, 20);
 		getContentPane().add(campoUsuario);
+		campoUsuario.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoUsuario.setColumns(10);
 		
 		JLabel lblSenha = new JLabel("Senha:");
@@ -201,10 +217,11 @@ public class AdministradorAlterar extends JInternalFrame {
 		lblDataDeNascimento.setBounds(139, 67, 120, 14);
 		getContentPane().add(lblDataDeNascimento);
 		
-		campoDatadeNascimento = new JTextField();
+		campoDatadeNascimento = new JFormattedTextField();
 		campoDatadeNascimento.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoDatadeNascimento.setBounds(140, 92, 120, 20);
 		getContentPane().add(campoDatadeNascimento);
+		mascara.getData().install(campoDatadeNascimento);
 		campoDatadeNascimento.setColumns(10);
 		
 		JLabel lblCidade = new JLabel("Cidade:");
@@ -226,21 +243,24 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCidade.setBounds(220, 260, 190, 20);
 		getContentPane().add(campoCidade);
+		campoCidade.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		campoCidade.setColumns(10);
 		
 		campoEstado = new JTextField();
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setBounds(10, 316, 200, 20);
 		getContentPane().add(campoEstado);
+		campoEstado.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoEstado.setColumns(10);
 		
 		campoPais = new JTextField();
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setBounds(220, 316, 190, 20);
 		getContentPane().add(campoPais);
+		campoPais.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		campoPais.setColumns(10);
 		
-		campoSenha = new JTextField();
+		campoSenha = new JPasswordField();
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setBounds(220, 372, 190, 20);
 		getContentPane().add(campoSenha);
@@ -273,7 +293,6 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoAtivo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoAtivo.setBounds(351, 403, 59, 23);
 		getContentPane().add(campoAtivo);
-	
 		// executa método para preencher os campos.
 		preencheCampos(id);
 	}
@@ -283,6 +302,7 @@ public class AdministradorAlterar extends JInternalFrame {
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean validaCampos(){
 		String nome = campoNome.getText();
 		String cpf = campoCpf.getText();
@@ -438,15 +458,16 @@ public class AdministradorAlterar extends JInternalFrame {
 										+ administrador.getDataDeNascimento().substring(0, 4));
 			String sexo;
 			if(administrador.getSexo() == 'M'){
-				sexo = "Masculino";
+				sexo = "MASCULINO";
 			}else{
-				sexo = "Feminino";
+				sexo = "FEMININO";
 			}
 			campoSexo.setSelectedItem(sexo);
-			campoTelefone.setText(administrador.getTelefone());
+			campoTelefone.setText(administrador.getTelefone().replace(" ", ""));
 			campoEmail.setText(administrador.getEmail());
 			campoNumero.setText(administrador.getEndereco().getNumero());
 			campoRua.setText(administrador.getEndereco().getLogradouro());
+			campoBairro.setText(administrador.getEndereco().getBairro());
 			campoCidade.setText(administrador.getEndereco().getCidade());
 			campoEstado.setText(administrador.getEndereco().getEstado());
 			campoPais.setText(administrador.getEndereco().getPais());
@@ -466,6 +487,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void alterar(long id){
 		if(validaCampos()){
 			String nome = campoNome.getText();
@@ -490,10 +512,17 @@ public class AdministradorAlterar extends JInternalFrame {
 			try {
 				Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 				fachada.atualizaAdministrador(new Administrador(id, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, ativo));
+				try {
+					throw new AlteracaoEfetuadaComSucessoException();
+				} catch (AlteracaoEfetuadaComSucessoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				this.dispose();
 			} catch (NomeVazioException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (CpfInvalidoException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				e.printStackTrace();
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (AdministradorNaoCadastradoException e) {

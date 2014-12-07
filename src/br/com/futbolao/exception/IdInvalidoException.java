@@ -4,9 +4,8 @@ package br.com.futbolao.exception;
 public class IdInvalidoException extends Exception{
 
 	public IdInvalidoException() {
-		super("CPF Inválido!");
+		super("ID Inválido!");
 	}
-	
 	
 	public IdInvalidoException(String msg) {
 		super(msg);

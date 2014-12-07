@@ -37,7 +37,7 @@ public class ControladorAdministrador {
 	
 	public Administrador procurarPorId(long id) throws IdInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
 		Administrador retorno = null;
-		if (id < 1) {
+		if (id > 0) {
 			retorno = repositorio.procurarPorId(id);
 		}else {
 			throw new IdInvalidoException();
