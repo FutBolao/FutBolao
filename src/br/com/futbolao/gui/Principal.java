@@ -144,7 +144,10 @@ public class Principal extends JFrame {
 		JMenuItem mntmRodadaCadastrar = new JMenuItem("Cadastrar");
 		mntmRodadaCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				RodadaCadastrar rodadaCadastrar = new RodadaCadastrar();
+				desktopPane.add(rodadaCadastrar);
+				rodadaCadastrar.setVisible(true);
+				rodadaCadastrar.setPosicao();
 			}
 		});
 		mnRodada.add(mntmRodadaCadastrar);
@@ -152,6 +155,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmRodadaListar = new JMenuItem("Listar");
 		mntmRodadaListar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 			}
 		});
 		mnRodada.add(mntmRodadaListar);
