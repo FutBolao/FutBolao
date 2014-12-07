@@ -222,7 +222,6 @@ public class AdministradorListar extends JInternalFrame {
 						JOptionPane.showMessageDialog(rootPane, e.getMessage());
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar deletar administrador!");
-						e.printStackTrace();
 					}
 				}
 			}
