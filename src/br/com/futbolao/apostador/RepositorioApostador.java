@@ -100,7 +100,7 @@ public class RepositorioApostador implements IRepositorioApostador {
 						rs.getString("numero"), rs.getString("bairro"),
 						rs.getString("cidade"), rs.getString("estado"),
 						rs.getString("pais"));
-				Apostador apostador = new Apostador(rs.getLong("id"),
+				Apostador apostador = new Apostador(rs.getInt("id"),
 						rs.getString("nome"), rs.getString("cpf"), rs.getString("sexo").charAt(0),
 						rs.getString("telefone"), rs.getString("email"),
 						endereco, String.valueOf(rs.getDate("data_de_nascimento")),

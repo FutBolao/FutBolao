@@ -16,7 +16,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -33,13 +36,21 @@ import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
+import br.com.futbolao.util.FormataCampoPermiteApenasLetrasNumeros;
+import br.com.futbolao.util.FormataCampoPermiteTudo;
+import br.com.futbolao.util.FormataCampoPermiteTudoUpperCase;
+import br.com.futbolao.util.MascaraCampo;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ApostadorAlterar extends JInternalFrame {
 	private Fachada fachada = null;
+	private MascaraCampo mascara = new MascaraCampo();
 	private JTextField campoNome;
-	private JTextField campoCpf;
-	private JTextField campoDatadeNascimento;
-	private JTextField campoTelefone;
+	private JFormattedTextField campoCpf;
+	private JFormattedTextField campoDatadeNascimento;
+	private JFormattedTextField campoTelefone;
 	private JTextField campoEmail;
 	private JTextField campoRua;
 	private JTextField campoNumero;
@@ -49,7 +60,7 @@ public class ApostadorAlterar extends JInternalFrame {
 	private JTextField campoPais;
 	private JTextField campoClube;
 	private JTextField campoUsuario;
-	private JTextField campoSenha;
+	private JPasswordField campoSenha;
 	private JComboBox campoSexo;
 	private JTextField campoID;
 
@@ -104,6 +115,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setColumns(10);
 		campoNome.setBounds(100, 45, 297, 20);
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(100));
 		painelForm.add(campoNome);
 		
 		JLabel lblCPF = new JLabel("CPF :");
@@ -111,10 +123,11 @@ public class ApostadorAlterar extends JInternalFrame {
 		lblCPF.setBounds(10, 76, 46, 14);
 		painelForm.add(lblCPF);
 		
-		campoCpf = new JTextField();
+		campoCpf = new JFormattedTextField();
 		campoCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCpf.setColumns(10);
 		campoCpf.setBounds(10, 101, 121, 20);
+		mascara.getCpf().install(campoCpf);
 		painelForm.add(campoCpf);
 		
 		JLabel lblDataNasc = new JLabel("Data de Nascimento :");
@@ -122,10 +135,11 @@ public class ApostadorAlterar extends JInternalFrame {
 		lblDataNasc.setBounds(141, 74, 121, 19);
 		painelForm.add(lblDataNasc);
 		
-		campoDatadeNascimento = new JTextField();
+		campoDatadeNascimento = new JFormattedTextField();
 		campoDatadeNascimento.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoDatadeNascimento.setColumns(10);
 		campoDatadeNascimento.setBounds(141, 101, 131, 20);
+		mascara.getData().install(campoDatadeNascimento);
 		painelForm.add(campoDatadeNascimento);
 		
 		JLabel lblSexo = new JLabel("Sexo :");
@@ -135,6 +149,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		
 		campoSexo = new JComboBox();
 		campoSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoSexo.setModel(new DefaultComboBoxModel(new String[] {"", "MASCULINO", "FEMININO"}));
 		campoSexo.setBounds(282, 101, 113, 20);
 		painelForm.add(campoSexo);
 		
@@ -143,10 +158,11 @@ public class ApostadorAlterar extends JInternalFrame {
 		lblTelefone.setBounds(10, 132, 58, 14);
 		painelForm.add(lblTelefone);
 		
-		campoTelefone = new JTextField();
+		campoTelefone = new JFormattedTextField();
 		campoTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoTelefone.setColumns(10);
 		campoTelefone.setBounds(10, 160, 121, 20);
+		mascara.getTelefone().install(campoTelefone);
 		painelForm.add(campoTelefone);
 		
 		JLabel lblEmail = new JLabel("Email : ");
@@ -158,6 +174,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEmail.setColumns(10);
 		campoEmail.setBounds(141, 160, 254, 20);
+		campoEmail.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		painelForm.add(campoEmail);
 		
 		JLabel lblRua = new JLabel("Rua : ");
@@ -169,6 +186,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoRua.setColumns(10);
 		campoRua.setBounds(10, 222, 332, 20);
+		campoRua.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		painelForm.add(campoRua);
 		
 		JLabel lblNumero = new JLabel("N\u00BA:");
@@ -180,6 +198,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNumero.setColumns(10);
 		campoNumero.setBounds(344, 222, 51, 20);
+		campoNumero.setDocument(new FormataCampoPermiteTudoUpperCase(6));
 		painelForm.add(campoNumero);
 		
 		JLabel lblBairro = new JLabel("Bairro :");
@@ -191,6 +210,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoBairro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoBairro.setColumns(10);
 		campoBairro.setBounds(10, 278, 190, 20);
+		campoBairro.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		painelForm.add(campoBairro);
 		
 		JLabel lblCidade = new JLabel("Cidade : ");
@@ -202,6 +222,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoCidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCidade.setColumns(10);
 		campoCidade.setBounds(210, 278, 185, 20);
+		campoCidade.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		painelForm.add(campoCidade);
 		
 		JLabel lblEstado = new JLabel("Estado :");
@@ -213,6 +234,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoEstado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoEstado.setColumns(10);
 		campoEstado.setBounds(10, 334, 190, 20);
+		campoEstado.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		painelForm.add(campoEstado);
 		
 		JLabel lblPais = new JLabel("Pa\u00EDs : ");
@@ -224,6 +246,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPais.setColumns(10);
 		campoPais.setBounds(210, 334, 185, 20);
+		campoPais.setDocument(new FormataCampoPermiteTudoUpperCase(20));
 		painelForm.add(campoPais);
 		
 		JLabel lblClube = new JLabel("Clube :");
@@ -235,6 +258,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoClube.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube.setColumns(10);
 		campoClube.setBounds(10, 390, 121, 20);
+		campoPais.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		painelForm.add(campoClube);
 		
 		JLabel lblUsuario = new JLabel("Usuario : ");
@@ -246,6 +270,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoUsuario.setColumns(10);
 		campoUsuario.setBounds(141, 389, 121, 20);
+		campoUsuario.setDocument(new FormataCampoPermiteApenasLetrasNumeros(20));
 		painelForm.add(campoUsuario);
 		
 		JLabel lblSenha = new JLabel("Senha : ");
@@ -253,21 +278,22 @@ public class ApostadorAlterar extends JInternalFrame {
 		lblSenha.setBounds(272, 365, 46, 14);
 		painelForm.add(lblSenha);
 		
-		campoSenha = new JTextField();
+		campoSenha = new JPasswordField();
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setColumns(10);
 		campoSenha.setBounds(272, 389, 121, 20);
+		campoSenha.setDocument(new FormataCampoPermiteTudo(50));
 		painelForm.add(campoSenha);
 		
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				alterar(id);
+			}
+		});
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 426, 93, 23);
 		painelForm.add(btnAlterar);
-		
-		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpar.setBounds(113, 426, 93, 23);
-		painelForm.add(btnLimpar);
 		
 		JLabel lblId = new JLabel("ID : ");
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -280,6 +306,8 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoID.setBounds(10, 46, 67, 20);
 		painelForm.add(campoID);
 		campoID.setColumns(10);
+		
+		preencheCampos(id);
 
 	}
 	

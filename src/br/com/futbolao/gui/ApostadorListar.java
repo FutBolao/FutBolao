@@ -24,11 +24,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.futbolao.apostador.Apostador;
-import br.com.futbolao.exception.AdministradorNaoCadastradoException;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.ConfirmacaoDeExclusaoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.fachada.Fachada;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -192,11 +192,10 @@ public class ApostadorListar extends JInternalFrame {
 			int linha = tabelaApostador.getSelectedRow();
 			long id = (long) tabelaApostador.getValueAt(linha, 0);
 			ApostadorAlterar apostadorAlterar = new ApostadorAlterar(id);
-			Principal principal = new Principal();
-			principal.desktopPane.add(apostadorAlterar);
+			Principal.desktopPane.add(apostadorAlterar);
 			apostadorAlterar.setVisible(true);
 			apostadorAlterar.setPosicao();
-		}		
+		}
 	}
 	
 	private void deletar(){
