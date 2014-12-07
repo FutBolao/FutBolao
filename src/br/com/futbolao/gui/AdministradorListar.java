@@ -193,13 +193,12 @@ public class AdministradorListar extends JInternalFrame {
 	private void alterar(){
 		if (tabelaAdministrador.getSelectedRowCount() == 1) {
 			int linha = tabelaAdministrador.getSelectedRow();
-			int id = (int) tabelaAdministrador.getValueAt(linha, 0);
+			long id = (long) tabelaAdministrador.getValueAt(linha, 0);
 			AdministradorAlterar administradorAlterar = new AdministradorAlterar(id);
 			Principal principal = new Principal();
 			principal.desktopPane.add(administradorAlterar);
 			administradorAlterar.setVisible(true);
 			administradorAlterar.setPosicao();
-			
 		}
 		
 	}

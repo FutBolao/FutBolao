@@ -469,8 +469,8 @@ public class AdministradorCadastrar extends JInternalFrame {
 			String estado = campoEstado.getText();
 			String pais = campoPais.getText();
 			String senha = campoSenha.getText();
-			Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 			try {
+				Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 				fachada.cadastrarAdministrador(new Administrador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, 'S'));
 				try {
 					throw new CadastroEfetuadoComSucessoException();

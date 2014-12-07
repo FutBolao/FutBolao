@@ -20,11 +20,19 @@ import javax.swing.JButton;
 
 import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.exception.AdministradorNaoCadastradoException;
+import br.com.futbolao.exception.AlteracaoEfetuadaComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.IdInvalidoException;
+import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
+import br.com.futbolao.util.Endereco;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
+
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class AdministradorAlterar extends JInternalFrame {
@@ -45,6 +53,7 @@ public class AdministradorAlterar extends JInternalFrame {
 	private JTextField CampoId;
 	@SuppressWarnings("rawtypes")
 	JComboBox campoSexo;
+	JCheckBox campoAtivo;
 
 	/**
 	 * Launch the application.
@@ -239,14 +248,14 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoSenha.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Alterar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				alterar(id);
+			}
+		});
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCadastrar.setBounds(10, 403, 100, 20);
 		getContentPane().add(btnCadastrar);
-		
-		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpar.setBounds(120, 403, 100, 20);
-		getContentPane().add(btnLimpar);
 		
 		JLabel lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -254,10 +263,16 @@ public class AdministradorAlterar extends JInternalFrame {
 		getContentPane().add(lblId);
 		
 		CampoId = new JTextField();
-		CampoId.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		CampoId.setEditable(false);
+		CampoId.setFont(new Font("Tahoma", Font.BOLD, 12));
 		CampoId.setBounds(10, 36, 65, 20);
 		getContentPane().add(CampoId);
 		CampoId.setColumns(10);
+		
+		campoAtivo = new JCheckBox("Ativo");
+		campoAtivo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		campoAtivo.setBounds(351, 403, 59, 23);
+		getContentPane().add(campoAtivo);
 	
 		// executa método para preencher os campos.
 		preencheCampos(id);
@@ -419,7 +434,27 @@ public class AdministradorAlterar extends JInternalFrame {
 			CampoId.setText(String.valueOf(administrador.getId()));
 			campoNome.setText(administrador.getNome());
 			campoCpf.setText(administrador.getCpf());
-			campoDatadeNascimento.setText(administrador.getDataDeNascimento().substring(8, 10));
+			campoDatadeNascimento.setText(administrador.getDataDeNascimento().substring(8, 10) + administrador.getDataDeNascimento().substring(5, 7)
+										+ administrador.getDataDeNascimento().substring(0, 4));
+			String sexo;
+			if(administrador.getSexo() == 'M'){
+				sexo = "Masculino";
+			}else{
+				sexo = "Feminino";
+			}
+			campoSexo.setSelectedItem(sexo);
+			campoTelefone.setText(administrador.getTelefone());
+			campoEmail.setText(administrador.getEmail());
+			campoNumero.setText(administrador.getEndereco().getNumero());
+			campoRua.setText(administrador.getEndereco().getLogradouro());
+			campoCidade.setText(administrador.getEndereco().getCidade());
+			campoEstado.setText(administrador.getEndereco().getEstado());
+			campoPais.setText(administrador.getEndereco().getPais());
+			campoUsuario.setText(administrador.getUsuario());
+			campoSenha.setText(administrador.getSenha());
+			if(administrador.getAtivo() == 'S'){
+				campoAtivo.setSelected(true);
+			}
 		} catch (IdInvalidoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (SQLException e) {
@@ -431,4 +466,48 @@ public class AdministradorAlterar extends JInternalFrame {
 		}
 	}
 	
+	private void alterar(long id){
+		if(validaCampos()){
+			String nome = campoNome.getText();
+			String cpf = campoCpf.getText();
+			String telefone = campoTelefone.getText();
+			String email = campoEmail.getText();
+			String sexoString = (String) campoSexo.getSelectedItem();
+			char sexo = sexoString.charAt(0);
+			String logradouro = campoRua.getText();
+			String bairro = campoBairro.getText();
+			String numero = campoNumero.getText();
+			String usuario = campoUsuario.getText();
+			String dataDeNascimento = campoDatadeNascimento.getText();
+			String cidade = campoCidade.getText();
+			String estado = campoEstado.getText();
+			String pais = campoPais.getText();
+			String senha = campoSenha.getText();
+			char ativo = 'S';
+			if (campoAtivo.isSelected() == false){
+				ativo = 'N';
+			}
+			try {
+				Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
+				fachada.atualizaAdministrador(new Administrador(id, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, ativo));
+			} catch (NomeVazioException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (CpfInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (AdministradorNaoCadastradoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao alterar o administrador!");
+				try {
+					throw new AlteracaoEfetuadaComSucessoException();
+				} catch (AlteracaoEfetuadaComSucessoException ex) {
+					JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+				}
+				this.dispose();
+			}
+		}
+		
+	}
 }
