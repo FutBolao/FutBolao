@@ -191,7 +191,7 @@ public class Fachada {
 		this.controladorRodada.cadastrar(rodada);
 	}
 	
-	public ArrayList<Rodada> procurarRodada(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
+	public <T> ArrayList<T> procurarRodada(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
 		return this.controladorRodada.procurar(idCompeticao, numeroDaRodada);
 	}
 	

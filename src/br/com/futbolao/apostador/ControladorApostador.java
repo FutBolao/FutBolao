@@ -2,9 +2,6 @@ package br.com.futbolao.apostador;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import br.com.futbolao.administrador.Administrador;
-import br.com.futbolao.exception.AdministradorNaoCadastradoException;
 import br.com.futbolao.exception.ApostadorJaCadastradoException;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.CpfInvalidoException;

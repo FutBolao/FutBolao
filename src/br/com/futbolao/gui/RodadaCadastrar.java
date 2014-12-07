@@ -1,9 +1,7 @@
 package br.com.futbolao.gui;
 
 import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
-
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
@@ -12,7 +10,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,7 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-
 import br.com.futbolao.clube.Clube;
 import br.com.futbolao.competicao.Competicao;
 import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
@@ -33,7 +29,6 @@ import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.rodada.Rodada;
 import br.com.futbolao.util.FormataCampoApenasNumeros;
 import br.com.futbolao.util.MascaraCampo;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -250,8 +245,6 @@ public class RodadaCadastrar extends JInternalFrame {
 	}
 	
 	private boolean validaCampos(){
-		int numeroRodada = Integer.parseInt(campoNumeroRodada.getText());
-		int numeroJogo = Integer.parseInt(campoNumeroJogo.getText());
 		String data = campoData.getText();
 		String hora = campoHora.getText();
 		DateFormat dataFormatada = new SimpleDateFormat ("dd/MM/yyyy");  
@@ -288,7 +281,7 @@ public class RodadaCadastrar extends JInternalFrame {
 				campoCompeticao.requestFocus();
 			}
 			return false;
-	    } else if (numeroRodada < 1){
+	    } else if (campoNumeroRodada.getText().equals("") || Integer.parseInt(campoNumeroRodada.getText()) < 1){
 	    	try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -296,7 +289,7 @@ public class RodadaCadastrar extends JInternalFrame {
 				campoNumeroRodada.requestFocus();
 			}
 			return false;
-	    } else if (numeroJogo < 1){
+	    } else if (campoNumeroJogo.getText().equals("") || Integer.parseInt(campoNumeroJogo.getText()) < 1){
 	    	try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -371,7 +364,7 @@ public class RodadaCadastrar extends JInternalFrame {
 			lista = fachada.listarClube('S');
 			valueClube1 = new int[lista.size()];
 			valueClube2 = new int[lista.size()];
-			for (int i = 0; i < lista.size(); i++) {
+			for (int i = 1; i <= lista.size(); i++) {
 				campoClube1.addItem(lista.get(i).getNome());
 				valueClube1[i] = lista.get(i).getId();
 				campoClube2.addItem(lista.get(i).getNome());
@@ -393,14 +386,14 @@ public class RodadaCadastrar extends JInternalFrame {
 	
 	private void cadastrar(){
 		if(validaCampos()){
-			int competicao = campoCompeticao.getSelectedIndex() - 1;
+			int competicao = campoCompeticao.getSelectedIndex();
 			int numeroRodada = Integer.parseInt(campoNumeroRodada.getText());
 			int numeroJogo = Integer.parseInt(campoNumeroJogo.getText());
 			String data = campoData.getText().substring(6, 10) + "-" + campoData.getText().substring(3, 5) + "-" + campoData.getText().substring(0, 2);
 			String hora = campoHora.getText();
 			String dataHora = data + " " + hora + ":00";
-			int clube1 = campoClube1.getSelectedIndex() - 1;
-			int clube2 = campoClube2.getSelectedIndex() - 1;
+			int clube1 = campoClube1.getSelectedIndex();
+			int clube2 = campoClube2.getSelectedIndex();
 			try {
 				fachada.cadastrarRodada(new Rodada(0, valueCopeticao[competicao], numeroRodada, numeroJogo, dataHora, valueClube1[clube1], valueClube2[clube2]));
 				try {
@@ -415,9 +408,7 @@ public class RodadaCadastrar extends JInternalFrame {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a rodada!");
-				e.printStackTrace();
 			}
 		}
 	}
-
 }

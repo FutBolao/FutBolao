@@ -36,7 +36,7 @@ public class ClubeAlterar extends JInternalFrame {
 	private JTextField campoNome;
 	private JTextField campoSigla;
 	private JTextField campoId;
-	JButton btnCadastrar;
+	private JButton btnCadastrar;
 	private JTextField campoEstado;
 	private JTextField campoPais;
 	private JCheckBox campoAtivo;

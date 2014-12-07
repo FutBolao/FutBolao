@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 import br.com.futbolao.conexao.Conexao;
 import br.com.futbolao.conexao.DataBase;
 import br.com.futbolao.exception.RodadaJaCadastradaException;
@@ -97,12 +98,39 @@ public class RepositorioRodada implements IRepositorioRodada {
 		return listar("");
 	}
 
-	public ArrayList<Rodada> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception {
+	@SuppressWarnings("unchecked")
+	public <T> ArrayList<T> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception {
 		if (numeroDaRodada == 0) {
-			return listar(" and id_competicao=" + idCompeticao);
+			return (ArrayList<T>) listarRodadaPorCompeticao(idCompeticao);
 		}else{
-			return listar(" and id_competicao=" + idCompeticao + " and numero_rodada=" + numeroDaRodada);
+			return (ArrayList<T>) listar(" and id_competicao=" + idCompeticao + " and numero_rodada=" + numeroDaRodada);
 		}
+	}
+	
+	// método para listar rodadas.
+	private ArrayList<Integer> listarRodadaPorCompeticao(long competicao) throws SQLException, RodadaNaoCadastradaException, Exception {
+		ArrayList<Integer> rodadas = new ArrayList<Integer>();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		sql = "SELECT DISTINCT numero_rodada FROM " + NOME_TABELA + " ";
+		sql += "id_competicao=" + competicao;
+		ps = this.connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
+		// resultado de cada linha ao array de rodada, até que haja linhas.
+		rs.first();
+		if (rs.getRow() > 0) {
+			rs.beforeFirst();
+			while (rs.next()) {
+			rodadas.add(rs.getInt("numero_rodada"));
+			}
+		}else{
+			throw new RodadaNaoCadastradaException();
+		}
+		ps.close();
+		rs.close();
+		return rodadas;
 	}
 
 	public void atualizar(Rodada rodada) throws SQLException, RodadaNaoCadastradaException, Exception {

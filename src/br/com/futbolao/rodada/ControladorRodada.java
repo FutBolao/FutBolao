@@ -20,7 +20,7 @@ public class ControladorRodada {
 			}
 	}
 	
-	public ArrayList<Rodada> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
+	public <T> ArrayList<T> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
 		return repositorio.procurar(idCompeticao, numeroDaRodada);
 	}
 	
