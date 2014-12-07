@@ -94,13 +94,13 @@ public class ApostadorCadastrar extends JInternalFrame {
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		setTitle("Cadastrar Apostador");
 		setClosable(true);
-		setBounds(100, 100, 443, 520);
+		setBounds(100, 100, 443, 496);
 		getContentPane().setLayout(null);
 		
 		JPanel painelForm = new JPanel();
 		painelForm.setForeground(Color.BLACK);
 		painelForm.setBackground(Color.WHITE);
-		painelForm.setBounds(10, 11, 407, 464);
+		painelForm.setBounds(10, 0, 407, 464);
 		getContentPane().add(painelForm);
 		painelForm.setLayout(null);
 		
@@ -111,7 +111,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		
 		campoNome = new JTextField();
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoNome.setBounds(10, 36, 400, 20);
+		campoNome.setBounds(10, 36, 387, 20);
 		painelForm.add(campoNome);
 		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(100));
 		campoNome.setColumns(10);
