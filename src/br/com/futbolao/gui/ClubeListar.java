@@ -167,7 +167,7 @@ public class ClubeListar extends JInternalFrame {
 			limparTabela();
 			ArrayList<Clube> lista = new ArrayList<>();
 			if (procurar.equals("")){
-				lista = fachada.listarClube();
+				lista = fachada.listarClube(' ');
 			} else {
 				lista = fachada.procurarClubePorNome(procurar);
 			}

@@ -84,7 +84,7 @@ public class CompeticaoCadastrar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 36, 344, 20);
 		painelForm.add(campoNome);
-		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(30));
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoNome.setColumns(10);
 		
 		JLabel lblQuantidadeDeRodadas = new JLabel("Quantidade de Rodadas:");

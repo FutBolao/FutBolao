@@ -99,12 +99,16 @@ public class RepositorioClube implements IRepositorioClube{
 	
 	// método para listar clubes.
 	public Clube procurarPorId(int id) throws SQLException, ClubeNaoCadastradoException, Exception{
-		return listar(" and id =" + id).get(0);
+		return listar(" and id=" + id).get(0);
 	}
 	
 	// método para listar clubes.
-	public ArrayList<Clube> listar() throws SQLException, ClubeNaoCadastradoException, Exception{
-		return listar("");
+	public ArrayList<Clube> listar(char ativo) throws SQLException, ClubeNaoCadastradoException, Exception{
+		if (ativo == 'S' || ativo == 'N') {
+			return listar(" and ativo='" + ativo + "'");
+		} else {
+			return listar("");
+		}
 	}
 
 	// método para atualizar clube

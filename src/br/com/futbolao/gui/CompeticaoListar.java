@@ -32,8 +32,9 @@ import br.com.futbolao.fachada.Fachada;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class CompeticaoListar extends JInternalFrame {
-	private Fachada fachada;
+	private Fachada fachada = null;
 	private JTextField campoProcurar;
 	private JTable tabelaCompeticao;
 	private DefaultTableModel tabelaModeloCompeticao;
@@ -58,7 +59,6 @@ public class CompeticaoListar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("serial")
 	public CompeticaoListar() {
 		try {
 			fachada = Fachada.getInstance();
@@ -157,6 +157,7 @@ public class CompeticaoListar extends JInternalFrame {
 		this.tabelaModeloCompeticao.setNumRows(0);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void procurar(){
 		try {
 			limparTabela();
@@ -166,7 +167,7 @@ public class CompeticaoListar extends JInternalFrame {
 			if (procurar.equals("")){
 				lista = fachada.listarCompeticao();
 			} else {
-				lista = fachada.procurarPorNome(procurar);
+				lista = fachada.procurarCompeticaoPorNome(procurar);
 			}
 			for (Competicao competicao : lista) {
 				@SuppressWarnings("rawtypes")

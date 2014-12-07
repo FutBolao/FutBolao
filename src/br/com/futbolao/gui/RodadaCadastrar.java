@@ -10,29 +10,35 @@ import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.ComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import br.com.futbolao.clube.Clube;
 import br.com.futbolao.competicao.Competicao;
+import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.fachada.Fachada;
 
+@SuppressWarnings("serial")
 public class RodadaCadastrar extends JInternalFrame {
-	private Fachada fachada;
+	private Fachada fachada = null;
 	private JTextField campoNRodada;
 	private JTextField campoNJogo;
 	private JTextField campoData;
 	private JTextField campoHora;
 	private JTextField campoResultado1;
 	private JTextField campoResultado2;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoCompeticao;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoClube1;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoClube2;
-	private ArrayList<String> nomeCompeticao;
 
 	/**
 	 * Launch the application.
@@ -53,15 +59,23 @@ public class RodadaCadastrar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("rawtypes")
 	public RodadaCadastrar() {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		setTitle("Cadastrar Rodada");
 		setClosable(true);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		setBounds(100, 100, 465, 363);
 		getContentPane().setLayout(null);
-		
-		popularComboBoxCompeticao();
 		
 		JPanel painelForm = new JPanel();
 		painelForm.setBackground(Color.WHITE);
@@ -74,9 +88,10 @@ public class RodadaCadastrar extends JInternalFrame {
 		lblCompeticao.setBounds(10, 10, 80, 20);
 		painelForm.add(lblCompeticao);
 		
-		campoCompeticao = new JComboBox((ComboBoxModel) nomeCompeticao);
+		campoCompeticao = new JComboBox();
 		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCompeticao.setBounds(10, 41, 410, 20);
+		campoCompeticao.setMaximumRowCount(20);
 		painelForm.add(campoCompeticao);
 		
 		JLabel lblNRodada = new JLabel("N\u00BA da Rodada");
@@ -135,11 +150,13 @@ public class RodadaCadastrar extends JInternalFrame {
 		campoClube1 = new JComboBox();
 		campoClube1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube1.setBounds(10, 165, 310, 20);
+		campoClube1.setMaximumRowCount(20);
 		painelForm.add(campoClube1);
 		
 		campoClube2 = new JComboBox();
 		campoClube2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube2.setBounds(10, 227, 310, 20);
+		campoClube2.setMaximumRowCount(20);
 		painelForm.add(campoClube2);
 		
 		JLabel lblResultado1 = new JLabel("Resultado 1:");
@@ -179,6 +196,8 @@ public class RodadaCadastrar extends JInternalFrame {
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLimpar.setBounds(109, 12, 89, 23);
 		painelBotoes.add(btnLimpar);
+		
+		preencheCampos();
 
 	}
 	
@@ -187,25 +206,48 @@ public class RodadaCadastrar extends JInternalFrame {
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
-	private void  popularComboBoxCompeticao(){
+	@SuppressWarnings({ "unchecked" })
+	private void  listaCompeticao(){
+		ArrayList<Competicao> lista = new ArrayList<>();
 		try {
-			ArrayList<Competicao> lista = fachada.listarCompeticao();
+			campoCompeticao.addItem("");
+			lista = fachada.listarCompeticao();
 			for (Competicao competicao : lista){
-				nomeCompeticao.add(competicao.getNome());
+				campoCompeticao.addItem(competicao.getNome());
 			}
-			
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (CompeticaoNaoCadastradaException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao listar as competições!");
 		}
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void  listaClube(){
+		ArrayList<Clube> lista = new ArrayList<>();
+		campoClube1.addItem("");
+		campoClube2.addItem("");
+		try {
+			lista = fachada.listarClube('S');
+			for (Clube clube : lista){
+				campoClube1.addItem(clube.getNome());
+				campoClube2.addItem(clube.getNome());
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (ClubeNaoCadastradoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao listar os clubes!");
+		}
+	}
+	
+	private void preencheCampos(){
+		listaCompeticao();
+		listaClube();
 	}
 
 }

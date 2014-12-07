@@ -43,8 +43,8 @@ public class ControladorClube {
 		return clube;
 	}
 	
-	public ArrayList<Clube> listar() throws SQLException, NomeVazioException, Exception{
-		return repositorio.listar();
+	public ArrayList<Clube> listar(char ativo) throws SQLException, NomeVazioException, Exception{
+		return repositorio.listar(ativo);
 	}
 	
 	

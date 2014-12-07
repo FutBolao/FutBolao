@@ -119,8 +119,8 @@ public class Fachada {
 		return this.controladorClube.procurarPorId(id);		
 	}
 	
-	public ArrayList<Clube> listarClube() throws SQLException, ClubeNaoCadastradoException, Exception{
-		return this.controladorClube.listar();		
+	public ArrayList<Clube> listarClube(char ativo) throws SQLException, ClubeNaoCadastradoException, Exception{
+		return this.controladorClube.listar(ativo);		
 	}
 	
 	public void atualizaClube(Clube clube) throws NomeVazioException, SQLException, ClubeNaoCadastradoException, Exception{
@@ -136,11 +136,11 @@ public class Fachada {
 		this.controladorCompeticao.cadastrar(competicao);
 	}
 	
-	public ArrayList<Competicao> procurarPorNome(String nome) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+	public ArrayList<Competicao> procurarCompeticaoPorNome(String nome) throws SQLException, CompeticaoNaoCadastradaException, Exception{
 		return this.controladorCompeticao.procurarPorNome(nome);		
 	}
 	
-	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+	public Competicao procurarCompeticaoPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{
 		return this.controladorCompeticao.procurarPorId(id);
 	}
 	

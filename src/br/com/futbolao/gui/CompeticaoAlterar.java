@@ -88,7 +88,7 @@ public class CompeticaoAlterar extends JInternalFrame {
 		campoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoNome.setBounds(10, 92, 344, 20);
 		painelForm.add(campoNome);
-		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(30));
+		campoNome.setDocument(new FormataCampoPermiteTudoUpperCase(50));
 		campoNome.setColumns(10);
 		
 		JLabel lblQuantidadeDeCompeties = new JLabel("Quantidade de Competições:");
@@ -166,7 +166,7 @@ public class CompeticaoAlterar extends JInternalFrame {
 	
 	private void preencheCampos(int id){
 		try {
-			Competicao competicao = fachada.procurarPorId(id);
+			Competicao competicao = fachada.procurarCompeticaoPorId(id);
 			campoID.setText(String.valueOf(competicao.getId()));
 			campoNome.setText(competicao.getNome());
 			campoQntdeRodadas.setText(String.valueOf(competicao.getQtdRodadas()));
