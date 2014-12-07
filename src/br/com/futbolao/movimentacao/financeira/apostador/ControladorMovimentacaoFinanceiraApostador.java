@@ -25,8 +25,7 @@ public class ControladorMovimentacaoFinanceiraApostador {
 	
 	public ArrayList<MovimentacaoFinanceiraApostador> listar() throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 		return repositorio.listar();
-	}
-	
+	}	
 	
 	public void atualizar(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 			if (movimentacaoFinanceiraApostador != null) {

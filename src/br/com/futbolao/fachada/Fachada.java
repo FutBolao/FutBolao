@@ -23,6 +23,7 @@ import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.GrupoJaCadastradoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.IdInvalidoException;
+import br.com.futbolao.exception.MovimentacaoNaoCadastradaException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.exception.PermissaoJaCadastradaException;
 import br.com.futbolao.exception.PermissaoNaoCadastradaException;
@@ -30,6 +31,8 @@ import br.com.futbolao.exception.RodadaJaCadastradaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
 import br.com.futbolao.grupo.ControladorGrupo;
 import br.com.futbolao.grupo.Grupo;
+import br.com.futbolao.movimentacao.financeira.apostador.ControladorMovimentacaoFinanceiraApostador;
+import br.com.futbolao.movimentacao.financeira.apostador.MovimentacaoFinanceiraApostador;
 import br.com.futbolao.permissao.ControladorPermissao;
 import br.com.futbolao.permissao.Permissao;
 import br.com.futbolao.rodada.ControladorRodada;
@@ -45,6 +48,7 @@ public class Fachada {
 	private ControladorPermissao controladorPermissao;
 	private ControladorRodada controladorRodada;
 	private ControladorGrupo controladorGrupo;
+	private ControladorMovimentacaoFinanceiraApostador controladorMovimentacaoFinanceiraApostador;
 	
 	public Fachada() throws Exception {
 		this.controladorApostador = new ControladorApostador();
@@ -54,6 +58,8 @@ public class Fachada {
 		this.controladorPermissao = new ControladorPermissao();
 		this.controladorRodada = new ControladorRodada();
 		this.controladorGrupo = new ControladorGrupo();
+		this.controladorMovimentacaoFinanceiraApostador = new ControladorMovimentacaoFinanceiraApostador();
+		
 	}
 	
 	public static Fachada getInstance() throws Exception {
@@ -229,4 +235,25 @@ public class Fachada {
 		this.controladorGrupo.deletar(id);
 	}
 	
+	
+	//Métodos da Movimentação Financeira do Apostador
+	public void cadastrar(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, Exception{
+		this.controladorMovimentacaoFinanceiraApostador.cadastrar(movimentacaoFinanceiraApostador);
+	}
+	
+	public ArrayList<MovimentacaoFinanceiraApostador> procurar(int idApostador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+		return this.controladorMovimentacaoFinanceiraApostador.procurar(idApostador, tipoMovimentacao);
+	}
+	
+	public ArrayList<MovimentacaoFinanceiraApostador> listar() throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+		return this.controladorMovimentacaoFinanceiraApostador.listar();
+	}
+	
+	public void atualizar(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+		this.controladorMovimentacaoFinanceiraApostador.atualizar(movimentacaoFinanceiraApostador);
+	}
+	
+	public void deletar(int id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+		this.controladorMovimentacaoFinanceiraApostador.deletar(id);
+	}
 }

@@ -30,6 +30,15 @@ public class MovimentacaoFinanceiraApostador {
 		this.valor = valor;
 		this.dataHora = dataHora;
 	}
+	
+	public MovimentacaoFinanceiraApostador(long id, long idApostador,
+			String tipoMovimentacao, double valor) {
+		super();
+		this.id = id;
+		this.idApostador = idApostador;
+		this.tipoMovimentacao = tipoMovimentacao;
+		this.valor = valor;
+	}
 
 	public long getId() {
 		return id;

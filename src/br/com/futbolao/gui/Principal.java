@@ -225,6 +225,35 @@ public class Principal extends JFrame {
 		});
 		mnCompeties.add(mntmCompeticaoListar);
 		
+		JMenu mnMovimentaoFinanceira = new JMenu("Movimenta\u00E7\u00E3o Financeira");
+		menuBar.add(mnMovimentaoFinanceira);
+		
+		JMenu mnApostador_1 = new JMenu("Apostador");
+		mnMovimentaoFinanceira.add(mnApostador_1);
+		
+		JMenuItem mntmCadastrar = new JMenuItem("Cadastrar");
+		mntmCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ApostadorMovimentacaoFinanceiraCadastrar apostadorMovimentacaoFinanceira = new ApostadorMovimentacaoFinanceiraCadastrar();
+				desktopPane.add(apostadorMovimentacaoFinanceira);
+				apostadorMovimentacaoFinanceira.setVisible(true);
+				apostadorMovimentacaoFinanceira.setPosicao();
+			}
+		});
+		mnApostador_1.add(mntmCadastrar);
+		
+		JMenuItem mntmListar = new JMenuItem("Listar");
+		mnApostador_1.add(mntmListar);
+		
+		JMenu mnAdministrador_1 = new JMenu("Administrador");
+		mnMovimentaoFinanceira.add(mnAdministrador_1);
+		
+		JMenuItem mntmCadastrar_1 = new JMenuItem("Cadastrar");
+		mnAdministrador_1.add(mntmCadastrar_1);
+		
+		JMenuItem mntmListar_1 = new JMenuItem("Listar");
+		mnAdministrador_1.add(mntmListar_1);
+		
 		desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());
 		contentPane.add(desktopPane, BorderLayout.CENTER);
 	}
