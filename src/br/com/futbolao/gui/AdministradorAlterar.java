@@ -31,6 +31,7 @@ import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
+import br.com.futbolao.util.FormataCampoPermiteApenasLetrasNumeros;
 import br.com.futbolao.util.FormataCampoPermiteTudo;
 import br.com.futbolao.util.FormataCampoPermiteTudoUpperCase;
 import br.com.futbolao.util.MascaraCampo;
@@ -204,7 +205,7 @@ public class AdministradorAlterar extends JInternalFrame {
 		campoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoUsuario.setBounds(10, 372, 200, 20);
 		getContentPane().add(campoUsuario);
-		campoUsuario.setDocument(new FormataCampoPermiteTudoUpperCase(20));
+		campoUsuario.setDocument(new FormataCampoPermiteApenasLetrasNumeros(20));
 		campoUsuario.setColumns(10);
 		
 		JLabel lblSenha = new JLabel("Senha:");

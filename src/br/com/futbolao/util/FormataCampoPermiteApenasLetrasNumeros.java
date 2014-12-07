@@ -24,7 +24,7 @@ public class FormataCampoPermiteApenasLetrasNumeros extends PlainDocument {
 		}
 		int totalQuantia = (getLength()+str.length());
 		if(totalQuantia <= quantidadeMaxima){
-			super.insertString(offset, str, attr);
+			super.insertString(offset, str.replaceAll("[^0-9|^a-z|^A-Z]", ""), attr);
 			return;
 		}
 		String nova = str.substring(0,getLength()-quantidadeMaxima);

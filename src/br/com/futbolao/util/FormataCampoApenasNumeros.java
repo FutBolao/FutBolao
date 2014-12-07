@@ -31,17 +31,4 @@ public class FormataCampoApenasNumeros extends PlainDocument {
 		super.insertString(offset, nova, attr);
 	}
 	
-	public void replace(int offset, String str, AttributeSet attr) throws BadLocationException {
-		if(str == null || getLength() == quantidadeMaxima){
-			return;
-		}
-		int totalQuantia = (getLength()+str.length());
-		if(totalQuantia <= quantidadeMaxima){
-			super.insertString(offset, str.replaceAll("[^0-9]", ""), attr);
-			return;
-		}
-		String nova = str.substring(0,getLength()-quantidadeMaxima);
-		super.insertString(offset, nova, attr);
-	}
-	
 }
