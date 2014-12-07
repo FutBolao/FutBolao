@@ -24,9 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
-import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.apostador.Apostador;
-import br.com.futbolao.exception.AdministradorNaoCadastradoException;
 import br.com.futbolao.exception.AlteracaoEfetuadaComSucessoException;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.CampoInvalidoException;
@@ -44,6 +42,7 @@ import br.com.futbolao.util.MascaraCampo;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class ApostadorAlterar extends JInternalFrame {
 	private Fachada fachada = null;
 	private MascaraCampo mascara = new MascaraCampo();
@@ -61,6 +60,7 @@ public class ApostadorAlterar extends JInternalFrame {
 	private JTextField campoClube;
 	private JTextField campoUsuario;
 	private JPasswordField campoSenha;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoSexo;
 	private JTextField campoID;
 
@@ -317,6 +317,7 @@ public class ApostadorAlterar extends JInternalFrame {
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean validaCampos(){
 		String nome = campoNome.getText();
 		String cpf = campoCpf.getText();
@@ -508,6 +509,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void alterar(long id){
 		if(validaCampos()){
 			String nome = campoNome.getText();

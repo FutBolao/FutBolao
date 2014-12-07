@@ -158,6 +158,7 @@ public class ApostadorListar extends JInternalFrame {
 		this.tabelaModeloapostador.setNumRows(0);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void procurar(){
 		try {
 			limparTabela();

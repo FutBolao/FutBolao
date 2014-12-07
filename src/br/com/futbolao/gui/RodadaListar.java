@@ -4,17 +4,19 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Font;
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
 
+@SuppressWarnings("serial")
 public class RodadaListar extends JInternalFrame {
 	private JTable tabelaRodada;
 
@@ -37,6 +39,7 @@ public class RodadaListar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("rawtypes")
 	public RodadaListar() {
 		setClosable(true);
 		setTitle("Listar Rodada");

@@ -393,14 +393,14 @@ public class RodadaCadastrar extends JInternalFrame {
 	
 	private void cadastrar(){
 		if(validaCampos()){
-			int competicao = campoCompeticao.getSelectedIndex();
+			int competicao = campoCompeticao.getSelectedIndex() - 1;
 			int numeroRodada = Integer.parseInt(campoNumeroRodada.getText());
 			int numeroJogo = Integer.parseInt(campoNumeroJogo.getText());
 			String data = campoData.getText().substring(6, 10) + "-" + campoData.getText().substring(3, 5) + "-" + campoData.getText().substring(0, 2);
 			String hora = campoHora.getText();
 			String dataHora = data + " " + hora + ":00";
-			int clube1 = campoClube1.getSelectedIndex();
-			int clube2 = campoClube2.getSelectedIndex();
+			int clube1 = campoClube1.getSelectedIndex() - 1;
+			int clube2 = campoClube2.getSelectedIndex() - 1;
 			try {
 				fachada.cadastrarRodada(new Rodada(0, valueCopeticao[competicao], numeroRodada, numeroJogo, dataHora, valueClube1[clube1], valueClube2[clube2]));
 				try {
@@ -415,6 +415,7 @@ public class RodadaCadastrar extends JInternalFrame {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a rodada!");
+				e.printStackTrace();
 			}
 		}
 	}
