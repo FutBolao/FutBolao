@@ -20,6 +20,10 @@ public class ControladorAdministrador {
 		if (administrador != null) {
 			if (Validacao.validaCPF(administrador.getCpf())) {
 				if (!administrador.getNome().equals("")) {
+					administrador.setCpf(administrador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
+					administrador.setDataDeNascimento(administrador.getDataDeNascimento().substring(6, 10) + "-" 
+							 + administrador.getDataDeNascimento().substring(3, 5) + "-" 
+							 + administrador.getDataDeNascimento().substring(0, 2));
 					repositorio.cadastrar(administrador);
 				} else {
 					throw new NomeVazioException();
@@ -57,6 +61,10 @@ public class ControladorAdministrador {
 	public void atualizar(Administrador administrador) throws CpfInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
 		if (administrador != null) {
 			if (Validacao.validaCPF(administrador.getCpf())) {
+				administrador.setCpf(administrador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
+				administrador.setDataDeNascimento(administrador.getDataDeNascimento().substring(6, 10) + "-" 
+						 + administrador.getDataDeNascimento().substring(3, 5) + "-" 
+						 + administrador.getDataDeNascimento().substring(0, 2));
 				repositorio.atualizar(administrador);
 			} else {
 				throw new CpfInvalidoException();

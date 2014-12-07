@@ -20,6 +20,10 @@ public class ControladorApostador {
 		if (apostador != null) {
 			if (Validacao.validaCPF(apostador.getCpf())) {
 				if (!apostador.getNome().equals("")) {
+					apostador.setCpf(apostador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
+					apostador.setDataDeNascimento(apostador.getDataDeNascimento().substring(6, 10) + "-" 
+							 + apostador.getDataDeNascimento().substring(3, 5) + "-" 
+							 + apostador.getDataDeNascimento().substring(0, 2));
 					repositorio.cadastrar(apostador);
 				} else {
 					throw new NomeVazioException();
@@ -57,6 +61,10 @@ public class ControladorApostador {
 	public void atualizar(Apostador apostador) throws CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
 		if (apostador != null) {
 			if (Validacao.validaCPF(apostador.getCpf())) {
+				apostador.setCpf(apostador.getCpf().replace('.',' ').replace('-',' ').replaceAll(" ", ""));
+				apostador.setDataDeNascimento(apostador.getDataDeNascimento().substring(6, 10) + "-" 
+						 + apostador.getDataDeNascimento().substring(3, 5) + "-" 
+						 + apostador.getDataDeNascimento().substring(0, 2));
 				repositorio.atualizar(apostador);
 			} else {
 				throw new CpfInvalidoException();

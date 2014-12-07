@@ -22,8 +22,10 @@ import javax.swing.JButton;
 
 import br.com.futbolao.apostador.Apostador;
 import br.com.futbolao.exception.ApostadorJaCadastradoException;
+import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Endereco;
@@ -34,6 +36,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 
+@SuppressWarnings("serial")
 public class ApostadorCadastrar extends JInternalFrame {
 	private MascaraCampo mascara = new MascaraCampo();
 	private JTextField campoNome;
@@ -49,6 +52,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 	private JTextField campoCidade;
 	private JTextField campoEstado;
 	private JTextField campoPais;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoSexo;
 	Fachada fachada = null;
 	private JTextField campoClube;
@@ -71,12 +75,22 @@ public class ApostadorCadastrar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ApostadorCadastrar() {
+		try {
+			fachada = Fachada.getInstance();
+		} catch (Exception e) {
+			try {
+				throw new ErroAoInstanciarFachadaException();
+			} catch (ErroAoInstanciarFachadaException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			}
+		}
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		setTitle("Cadastro Apostador");
 		setClosable(true);
-		setBounds(100, 100, 445, 520);
+		setBounds(100, 100, 443, 520);
 		getContentPane().setLayout(null);
 		
 		JPanel painelForm = new JPanel();
@@ -158,19 +172,19 @@ public class ApostadorCadastrar extends JInternalFrame {
 		
 		campoRua = new JTextField();
 		campoRua.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoRua.setBounds(10, 222, 332, 20);
+		campoRua.setBounds(10, 222, 318, 20);
 		painelForm.add(campoRua);
 		campoRua.setDocument(new FormataCampoPermiteTudo(50));
 		campoRua.setColumns(10);
 		
 		JLabel lblNumero = new JLabel("N\u00BA:");
 		lblNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNumero.setBounds(344, 194, 51, 14);
+		lblNumero.setBounds(338, 194, 51, 14);
 		painelForm.add(lblNumero);
 		
 		campoNumero = new JTextField();
 		campoNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoNumero.setBounds(344, 222, 51, 20);
+		campoNumero.setBounds(338, 222, 57, 20);
 		painelForm.add(campoNumero);
 		campoNumero.setDocument(new FormataCampoPermiteTudo(6));
 		campoNumero.setColumns(10);
@@ -256,7 +270,6 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoSenha.setBounds(272, 389, 121, 20);
 		painelForm.add(campoSenha);
-		campoSenha.setDocument(new FormataCampoPermiteTudo(50));
 		campoSenha.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
@@ -311,6 +324,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		campoClube.setText("");
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean validarCampos(){
 		String nome = campoNome.getText();
 		String cpf = campoCpf.getText();
@@ -450,6 +464,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 		}
 		return true;
 }
+		@SuppressWarnings("deprecation")
 		public void cadastar(){
 			if(validarCampos()){
 				String nome = campoNome.getText();
@@ -468,9 +483,15 @@ public class ApostadorCadastrar extends JInternalFrame {
 				String clube = campoClube.getText();
 				String usuario = campoUsuario.getText();
 				String senha = campoSenha.getText();
-				Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 				try {
+					Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado, pais);
 					fachada.cadastrarApostador(new Apostador(0, nome, cpf, sexo, telefone, email, endereco, dataDeNascimento, usuario, senha, clube));
+					try {
+						throw new CadastroEfetuadoComSucessoException();
+					} catch (CadastroEfetuadoComSucessoException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					}
+					limparCampos();
 				} catch (NomeVazioException e) {
 					JOptionPane.showMessageDialog(rootPane, e.getMessage());
 				} catch (SQLException e) {
@@ -481,7 +502,7 @@ public class ApostadorCadastrar extends JInternalFrame {
 					JOptionPane.showMessageDialog(rootPane, e.getMessage());
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado no sistema ao tentar cadastrar!");
-				e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 		}
