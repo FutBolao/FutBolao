@@ -102,7 +102,7 @@ public class Fachada {
 		this.controladorAdministrador.atualizar(administrador);
 	}
 	
-	public void deletarAdministrador(int id) throws CpfInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
+	public void deletarAdministrador(long id) throws CpfInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
 		this.controladorAdministrador.deletar(id);
 	}
 	

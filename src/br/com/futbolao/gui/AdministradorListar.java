@@ -138,15 +138,15 @@ public class AdministradorListar extends JInternalFrame {
 		btnAlterar.setBounds(10, 11, 89, 23);
 		painelBotoes.add(btnAlterar);
 		
-		JButton btnRemover = new JButton("Remover");
-		btnRemover.addActionListener(new ActionListener() {
+		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				deletar();
 			}
 		});
-		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnRemover.setBounds(109, 12, 89, 23);
-		painelBotoes.add(btnRemover);
+		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnDeletar.setBounds(109, 12, 89, 23);
+		painelBotoes.add(btnDeletar);
 		setBounds(100, 100, 560, 500);
 
 	}
@@ -213,7 +213,7 @@ public class AdministradorListar extends JInternalFrame {
 				if (confirmacao == 0) {
 					try {
 						int linha = tabelaAdministrador.getSelectedRow();
-						int id = (int) tabelaAdministrador.getValueAt(linha, 0);
+						long id = (long) tabelaAdministrador.getValueAt(linha, 0);
 						fachada.deletarAdministrador(id);
 						procurar();
 					} catch (SQLException e) {
@@ -222,8 +222,8 @@ public class AdministradorListar extends JInternalFrame {
 						JOptionPane.showMessageDialog(rootPane, e.getMessage());
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar deletar administrador!");
+						e.printStackTrace();
 					}
-					
 				}
 			}
 		}

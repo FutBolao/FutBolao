@@ -18,6 +18,7 @@ import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class ApostadorListar extends JInternalFrame {
 	private JTextField campoProcurar;
 	private JTable table;
@@ -99,10 +100,10 @@ public class ApostadorListar extends JInternalFrame {
 		btnAlterar.setBounds(0, 11, 101, 23);
 		painelBotoes.add(btnAlterar);
 		
-		JButton btnRemover = new JButton("Remover");
-		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnRemover.setBounds(111, 11, 104, 23);
-		painelBotoes.add(btnRemover);
+		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnDeletar.setBounds(111, 11, 104, 23);
+		painelBotoes.add(btnDeletar);
 
 	}
 	public void setPosicao() {  

@@ -5,10 +5,10 @@ import br.com.futbolao.util.Endereco;
 
 public class Administrador extends Pessoa {
 	
-	private int id;
+	private long id;
 	private char ativo;
 
-	public Administrador(int id, String nome, String cpf, char sexo, String telefone,
+	public Administrador(long id, String nome, String cpf, char sexo, String telefone,
 			String email, Endereco endereco, String dataDeNascimento,
 			String usuario, String senha, char ativo) {
 		super(nome, cpf, sexo, telefone, email, endereco, dataDeNascimento,
@@ -21,7 +21,7 @@ public class Administrador extends Pessoa {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
