@@ -21,7 +21,6 @@ import javax.swing.JButton;
 
 import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.exception.AdministradorJaCadastradoException;
-import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
@@ -33,6 +32,7 @@ import br.com.futbolao.util.MascaraCampo;
 
 import javax.swing.JPasswordField;
 
+@SuppressWarnings("serial")
 public class AdministradorCadastrar extends JInternalFrame {
 	Fachada fachada = null;
 	private MascaraCampo mascara = new MascaraCampo();
@@ -48,6 +48,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 	private JTextField campoCidade;
 	private JTextField campoEstado;
 	private JTextField campoPais;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoSexo;
 	private JPasswordField campoSenha;
 
@@ -70,6 +71,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AdministradorCadastrar() {
 		try {
 			fachada = Fachada.getInstance();
@@ -297,6 +299,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		campoSexo.setSelectedIndex(0);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean validaCampos(){
 		String nome = campoNome.getText();
 		String cpf = campoCpf.getText();
@@ -312,6 +315,9 @@ public class AdministradorCadastrar extends JInternalFrame {
 		String estado = campoEstado.getText();
 		String pais = campoPais.getText();
 		String senha = campoSenha.getText();
+		int dia = Integer.parseInt(dataDeNascimento.substring(0, 2));
+		int mes = Integer.parseInt(dataDeNascimento.substring(3, 5));
+		int ano = Integer.parseInt(dataDeNascimento.substring(6, 10));
 		if(nome.equals("")){
 			try {
 				throw new CampoInvalidoException();
@@ -376,7 +382,31 @@ public class AdministradorCadastrar extends JInternalFrame {
 				campoUsuario.requestFocus();
 			}
 			return false;
-		}else if(dataDeNascimento.equals("")){
+		} else if (dataDeNascimento.equals("")) {
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+		} else if (dia < 1 || dia > 31) {
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+		} else if (mes < 1 || mes > 12) {
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoDatadeNascimento.requestFocus();
+			}
+			return false;
+		} else if (ano < 1) {
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -429,6 +459,7 @@ public class AdministradorCadastrar extends JInternalFrame {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void cadastrar(){
 		if(validaCampos()){
 			String nome = campoNome.getText();
