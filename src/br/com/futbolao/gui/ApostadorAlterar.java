@@ -83,6 +83,7 @@ public class ApostadorAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ApostadorAlterar(final long id) {
 		try {
 			fachada = Fachada.getInstance();
@@ -480,12 +481,12 @@ public class ApostadorAlterar extends JInternalFrame {
 										+ apostador.getDataDeNascimento().substring(0, 4));
 			String sexo;
 			if(apostador.getSexo() == 'M'){
-				sexo = "Masculino";
+				sexo = "MASCULINO";
 			}else{
-				sexo = "Feminino";
+				sexo = "FEMININO";
 			}
 			campoSexo.setSelectedItem(sexo);
-			campoTelefone.setText(apostador.getTelefone());
+			campoTelefone.setText(apostador.getTelefone().replace(" ", ""));
 			campoEmail.setText(apostador.getEmail());
 			campoNumero.setText(apostador.getEndereco().getNumero());
 			campoRua.setText(apostador.getEndereco().getLogradouro());
@@ -495,6 +496,7 @@ public class ApostadorAlterar extends JInternalFrame {
 			campoUsuario.setText(apostador.getUsuario());
 			campoSenha.setText(apostador.getSenha());
 			campoClube.setText(apostador.getClube());
+			campoBairro.setText(apostador.getEndereco().getBairro());
 		} catch (IdInvalidoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (SQLException e) {
