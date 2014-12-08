@@ -9,26 +9,35 @@ public class MovimentacaoFinanceiraAdministrador {
 	private double valor;
 	private String dataHora;
 	
-	public MovimentacaoFinanceiraAdministrador(long id, long idApostador,
-			String nomeApostador, String tipoMovimentacao, double valor,
+	public MovimentacaoFinanceiraAdministrador(long id, long idAdministrador,
+			String nomeAdministrador, String tipoMovimentacao, double valor,
 			String dataHora) {
 		super();
 		this.id = id;
-		this.idAdministrador = idApostador;
-		this.nomeAdministrador = nomeApostador;
+		this.idAdministrador = idAdministrador;
+		this.nomeAdministrador = nomeAdministrador;
 		this.tipoMovimentacao = tipoMovimentacao;
 		this.valor = valor;
 		this.dataHora = dataHora;
 	}
 
-	public MovimentacaoFinanceiraAdministrador(long id, long idApostador,
+	public MovimentacaoFinanceiraAdministrador(long id, long idAdministrador,
 			String tipoMovimentacao, double valor, String dataHora) {
 		super();
 		this.id = id;
-		this.idAdministrador = idApostador;
+		this.idAdministrador = idAdministrador;
 		this.tipoMovimentacao = tipoMovimentacao;
 		this.valor = valor;
 		this.dataHora = dataHora;
+	}
+	
+	public MovimentacaoFinanceiraAdministrador(long id, long idAdministrador,
+			String tipoMovimentacao, double valor) {
+		super();
+		this.id = id;
+		this.idAdministrador = idAdministrador;
+		this.tipoMovimentacao = tipoMovimentacao;
+		this.valor = valor;
 	}
 
 	public long getId() {
@@ -39,20 +48,20 @@ public class MovimentacaoFinanceiraAdministrador {
 		this.id = id;
 	}
 
-	public long getIdApostador() {
+	public long getIdAdministrador() {
 		return idAdministrador;
 	}
 
-	public void setIdApostador(long idApostador) {
-		this.idAdministrador = idApostador;
+	public void setIdAdministrador(long idAdministrador) {
+		this.idAdministrador = idAdministrador;
 	}
 
-	public String getNomeApostador() {
+	public String getNomeAdministrador() {
 		return nomeAdministrador;
 	}
 
-	public void setNomeApostador(String nomeApostador) {
-		this.nomeAdministrador = nomeApostador;
+	public void setNomeAdministrador(String nomeAdministrador) {
+		this.nomeAdministrador = nomeAdministrador;
 	}
 
 	public String getTipoMovimentacao() {
@@ -81,7 +90,7 @@ public class MovimentacaoFinanceiraAdministrador {
 
 	@Override
 	public String toString() {
-		return "MovimentacaoFinanceiraApostador [id=" + id + ", idAdministrador="
+		return "MovimentacaoFinanceiraAdministrador [id=" + id + ", idAdministrador="
 				+ idAdministrador + ", nomeAdministrador=" + nomeAdministrador
 				+ ", tipoMovimentacao=" + tipoMovimentacao + ", valor=" + valor
 				+ ", dataHora=" + dataHora + "]";

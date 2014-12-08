@@ -41,7 +41,7 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 			} else {
 				ps = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			}
-			ps.setLong(1, movimentacaoFinanceiraAdministrador.getIdApostador());
+			ps.setLong(1, movimentacaoFinanceiraAdministrador.getIdAdministrador());
 			ps.setString(2, movimentacaoFinanceiraAdministrador.getTipoMovimentacao());
 			ps.setDouble(3, movimentacaoFinanceiraAdministrador.getValor());
 			ps.execute();
@@ -105,7 +105,7 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 			// instrução de update da rodada
 			sql = "UPDATE " + NOME_TABELA + " SET id_administrador=?, tipo_movimentacao=?, valor=?, data_hora=NOW() WHERE id=?;";
 			ps = this.connection.prepareStatement(sql);
-			ps.setLong(1, movimentacaoFinanceiraAdministrador.getIdApostador());
+			ps.setLong(1, movimentacaoFinanceiraAdministrador.getIdAdministrador());
 			ps.setString(2, movimentacaoFinanceiraAdministrador.getTipoMovimentacao());
 			ps.setDouble(3, movimentacaoFinanceiraAdministrador.getValor());
 			ps.setLong(4, movimentacaoFinanceiraAdministrador.getId());

@@ -249,6 +249,14 @@ public class Principal extends JFrame {
 		mnMovimentaoFinanceira.add(mnAdministrador_1);
 		
 		JMenuItem mntmCadastrar_1 = new JMenuItem("Cadastrar");
+		mntmCadastrar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AdministradorMovimentacaoFinanceiraCadastrar administradorMovimentacaoFinanceiraCadastrar = new AdministradorMovimentacaoFinanceiraCadastrar();
+				desktopPane.add(administradorMovimentacaoFinanceiraCadastrar);
+				administradorMovimentacaoFinanceiraCadastrar.setVisible(true);
+				administradorMovimentacaoFinanceiraCadastrar.setPosicao();
+			}
+		});
 		mnAdministrador_1.add(mntmCadastrar_1);
 		
 		JMenuItem mntmListar_1 = new JMenuItem("Listar");

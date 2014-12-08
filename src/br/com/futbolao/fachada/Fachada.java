@@ -31,6 +31,8 @@ import br.com.futbolao.exception.RodadaJaCadastradaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
 import br.com.futbolao.grupo.ControladorGrupo;
 import br.com.futbolao.grupo.Grupo;
+import br.com.futbolao.movimentacao.financeira.administrador.ControladorMovimentacaoFinanceiraAdministrador;
+import br.com.futbolao.movimentacao.financeira.administrador.MovimentacaoFinanceiraAdministrador;
 import br.com.futbolao.movimentacao.financeira.apostador.ControladorMovimentacaoFinanceiraApostador;
 import br.com.futbolao.movimentacao.financeira.apostador.MovimentacaoFinanceiraApostador;
 import br.com.futbolao.permissao.ControladorPermissao;
@@ -49,6 +51,7 @@ public class Fachada {
 	private ControladorRodada controladorRodada;
 	private ControladorGrupo controladorGrupo;
 	private ControladorMovimentacaoFinanceiraApostador controladorMovimentacaoFinanceiraApostador;
+	private ControladorMovimentacaoFinanceiraAdministrador controladorMovimentacaoFinanceiraAdministrador;
 	
 	public Fachada() throws Exception {
 		this.controladorApostador = new ControladorApostador();
@@ -59,7 +62,7 @@ public class Fachada {
 		this.controladorRodada = new ControladorRodada();
 		this.controladorGrupo = new ControladorGrupo();
 		this.controladorMovimentacaoFinanceiraApostador = new ControladorMovimentacaoFinanceiraApostador();
-		
+		this.controladorMovimentacaoFinanceiraAdministrador = new ControladorMovimentacaoFinanceiraAdministrador();
 	}
 	
 	public static Fachada getInstance() throws Exception {
@@ -219,41 +222,63 @@ public class Fachada {
 		this.controladorGrupo.cadastrar(grupo);
 	}
 	
-	public ArrayList<Grupo> procurarPorNome(String nome) throws SQLException, NomeVazioException, Exception{
+	public ArrayList<Grupo> procurarGrupoPorNome(String nome) throws SQLException, NomeVazioException, Exception{
 		return this.controladorGrupo.procurarPorNome(nome);
 	}
 	
-	public Grupo procurarPorId(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
+	public Grupo procurarGrupoPorId(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
 		return this.controladorGrupo.procurarPorId(id);
 	}
 	
-	public void atualizar(Grupo grupo) throws SQLException, GrupoNaoCadastradoException, Exception{
+	public void atualizarGrupo(Grupo grupo) throws SQLException, GrupoNaoCadastradoException, Exception{
 		this.controladorGrupo.atualizar(grupo);
 	}
 	
-	public void deletar(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
+	public void deletarGrupo(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
 		this.controladorGrupo.deletar(id);
 	}
 	
 	
 	//Métodos da Movimentação Financeira do Apostador
-	public void cadastrar(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, Exception{
+	public void cadastrarMovimentacaoFinanceiraApostador(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, Exception{
 		this.controladorMovimentacaoFinanceiraApostador.cadastrar(movimentacaoFinanceiraApostador);
 	}
 	
-	public ArrayList<MovimentacaoFinanceiraApostador> procurar(int idApostador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+	public ArrayList<MovimentacaoFinanceiraApostador> procurarMovimentacaoFinanceiraApostador(int idApostador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 		return this.controladorMovimentacaoFinanceiraApostador.procurar(idApostador, tipoMovimentacao);
 	}
 	
-	public ArrayList<MovimentacaoFinanceiraApostador> listar() throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+	public ArrayList<MovimentacaoFinanceiraApostador> listarMovimentacaoFinanceiraApostador() throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 		return this.controladorMovimentacaoFinanceiraApostador.listar();
 	}
 	
-	public void atualizar(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+	public void atualizarMovimentacaoFinanceiraApostador(MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 		this.controladorMovimentacaoFinanceiraApostador.atualizar(movimentacaoFinanceiraApostador);
 	}
 	
-	public void deletar(int id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+	public void deletarMovimentacaoFinanceiraApostador(int id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 		this.controladorMovimentacaoFinanceiraApostador.deletar(id);
 	}
+	
+	
+	//Métodos da Movimentação Financeira do Administrador
+		public void cadastrarMovimentacaoFinanceiraAdministrador(MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador) throws SQLException, Exception{
+			this.controladorMovimentacaoFinanceiraAdministrador.cadastrar(movimentacaoFinanceiraAdministrador);
+		}
+		
+		public ArrayList<MovimentacaoFinanceiraAdministrador> procurarMovimentacaoFinanceiraAdministrador(int idAdministrador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+			return this.controladorMovimentacaoFinanceiraAdministrador.procurar(idAdministrador, tipoMovimentacao);
+		}
+		
+		public ArrayList<MovimentacaoFinanceiraAdministrador> listarMovimentacaoFinanceiraAdministrador() throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+			return this.controladorMovimentacaoFinanceiraAdministrador.listar();
+		}
+		
+		public void atualizarMovimentacaoFinanceiraAdministrador(MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+			this.controladorMovimentacaoFinanceiraAdministrador.atualizar(movimentacaoFinanceiraAdministrador);
+		}
+		
+		public void deletarMovimentacaoFinanceiraAdministrador(int id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+			this.controladorMovimentacaoFinanceiraAdministrador.deletar(id);
+		}
 }
