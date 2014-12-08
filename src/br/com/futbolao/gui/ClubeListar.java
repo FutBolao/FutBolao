@@ -224,6 +224,5 @@ public class ClubeListar extends JInternalFrame {
 				}
 			}
 		}
-	}
-	
+	}	
 }

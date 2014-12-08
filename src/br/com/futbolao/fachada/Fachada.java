@@ -16,6 +16,7 @@ import br.com.futbolao.exception.AdministradorNaoCadastradoException;
 import br.com.futbolao.exception.ApostadorJaCadastradoException;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.ClubeJaCadastradoException;
+import br.com.futbolao.exception.ClubeJaCadastradoNessaRodadaException;
 import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.CompeticaoJaCadastradaException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
@@ -23,11 +24,12 @@ import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.GrupoJaCadastradoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.IdInvalidoException;
+import br.com.futbolao.exception.JogoJaCadastradoNessaRodadaException;
+import br.com.futbolao.exception.JogoNaoCadastradoNessaRodadaException;
 import br.com.futbolao.exception.MovimentacaoNaoCadastradaException;
 import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.exception.PermissaoJaCadastradaException;
 import br.com.futbolao.exception.PermissaoNaoCadastradaException;
-import br.com.futbolao.exception.RodadaJaCadastradaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
 import br.com.futbolao.grupo.ControladorGrupo;
 import br.com.futbolao.grupo.Grupo;
@@ -196,7 +198,7 @@ public class Fachada {
 	
 	
 	//Métodos da Rodada
-	public void cadastrarRodada(Rodada rodada) throws SQLException, RodadaJaCadastradaException, Exception{
+	public void cadastrarRodada(Rodada rodada) throws SQLException, ClubeJaCadastradoNessaRodadaException, JogoJaCadastradoNessaRodadaException, Exception{
 		this.controladorRodada.cadastrar(rodada);
 	}
 	
@@ -207,12 +209,16 @@ public class Fachada {
 	public ArrayList<Rodada> listarRodada() throws SQLException, RodadaNaoCadastradaException, Exception{
 		return this.controladorRodada.listar();
 	}
+
+	public Rodada procurarRodadaPorId(long id) throws SQLException, RodadaNaoCadastradaException, Exception{
+		return this.controladorRodada.procurarPorId(id);
+	}
 	
-	public void atualizarRodada(Rodada rodada) throws SQLException, RodadaNaoCadastradaException, Exception{
+	public void atualizarRodada(Rodada rodada) throws SQLException, ClubeJaCadastradoNessaRodadaException, JogoJaCadastradoNessaRodadaException, JogoNaoCadastradoNessaRodadaException, Exception{
 		this.controladorRodada.atualizar(rodada);
 	}
 	
-	public void deletarRodada(int id) throws SQLException, RodadaNaoCadastradaException, Exception{
+	public void deletarRodada(long id) throws SQLException, RodadaNaoCadastradaException, Exception{
 		this.controladorRodada.deletar(id);
 	}
 	

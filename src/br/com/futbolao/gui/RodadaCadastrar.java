@@ -42,7 +42,7 @@ public class RodadaCadastrar extends JInternalFrame {
 	private JFormattedTextField campoHora;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoCompeticao;
-	private int[] valueCopeticao;
+	private int[] valueCompeticao;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoClube1;
 	private int[] valueClube1;
@@ -340,10 +340,11 @@ public class RodadaCadastrar extends JInternalFrame {
 		try {
 			campoCompeticao.addItem("");
 			lista = fachada.listarCompeticao();
-			valueCopeticao = new int[lista.size()];
-			for (int i = 0; i < lista.size(); i++) {
-				campoCompeticao.addItem(lista.get(i).getNome());
-				valueCopeticao[i] = lista.get(i).getId();
+			valueCompeticao = new int[(lista.size() + 1)];
+			valueCompeticao[0] = 0;
+			for (int i = 1; i <= lista.size(); i++) {
+				campoCompeticao.addItem(lista.get(i-1).getNome());
+				valueCompeticao[i] = lista.get(i-1).getId();
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -362,13 +363,15 @@ public class RodadaCadastrar extends JInternalFrame {
 		campoClube2.addItem("");
 		try {
 			lista = fachada.listarClube('S');
-			valueClube1 = new int[lista.size()];
-			valueClube2 = new int[lista.size()];
+			valueClube1 = new int[(lista.size() + 1)];
+			valueClube1[0] = 0;
+			valueClube2 = new int[(lista.size() + 1)];
+			valueClube2[0] = 0;
 			for (int i = 1; i <= lista.size(); i++) {
-				campoClube1.addItem(lista.get(i).getNome());
-				valueClube1[i] = lista.get(i).getId();
-				campoClube2.addItem(lista.get(i).getNome());
-				valueClube2[i] = lista.get(i).getId();
+				campoClube1.addItem(lista.get(i-1).getNome());
+				valueClube1[i] = lista.get(i-1).getId();
+				campoClube2.addItem(lista.get(i-1).getNome());
+				valueClube2[i] = lista.get(i-1).getId();
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -395,7 +398,7 @@ public class RodadaCadastrar extends JInternalFrame {
 			int clube1 = campoClube1.getSelectedIndex();
 			int clube2 = campoClube2.getSelectedIndex();
 			try {
-				fachada.cadastrarRodada(new Rodada(0, valueCopeticao[competicao], numeroRodada, numeroJogo, dataHora, valueClube1[clube1], valueClube2[clube2]));
+				fachada.cadastrarRodada(new Rodada(0, valueCompeticao[competicao], numeroRodada, numeroJogo, dataHora, valueClube1[clube1], valueClube2[clube2]));
 				try {
 					throw new CadastroEfetuadoComSucessoException();
 				} catch (CadastroEfetuadoComSucessoException e) {

@@ -36,7 +36,7 @@ public class ClubeAlterar extends JInternalFrame {
 	private JTextField campoNome;
 	private JTextField campoSigla;
 	private JTextField campoId;
-	private JButton btnCadastrar;
+	private JButton btnAlterar;
 	private JTextField campoEstado;
 	private JTextField campoPais;
 	private JCheckBox campoAtivo;
@@ -129,15 +129,15 @@ public class ClubeAlterar extends JInternalFrame {
 		lblPais.setBounds(208, 123, 24, 14);
 		painelForm.add(lblPais);
 		
-		btnCadastrar = new JButton("Alterar");
-		btnCadastrar.addActionListener(new ActionListener() {
+		btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				alterar(id);
 			}
 		});
-		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCadastrar.setBounds(10, 179, 89, 23);
-		painelForm.add(btnCadastrar);
+		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAlterar.setBounds(10, 179, 89, 23);
+		painelForm.add(btnAlterar);
 		
 		JLabel lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));

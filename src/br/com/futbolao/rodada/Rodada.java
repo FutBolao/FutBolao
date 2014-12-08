@@ -10,10 +10,10 @@ public class Rodada {
 	private String dataHora;
 	private int clube1;
 	private String nomeClube1;
-	private int resultadoClube1;
+	private Integer resultadoClube1;
 	private int clube2;
 	private String nomeClube2;
-	private int resultadoClube2;
+	private Integer resultadoClube2;
 	
 	public Rodada(long id, int idCompeticao, int numeroRodada, int idJogo,
 			String dataHora, int clube1,int clube2) {
@@ -28,8 +28,7 @@ public class Rodada {
 	}
 	
 	public Rodada(long id, int idCompeticao, int numeroRodada, int idJogo,
-			String dataHora, int clube1, int resultadoClube1, int clube2,
-			int resultadoClube2) {
+			String dataHora, int clube1, Integer resultadoClube1, int clube2, Integer resultadoClube2) {
 		super();
 		this.id = id;
 		this.idCompeticao = idCompeticao;
@@ -44,8 +43,8 @@ public class Rodada {
 
 	public Rodada(long id, int idCompeticao, String nomeCompeticao,
 			int numeroRodada, int idJogo, String dataHora, int clube1,
-			String nomeClube1, int resultadoClube1, int clube2,
-			String nomeClube2, int resultadoClube2) {
+			String nomeClube1, Integer resultadoClube1, int clube2,
+			String nomeClube2, Integer resultadoClube2) {
 		super();
 		this.id = id;
 		this.idCompeticao = idCompeticao;
@@ -125,11 +124,11 @@ public class Rodada {
 		this.nomeClube1 = nomeClube1;
 	}
 
-	public int getResultadoClube1() {
+	public Integer getResultadoClube1() {
 		return resultadoClube1;
 	}
 
-	public void setResultadoClube1(int resultadoClube1) {
+	public void setResultadoClube1(Integer resultadoClube1) {
 		this.resultadoClube1 = resultadoClube1;
 	}
 
@@ -149,11 +148,11 @@ public class Rodada {
 		this.nomeClube2 = nomeClube2;
 	}
 
-	public int getResultadoClube2() {
+	public Integer getResultadoClube2() {
 		return resultadoClube2;
 	}
 
-	public void setResultadoClube2(int resultadoClube2) {
+	public void setResultadoClube2(Integer resultadoClube2) {
 		this.resultadoClube2 = resultadoClube2;
 	}
 
