@@ -7,6 +7,7 @@ import br.com.futbolao.exception.ClubeJaCadastradoNessaRodadaException;
 import br.com.futbolao.exception.JogoJaCadastradoNessaRodadaException;
 import br.com.futbolao.exception.JogoNaoCadastradoNessaRodadaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
+import br.com.futbolao.exception.RodadaTravadaException;
 
 
 public class ControladorRodada {
@@ -17,7 +18,7 @@ public class ControladorRodada {
 		this.repositorio = new RepositorioRodada();
 	}
 	
-	public void cadastrar(Rodada rodada) throws SQLException, ClubeJaCadastradoNessaRodadaException, JogoJaCadastradoNessaRodadaException, Exception{	
+	public void cadastrar(Rodada rodada) throws SQLException, RodadaTravadaException, ClubeJaCadastradoNessaRodadaException, JogoJaCadastradoNessaRodadaException, Exception{	
 			if (rodada != null) {
 				repositorio.cadastrar(rodada);
 			}

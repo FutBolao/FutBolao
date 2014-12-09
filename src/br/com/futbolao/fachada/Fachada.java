@@ -31,6 +31,7 @@ import br.com.futbolao.exception.NomeVazioException;
 import br.com.futbolao.exception.PermissaoJaCadastradaException;
 import br.com.futbolao.exception.PermissaoNaoCadastradaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
+import br.com.futbolao.exception.RodadaTravadaException;
 import br.com.futbolao.grupo.ControladorGrupo;
 import br.com.futbolao.grupo.Grupo;
 import br.com.futbolao.movimentacao.financeira.administrador.ControladorMovimentacaoFinanceiraAdministrador;
@@ -75,7 +76,7 @@ public class Fachada {
 	}
 	
 	//Métodos do Apostador
-	public void cadastrarApostador(Apostador apostador) throws SQLException, ApostadorJaCadastradoException, NomeVazioException, CpfInvalidoException, Exception{
+	public void cadastrarApostador(Apostador apostador) throws SQLException, RodadaTravadaException, ApostadorJaCadastradoException, NomeVazioException, CpfInvalidoException, Exception{
 		this.controladorApostador.cadastrar(apostador);
 	}
 	

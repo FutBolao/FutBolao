@@ -1,7 +1,9 @@
 package br.com.futbolao.gui;
 
 import java.awt.EventQueue;
+
 import javax.swing.JInternalFrame;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
@@ -10,6 +12,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,18 +20,22 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
 import br.com.futbolao.clube.Clube;
 import br.com.futbolao.competicao.Competicao;
 import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.ClubeJaCadastradoNessaRodadaException;
 import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.RodadaJaCadastradaException;
+import br.com.futbolao.exception.RodadaTravadaException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.rodada.Rodada;
 import br.com.futbolao.util.FormataCampoApenasNumeros;
 import br.com.futbolao.util.MascaraCampo;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -407,10 +414,15 @@ public class RodadaCadastrar extends JInternalFrame {
 				limparCampos();
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (RodadaTravadaException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (ClubeJaCadastradoNessaRodadaException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (RodadaJaCadastradaException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a rodada!");
+				e.printStackTrace();
 			}
 		}
 	}

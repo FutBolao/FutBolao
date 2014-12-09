@@ -14,6 +14,7 @@ import br.com.futbolao.exception.JogoJaCadastradoNessaRodadaException;
 import br.com.futbolao.exception.JogoNaoCadastradoNessaRodadaException;
 import br.com.futbolao.exception.RodadaJaCadastradaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
+import br.com.futbolao.exception.RodadaTravadaException;
 
 public class RepositorioRodada implements IRepositorioRodada {
 	
@@ -35,39 +36,40 @@ public class RepositorioRodada implements IRepositorioRodada {
 	}
 
 	@Override
-	public void cadastrar(Rodada rodada) throws SQLException, ClubeJaCadastradoNessaRodadaException, JogoJaCadastradoNessaRodadaException, Exception {
+	public void cadastrar(Rodada rodada) throws SQLException, RodadaTravadaException, ClubeJaCadastradoNessaRodadaException, JogoJaCadastradoNessaRodadaException, Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
-		if (existeClubeNaRodada(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2())) {
-			if (existe(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getIdJogo()) == false){
-				sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, clube1, resultado_clube1, "
-						+ "clube2, resultado_clube2) VALUES (?,?,?,?,?,?,?);";
-				if (this.dataBase == DataBase.ORACLE) {
-					ps = this.connection.prepareStatement(sql, new String[] { "id" });
+		if (existeTrava(rodada.getIdCompeticao(), rodada.getNumeroRodada()) ==  false){
+			if (existeClubeNaRodada(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2()) == false) {
+				if (existe(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getIdJogo()) == false){
+					sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, clube1, clube2) VALUES (?,?,?,?,?);";
+					if (this.dataBase == DataBase.ORACLE) {
+						ps = this.connection.prepareStatement(sql, new String[] { "id" });
+					} else {
+						ps = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					}
+					ps.setInt(1, rodada.getIdCompeticao());
+					ps.setInt(2, rodada.getNumeroRodada());
+					ps.setInt(3, rodada.getIdJogo());
+					ps.setInt(4, rodada.getClube1());
+					ps.setInt(5, rodada.getClube2());
+					ps.execute();
+					rs = ps.getGeneratedKeys();
+					long id = 0;
+					// Pegando o identificador gerado a partir do último insert
+					while (rs.next()) {
+						id = rs.getLong(1);
+					}
+					rodada.setId(id);
 				} else {
-					ps = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					throw new JogoJaCadastradoNessaRodadaException();
 				}
-				ps.setInt(1, rodada.getIdCompeticao());
-				ps.setInt(2, rodada.getNumeroRodada());
-				ps.setInt(3, rodada.getIdJogo());
-				ps.setInt(4, rodada.getClube1());
-				ps.setInt(5, rodada.getResultadoClube1());
-				ps.setInt(6, rodada.getClube2());
-				ps.setInt(7, rodada.getResultadoClube2());
-				ps.execute();
-				rs = ps.getGeneratedKeys();
-				long id = 0;
-				// Pegando o identificador gerado a partir do último insert
-				while (rs.next()) {
-					id = rs.getLong(1);
-				}
-				rodada.setId(id);
 			} else {
-				throw new JogoJaCadastradoNessaRodadaException();
+				throw new ClubeJaCadastradoNessaRodadaException();
 			}
 		} else {
-			throw new ClubeJaCadastradoNessaRodadaException();
+			throw new RodadaTravadaException();
 		}
 		ps.close();
 		rs.close();
@@ -248,6 +250,24 @@ public class RepositorioRodada implements IRepositorioRodada {
 			}else{
 				resposta = true;
 			}
+		}
+		ps.close();
+		rs.close();
+		return resposta;
+	}
+	
+	private boolean existeTrava(int idCompeticao, int numeroDaRodada) throws SQLException, Exception{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		sql = "SELECT * FROM " + NOME_TABELA + " WHERE id_competicao=? and numero_rodada=? and trava='S'";
+		boolean resposta = false;		
+		ps = connection.prepareStatement(sql);
+		ps.setInt(1, idCompeticao);
+		ps.setInt(2, numeroDaRodada);
+		rs = ps.executeQuery();
+		if(rs.next()){
+				resposta = true;
 		}
 		ps.close();
 		rs.close();
