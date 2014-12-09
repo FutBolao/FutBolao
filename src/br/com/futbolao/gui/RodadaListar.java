@@ -22,7 +22,9 @@ import br.com.futbolao.competicao.Competicao;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.ConfirmacaoDeExclusaoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.RodadaDestravadaComSucessoException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
+import br.com.futbolao.exception.RodadaTravadaComSucessoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.rodada.Rodada;
 
@@ -40,11 +42,14 @@ public class RodadaListar extends JInternalFrame {
 	private String[] colunaTabelaRodada;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoCompeticao;
-	private JButton btnProcurar;
 	private int[] valueCopeticao;
 	private int[] valueRodada;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoRodada;
+	private JButton btnTravarRodada;
+	private JButton btnDestravarRodada;
+	private JButton btnDeletar;
+	private JButton btnAlterar;
 
 	/**
 	 * Launch the application.
@@ -94,17 +99,6 @@ public class RodadaListar extends JInternalFrame {
 		lblSelelcioneCompeticao.setBounds(10, 11, 133, 20);
 		painelTabela.add(lblSelelcioneCompeticao);
 		
-		btnProcurar = new JButton("Procurar");
-		btnProcurar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				procurar();
-			}
-		});
-		btnProcurar.setEnabled(false);
-		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnProcurar.setBounds(534, 41, 89, 23);
-		painelTabela.add(btnProcurar);
-		
 		JScrollPane scrollPaneRodada = new JScrollPane();
 		scrollPaneRodada.setBounds(10, 73, 1044, 271);
 		painelTabela.add(scrollPaneRodada);
@@ -141,7 +135,10 @@ public class RodadaListar extends JInternalFrame {
 					limparTabela();
 				}else{
 					campoRodada.removeAllItems();
-					btnProcurar.setEnabled(false);
+					btnAlterar.setEnabled(false);
+					btnDeletar.setEnabled(false);
+					btnTravarRodada.setEnabled(false);
+					btnDestravarRodada.setEnabled(false);
 					limparTabela();
 				}
 			}
@@ -155,22 +152,27 @@ public class RodadaListar extends JInternalFrame {
 		campoRodada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (campoRodada.getSelectedIndex() > 0){
-					btnProcurar.setEnabled(true);
+					btnAlterar.setEnabled(true);
+					btnDeletar.setEnabled(true);
 					limparTabela();
+					procurar();
 				}else{
-					btnProcurar.setEnabled(false);
+					btnAlterar.setEnabled(false);
+					btnDeletar.setEnabled(false);
+					btnTravarRodada.setEnabled(false);
+					btnDestravarRodada.setEnabled(false);
 					limparTabela();
 				}
 			}
 		});
 		campoRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoRodada.setBounds(465, 42, 59, 20);
+		campoRodada.setBounds(465, 42, 111, 20);
 		campoRodada.setMaximumRowCount(20);
 		painelTabela.add(campoRodada);
 		
-		JLabel lblRodada = new JLabel("Rodada:");
+		JLabel lblRodada = new JLabel("Selecione a rodada:");
 		lblRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblRodada.setBounds(465, 15, 44, 20);
+		lblRodada.setBounds(465, 15, 111, 20);
 		painelTabela.add(lblRodada);
 		
 		JPanel painelBotoes = new JPanel();
@@ -179,7 +181,8 @@ public class RodadaListar extends JInternalFrame {
 		getContentPane().add(painelBotoes);
 		painelBotoes.setLayout(null);
 		
-		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar = new JButton("Alterar");
+		btnAlterar.setEnabled(false);
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				alterar();
@@ -189,7 +192,8 @@ public class RodadaListar extends JInternalFrame {
 		btnAlterar.setBounds(10, 11, 89, 23);
 		painelBotoes.add(btnAlterar);
 		
-		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar = new JButton("Deletar");
+		btnDeletar.setEnabled(false);
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				deletar();
@@ -199,14 +203,27 @@ public class RodadaListar extends JInternalFrame {
 		btnDeletar.setBounds(109, 12, 89, 23);
 		painelBotoes.add(btnDeletar);
 		
-		JButton btnTravarRodada = new JButton("Travar Rodada");
+		btnTravarRodada = new JButton("Travar Rodada");
+		btnTravarRodada.setEnabled(false);
 		btnTravarRodada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				travar();
 			}
 		});
 		btnTravarRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTravarRodada.setBounds(208, 12, 111, 23);
 		painelBotoes.add(btnTravarRodada);
+		
+		btnDestravarRodada = new JButton("Destravar Rodada");
+		btnDestravarRodada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				destravar();
+			}
+		});
+		btnDestravarRodada.setEnabled(false);
+		btnDestravarRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnDestravarRodada.setBounds(329, 11, 133, 23);
+		painelBotoes.add(btnDestravarRodada);
 		
 		listaCompeticao();
 
@@ -271,6 +288,7 @@ public class RodadaListar extends JInternalFrame {
 		int numeroDaRodada = campoRodada.getSelectedIndex();
 		ArrayList<Rodada> lista = new ArrayList<>();
 		try {
+			char acaoDosBotoes = ' ';
 			lista = fachada.procurarRodada(valueCopeticao[idCompeticao], valueRodada[numeroDaRodada]);
 			for (Rodada rodada: lista) {
 				Vector vector = new Vector();
@@ -284,6 +302,16 @@ public class RodadaListar extends JInternalFrame {
 				vector.add(rodada.getResultadoClube2());
 				vector.add(rodada.getTrava());
 				modeloTabelaRodada.addRow(vector);
+				acaoDosBotoes = rodada.getTrava();
+			}
+			if (acaoDosBotoes == 'S') {
+				btnDestravarRodada.setEnabled(true);
+				btnTravarRodada.setEnabled(false);
+				btnAlterar.setEnabled(false);
+				btnDeletar.setEnabled(false);
+			} else {
+				btnTravarRodada.setEnabled(true);
+				btnDestravarRodada.setEnabled(false);
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -326,6 +354,42 @@ public class RodadaListar extends JInternalFrame {
 					}
 				}
 			}
+		}
+	}
+	
+	private void travar(){
+		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		int numeroDaRodada = valueRodada[campoRodada.getSelectedIndex()];
+		try {
+			fachada.travarRodada(idCompeticao, numeroDaRodada);
+			procurar();
+			try {
+				throw new RodadaTravadaComSucessoException();
+			} catch (RodadaTravadaComSucessoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao travar a rodada!");
+		}
+	}
+	
+	private void destravar(){
+		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		int numeroDaRodada = valueRodada[campoRodada.getSelectedIndex()];
+		try {
+			fachada.destravarRodada(idCompeticao, numeroDaRodada);
+			procurar();
+			try {
+				throw new RodadaDestravadaComSucessoException();
+			} catch (RodadaDestravadaComSucessoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao travar a rodada!");
 		}
 	}
 }

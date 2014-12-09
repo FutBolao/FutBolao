@@ -194,7 +194,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 	}
 	
 	public void travar(int idCompeticao, int numeroRodada) throws SQLException, Exception {
-		if(idCompeticao == 0 || numeroRodada == 0){
+		if(idCompeticao != 0 && numeroRodada != 0){
 			PreparedStatement ps = null;
 			String sql = "";
 			// instrução de update da rodada
@@ -208,7 +208,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 	}
 	
 	public void destravar(int idCompeticao, int numeroRodada) throws SQLException, Exception {
-		if(idCompeticao == 0 || numeroRodada == 0){
+		if(idCompeticao != 0 && numeroRodada != 0){
 			PreparedStatement ps = null;
 			String sql = "";
 			// instrução de update da rodada
