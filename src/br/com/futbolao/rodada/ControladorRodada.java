@@ -24,7 +24,7 @@ public class ControladorRodada {
 			}
 	}
 	
-	public <T> ArrayList<T> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
+	public ArrayList<Rodada> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
 		return repositorio.procurar(idCompeticao, numeroDaRodada);
 	}
 	
@@ -32,6 +32,10 @@ public class ControladorRodada {
 		return repositorio.listar();
 	}
 
+	public ArrayList<Integer> listarPorCompeticao(int idCompeticao, char trava) throws SQLException, RodadaNaoCadastradaException, Exception{
+		return repositorio.listarPorCompeticao(idCompeticao, trava);
+	}
+	
 	public Rodada procurarPorId(long id) throws SQLException, RodadaNaoCadastradaException, Exception{
 		return repositorio.procurarPorId(id);
 	}

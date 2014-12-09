@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -34,7 +35,7 @@ public class GrupoCadastrar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JMoneyField campoValorAposta;
 	private JTextField campoLimiteApostas;
-	private JMoneyField campoPercentualADM;
+	private JFormattedTextField campoPercentualADM;
 	private JTextField campoLimiteApostador;
 	private JTextField campoEncerramentoAposta;
 	private JTextField campoPontuacaoResultado;
@@ -117,7 +118,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		lblPercentualdoADM.setBounds(10, 135, 157, 20);
 		painelCadastrar.add(lblPercentualdoADM);
 		
-		campoPercentualADM = new JMoneyField();
+		campoPercentualADM = new JFormattedTextField();
 		campoPercentualADM.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoPercentualADM.setColumns(10);
 		campoPercentualADM.setBounds(10, 166, 100, 20);
@@ -146,13 +147,6 @@ public class GrupoCadastrar extends JInternalFrame {
 		painelCadastrar.add(lblRodada);
 		
 		campoRodada = new JComboBox();
-		campoRodada.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (campoCompeticao.getSelectedIndex() != 0) {
-					listaRodada();
-				}
-			}
-		});
 		campoRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoRodada.setBounds(315, 42, 55, 20);
 		painelCadastrar.add(campoRodada);
@@ -225,7 +219,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		ArrayList<Competicao> lista = new ArrayList<>();
 		try {
 			campoCompeticao.addItem("");
-			lista = fachada.listarCompeticao();
+			lista = fachada.listarCompeticaoComRodada();
 			valueCopeticao = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoCompeticao.addItem(lista.get(i-1).getNome());
@@ -247,7 +241,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
 		try {
 			campoRodada.addItem("");
-			lista = fachada.procurarRodada(idCompeticao, 0);
+			lista = fachada.listarRodadaPorCompeticao(idCompeticao, 'N');
 			valueRodada = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoRodada.addItem(lista.get(i-1));

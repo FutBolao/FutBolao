@@ -15,6 +15,7 @@ import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 public class RepositorioCompeticao implements IRepositorioCompeticao{
 
 	public static final String NOME_TABELA = "competicao";
+	public static final String NOME_VIEW_RODADA = "vw_rodada";
 	private Connection connection;
 	private int dataBase = 0;
 	
@@ -58,6 +59,34 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		ps.close();
 		rs.close();
 	}
+	
+	// método para listar competição que tem rodada cadastrada.
+	public ArrayList<Competicao> listarCompeticaoComRodada() throws SQLException, CompeticaoNaoCadastradaException, Exception {
+		ArrayList<Competicao> competicoes = new ArrayList<Competicao>();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		sql = "SELECT DISTINCT id_competicao, nome_competicao FROM " + NOME_VIEW_RODADA + " ";
+		sql += "WHERE id IS NOT NULL AND trava='N'";
+		sql += " ORDER BY id_competicao DESC;";
+		ps = this.connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
+		// resultado de cada linha ao array de clube, até que haja linhas.
+		rs.first();
+		if (rs.getRow() > 0) {
+			rs.beforeFirst();
+			while (rs.next()) {
+			Competicao competicao = new Competicao(rs.getInt("id_competicao"), rs.getString("nome_competicao"));
+			competicoes.add(competicao);
+			}
+		}else{
+			throw new CompeticaoNaoCadastradaException();
+		}
+		ps.close();
+		rs.close();
+		return competicoes;
+	}
 
 	// método para listar competição.
 	public ArrayList<Competicao> listar(String complemento) throws SQLException, CompeticaoNaoCadastradaException, Exception {
@@ -96,8 +125,12 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		return listar(" and id =" + id).get(0);
 	}
 	
-	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception {
-		return listar("");
+	public ArrayList<Competicao> listar(char ativo) throws SQLException, CompeticaoNaoCadastradaException, Exception {
+		if(ativo == ' '){
+			return listar("");	
+		}else{
+			return listar(" and ativo='" + ativo + "'");
+		}
 	}
 
 	// método para atualizar competição.

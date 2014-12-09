@@ -7,6 +7,12 @@ public class Competicao {
 	private int qtdRodadas;
 	private char ativo;
 	
+	public Competicao(int id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
+	
 	public Competicao(int id, String nome, int qtdRodadas, char ativo) {
 		super();
 		this.id = id;

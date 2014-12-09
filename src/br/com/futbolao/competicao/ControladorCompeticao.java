@@ -24,6 +24,10 @@ private IRepositorioCompeticao repositorio;
 		}
 	}
 	
+	public ArrayList<Competicao> listarCompeticaoComRodada() throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return repositorio.listarCompeticaoComRodada();
+	}
+	
 	public ArrayList<Competicao> listar(String nome) throws SQLException, CompeticaoNaoCadastradaException, Exception{
 		ArrayList<Competicao> competicoes = new ArrayList<Competicao>();
 		if (!nome.equals("")) {
@@ -44,8 +48,8 @@ private IRepositorioCompeticao repositorio;
 		return competicoes;
 	}
 	
-	public ArrayList<Competicao> listar() throws SQLException, CompeticaoNaoCadastradaException, Exception{
-		return repositorio.listar();
+	public ArrayList<Competicao> listar(char ativo) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return repositorio.listar(ativo);
 	}
 	
 	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception{

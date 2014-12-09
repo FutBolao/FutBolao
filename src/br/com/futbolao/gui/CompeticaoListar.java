@@ -165,7 +165,7 @@ public class CompeticaoListar extends JInternalFrame {
 			limparTabela();
 			ArrayList<Competicao> lista = new ArrayList<>();
 			if (procurar.equals("")){
-				lista = fachada.listarCompeticao();
+				lista = fachada.listarCompeticao(' ');
 			} else {
 				lista = fachada.procurarCompeticaoPorNome(procurar);
 			}

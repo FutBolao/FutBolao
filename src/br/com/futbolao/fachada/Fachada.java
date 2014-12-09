@@ -168,8 +168,12 @@ public class Fachada {
 		return this.controladorCompeticao.procurarPorId(id);
 	}
 	
-	public ArrayList<Competicao> listarCompeticao() throws SQLException, CompeticaoNaoCadastradaException, Exception{
-		return this.controladorCompeticao.listar();		
+	public ArrayList<Competicao> listarCompeticao(char ativo) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return this.controladorCompeticao.listar(ativo);		
+	}
+
+	public ArrayList<Competicao> listarCompeticaoComRodada() throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return this.controladorCompeticao.listarCompeticaoComRodada();		
 	}
 	
 	public void atualizaCompeticao(Competicao competicao) throws NomeVazioException, SQLException, CompeticaoNaoCadastradaException, Exception{
@@ -203,12 +207,16 @@ public class Fachada {
 		this.controladorRodada.cadastrar(rodada);
 	}
 	
-	public <T> ArrayList<T> procurarRodada(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
+	public ArrayList<Rodada> procurarRodada(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception{
 		return this.controladorRodada.procurar(idCompeticao, numeroDaRodada);
 	}
 	
 	public ArrayList<Rodada> listarRodada() throws SQLException, RodadaNaoCadastradaException, Exception{
 		return this.controladorRodada.listar();
+	}
+	
+	public ArrayList<Integer> listarRodadaPorCompeticao(int idCompeticao, char trava) throws SQLException, RodadaNaoCadastradaException, Exception{
+		return this.controladorRodada.listarPorCompeticao(idCompeticao, trava);
 	}
 
 	public Rodada procurarRodadaPorId(long id) throws SQLException, RodadaNaoCadastradaException, Exception{

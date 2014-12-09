@@ -244,7 +244,7 @@ public class RodadaListar extends JInternalFrame {
 		ArrayList<Competicao> lista = new ArrayList<>();
 		try {
 			campoCompeticao.addItem("");
-			lista = fachada.listarCompeticao();
+			lista = fachada.listarCompeticaoComRodada();
 			valueCopeticao = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoCompeticao.addItem(lista.get(i-1).getNome());
@@ -266,7 +266,7 @@ public class RodadaListar extends JInternalFrame {
 		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
 		try {
 			campoRodada.addItem("");
-			lista = fachada.procurarRodada(idCompeticao, 0);
+			lista = fachada.listarRodadaPorCompeticao(idCompeticao, ' ');
 			valueRodada = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoRodada.addItem(lista.get(i-1));

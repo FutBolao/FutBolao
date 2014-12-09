@@ -129,23 +129,22 @@ public class RepositorioRodada implements IRepositorioRodada {
 		return listar(" and id=" + id).get(0);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> ArrayList<T> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception {
-		if (numeroDaRodada == 0) {
-			return (ArrayList<T>) listarRodadaPorCompeticao(idCompeticao);
-		}else{
-			return (ArrayList<T>) listar(" and id_competicao=" + idCompeticao + " and numero_rodada=" + numeroDaRodada);
-		}
+	public ArrayList<Rodada> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, RodadaNaoCadastradaException, Exception {
+			return listar(" and id_competicao=" + idCompeticao + " and numero_rodada=" + numeroDaRodada);
 	}
 	
 	// método para listar rodadas.
-	private ArrayList<Integer> listarRodadaPorCompeticao(long competicao) throws SQLException, RodadaNaoCadastradaException, Exception {
+	public ArrayList<Integer> listarPorCompeticao(int competicao, char trava) throws SQLException, RodadaNaoCadastradaException, Exception {
 		ArrayList<Integer> rodadas = new ArrayList<Integer>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
+		String complemento = "";
+		if (trava != ' ') {
+			complemento = " AND trava='" + trava +"'";
+		}
 		sql = "SELECT DISTINCT numero_rodada FROM " + NOME_TABELA + " ";
-		sql += "WHERE id_competicao=" + competicao;
+		sql += "WHERE id_competicao=" + competicao + complemento;
 		sql += " ORDER BY numero_rodada DESC;";
 		ps = this.connection.prepareStatement(sql);
 		rs = ps.executeQuery();

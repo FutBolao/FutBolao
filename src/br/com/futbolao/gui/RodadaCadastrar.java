@@ -346,7 +346,7 @@ public class RodadaCadastrar extends JInternalFrame {
 		ArrayList<Competicao> lista = new ArrayList<>();
 		try {
 			campoCompeticao.addItem("");
-			lista = fachada.listarCompeticao();
+			lista = fachada.listarCompeticao('S');
 			valueCompeticao = new int[(lista.size() + 1)];
 			valueCompeticao[0] = 0;
 			for (int i = 1; i <= lista.size(); i++) {

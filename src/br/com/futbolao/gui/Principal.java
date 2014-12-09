@@ -167,9 +167,25 @@ public class Principal extends JFrame {
 		mnAposta.add(mnGrupo);
 		
 		JMenuItem mntmGrupoCadastrar = new JMenuItem("Cadastrar");
+		mntmGrupoCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GrupoCadastrar grupoCadastar = new GrupoCadastrar();
+				desktopPane.add(grupoCadastar);
+				grupoCadastar.setVisible(true);
+				grupoCadastar.setPosicao();
+			}
+		});
 		mnGrupo.add(mntmGrupoCadastrar);
 		
 		JMenuItem mntmGrupoListar = new JMenuItem("Listar");
+		mntmGrupoListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GrupoListar grupoListar = new GrupoListar();
+				desktopPane.add(grupoListar);
+				grupoListar.setVisible(true);
+				grupoListar.setPosicao();
+			}
+		});
 		mnGrupo.add(mntmGrupoListar);
 		
 		JMenuItem mntmVerificarGanhadores = new JMenuItem("Verificar Ganhadores");
