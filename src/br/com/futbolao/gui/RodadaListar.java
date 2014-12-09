@@ -311,6 +311,8 @@ public class RodadaListar extends JInternalFrame {
 				btnDeletar.setEnabled(false);
 			} else {
 				btnTravarRodada.setEnabled(true);
+				btnAlterar.setEnabled(true);
+				btnDeletar.setEnabled(true);
 				btnDestravarRodada.setEnabled(false);
 			}
 		} catch (SQLException e) {
