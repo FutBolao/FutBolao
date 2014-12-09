@@ -243,6 +243,14 @@ public class Principal extends JFrame {
 		mnApostador_1.add(mntmCadastrar);
 		
 		JMenuItem mntmListar = new JMenuItem("Listar");
+		mntmListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ApostadorMovimentacaoFinanceiraListar apostadorMovimentacaoFinanceiraListar = new ApostadorMovimentacaoFinanceiraListar();
+				desktopPane.add(apostadorMovimentacaoFinanceiraListar);
+				apostadorMovimentacaoFinanceiraListar.setVisible(true);
+				apostadorMovimentacaoFinanceiraListar.setPosicao();
+			}
+		});
 		mnApostador_1.add(mntmListar);
 		
 		JMenu mnAdministrador_1 = new JMenu("Administrador");
@@ -260,6 +268,14 @@ public class Principal extends JFrame {
 		mnAdministrador_1.add(mntmCadastrar_1);
 		
 		JMenuItem mntmListar_1 = new JMenuItem("Listar");
+		mntmListar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AdministradorMovimentacaoFinanceiraListar administradorMovimentacaoFinanceiraListar = new AdministradorMovimentacaoFinanceiraListar();
+				desktopPane.add(administradorMovimentacaoFinanceiraListar);
+				administradorMovimentacaoFinanceiraListar.setVisible(true);
+				administradorMovimentacaoFinanceiraListar.setPosicao();
+			}
+		});
 		mnAdministrador_1.add(mntmListar_1);
 		
 		desktopPane = new JDesktopPaneComBackground(imagem.getBackgroundTelaPrincipal());

@@ -271,7 +271,7 @@ public class Fachada {
 		this.controladorMovimentacaoFinanceiraApostador.atualizar(movimentacaoFinanceiraApostador);
 	}
 	
-	public void deletarMovimentacaoFinanceiraApostador(int id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+	public void deletarMovimentacaoFinanceiraApostador(long id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 		this.controladorMovimentacaoFinanceiraApostador.deletar(id);
 	}
 	
@@ -293,7 +293,7 @@ public class Fachada {
 			this.controladorMovimentacaoFinanceiraAdministrador.atualizar(movimentacaoFinanceiraAdministrador);
 		}
 		
-		public void deletarMovimentacaoFinanceiraAdministrador(int id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+		public void deletarMovimentacaoFinanceiraAdministrador(long id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 			this.controladorMovimentacaoFinanceiraAdministrador.deletar(id);
 		}
 }

@@ -12,8 +12,8 @@ import br.com.futbolao.exception.MovimentacaoNaoCadastradaException;
 
 public class RepositorioMovimentacaoFinanceiraAdministrador implements IRepositorioMovimentacaoFinanceiraAdministrador {
 	
-	public static final String NOME_TABELA = "mov_fin_administrador";
-	public static final String NOME_VIEW = "vw_mov_fin_administrador";
+	public static final String NOME_TABELA = "mov_fin_admin";
+	public static final String NOME_VIEW = "vw_mov_fin_admin";
 	private Connection connection;
 	private int dataBase = 0;
 	
@@ -35,7 +35,7 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
-			sql = "INSERT INTO " + NOME_TABELA + " (id_apostador, tipo_movimentacao, valor) VALUES (?,?,?);";
+			sql = "INSERT INTO " + NOME_TABELA + " (id_administrador, tipo_movimentacao, valor) VALUES (?,?,?);";
 			if (this.dataBase == DataBase.ORACLE) {
 				ps = this.connection.prepareStatement(sql, new String[] { "id" });
 			} else {
@@ -58,7 +58,7 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 
 	// método para listar rodadas.
 	private ArrayList<MovimentacaoFinanceiraAdministrador> listar(String complemento) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
-		ArrayList<MovimentacaoFinanceiraAdministrador> movimentacaoFinanceiraApostadores = new ArrayList<MovimentacaoFinanceiraAdministrador>();
+		ArrayList<MovimentacaoFinanceiraAdministrador> movimentacaoFinanceiraAdministradores = new ArrayList<MovimentacaoFinanceiraAdministrador>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
@@ -74,27 +74,27 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 			rs.beforeFirst();
 			while (rs.next()) {
 			MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador = new MovimentacaoFinanceiraAdministrador
-					(rs.getLong("id"), rs.getLong("id_apostador"), rs.getString("nome_administrador"), rs.getString("tipo_movimentacao"), 
+					(rs.getLong("id"), rs.getLong("id_administrador"), rs.getString("nome_administrador"), rs.getString("tipo_movimentacao"), 
 							rs.getDouble("valor"), rs.getString("data_hora"));
-			movimentacaoFinanceiraApostadores.add(movimentacaoFinanceiraAdministrador);
+			movimentacaoFinanceiraAdministradores.add(movimentacaoFinanceiraAdministrador);
 			}
 		}else{
 			throw new MovimentacaoNaoCadastradaException();
 		}
 		ps.close();
 		rs.close();
-		return movimentacaoFinanceiraApostadores;
+		return movimentacaoFinanceiraAdministradores;
 	}
 	
 	public ArrayList<MovimentacaoFinanceiraAdministrador> listar() throws SQLException, MovimentacaoNaoCadastradaException, Exception {
 		return listar("");
 	}
 
-	public ArrayList<MovimentacaoFinanceiraAdministrador> procurar(int idApostador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
+	public ArrayList<MovimentacaoFinanceiraAdministrador> procurar(int idAdministrador, String tipoMovimentacao) throws SQLException, MovimentacaoNaoCadastradaException, Exception {
 		if (tipoMovimentacao.equals("")) {
-			return listar(" and id_apostador=" + idApostador);
+			return listar(" and id_administrador=" + idAdministrador);
 		}else{
-			return listar(" and id_apostador=" + idApostador + " and tipo_movimentacao=" + tipoMovimentacao);
+			return listar(" and id_administrador=" + idAdministrador + " and tipo_movimentacao=" + tipoMovimentacao);
 		}
 	}
 

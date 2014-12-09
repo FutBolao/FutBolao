@@ -34,7 +34,7 @@ public class ControladorMovimentacaoFinanceiraAdministrador {
 			}
 	}
 	
-	public void deletar(int id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
+	public void deletar(long id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 		if (id > 0) {
 			repositorio.deletar(id);
 		}else {
