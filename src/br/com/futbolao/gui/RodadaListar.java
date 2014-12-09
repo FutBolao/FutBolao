@@ -111,7 +111,7 @@ public class RodadaListar extends JInternalFrame {
 		
 		tabelaRodada = new JTable();
 		tabelaRodada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		colunaTabelaRodada = new String[] {"","RODADA", "JOGO", "DATA/HORA", "CLUBE 1", "RESULTADO 1", "CLUBE 2", "RESULTADO 2"};
+		colunaTabelaRodada = new String[] {"","RODADA", "JOGO", "DATA/HORA", "CLUBE 1", "RESULTADO 1", "CLUBE 2", "RESULTADO 2", "TRAVADO"};
 		modeloTabelaRodada = new DefaultTableModel(new Object[][] {},colunaTabelaRodada){
 			boolean[] columnEditables = new boolean[] {false, false, false, false, false, false, false, false};
 			public boolean isCellEditable(int row, int column) {
@@ -124,11 +124,12 @@ public class RodadaListar extends JInternalFrame {
 		tabelaRodada.getColumnModel().getColumn(0).setMaxWidth(0);
 		tabelaRodada.getColumnModel().getColumn(1).setPreferredWidth(50);
 		tabelaRodada.getColumnModel().getColumn(2).setPreferredWidth(50);
-		tabelaRodada.getColumnModel().getColumn(3).setPreferredWidth(150);
-		tabelaRodada.getColumnModel().getColumn(4).setPreferredWidth(300);
-		tabelaRodada.getColumnModel().getColumn(5).setPreferredWidth(70);
-		tabelaRodada.getColumnModel().getColumn(6).setPreferredWidth(300);
-		tabelaRodada.getColumnModel().getColumn(7).setPreferredWidth(70);
+		tabelaRodada.getColumnModel().getColumn(3).setPreferredWidth(120);
+		tabelaRodada.getColumnModel().getColumn(4).setPreferredWidth(260);
+		tabelaRodada.getColumnModel().getColumn(5).setPreferredWidth(90);
+		tabelaRodada.getColumnModel().getColumn(6).setPreferredWidth(260);
+		tabelaRodada.getColumnModel().getColumn(7).setPreferredWidth(90);
+		tabelaRodada.getColumnModel().getColumn(8).setPreferredWidth(70);
 		tabelaRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		scrollPaneRodada.setViewportView(tabelaRodada);
 		
@@ -197,6 +198,15 @@ public class RodadaListar extends JInternalFrame {
 		btnDeletar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDeletar.setBounds(109, 12, 89, 23);
 		painelBotoes.add(btnDeletar);
+		
+		JButton btnTravarRodada = new JButton("Travar Rodada");
+		btnTravarRodada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnTravarRodada.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnTravarRodada.setBounds(208, 12, 111, 23);
+		painelBotoes.add(btnTravarRodada);
 		
 		listaCompeticao();
 
@@ -272,6 +282,7 @@ public class RodadaListar extends JInternalFrame {
 				vector.add(rodada.getResultadoClube1());
 				vector.add(rodada.getNomeClube2());
 				vector.add(rodada.getResultadoClube2());
+				vector.add(rodada.getTrava());
 				modeloTabelaRodada.addRow(vector);
 			}
 		} catch (SQLException e) {

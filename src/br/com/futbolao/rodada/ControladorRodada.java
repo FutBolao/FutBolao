@@ -41,6 +41,14 @@ public class ControladorRodada {
 			}
 	}
 	
+	public void travar(int idCompeticao, int numeroDaRodada) throws SQLException, Exception{
+		repositorio.travar(idCompeticao, numeroDaRodada);
+	}
+
+	public void destravar(int idCompeticao, int numeroDaRodada) throws SQLException, Exception{
+		repositorio.destravar(idCompeticao, numeroDaRodada);
+	}
+	
 	public void deletar(long id) throws SQLException, RodadaNaoCadastradaException, Exception{
 		if (id > 0) {
 			repositorio.deletar(id);

@@ -39,7 +39,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
-		if (existeClubeNaRodada(rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2())) {
+		if (existeClubeNaRodada(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2())) {
 			if (existe(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getIdJogo()) == false){
 				sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, clube1, resultado_clube1, "
 						+ "clube2, resultado_clube2) VALUES (?,?,?,?,?,?,?);";
@@ -106,9 +106,9 @@ public class RepositorioRodada implements IRepositorioRodada {
 				Rodada rodada = new Rodada(rs.getLong("id"), rs.getInt("id_competicao"), rs.getString("nome_competicao"),
 										   rs.getInt("numero_rodada"), rs.getInt("id_jogo"), 
 										   rs.getString("data_hora").substring(8, 10) + "/" + rs.getString("data_hora").substring(5, 7) + "/"
-										   + rs.getString("data_hora").substring(0, 4) + " " + rs.getString("data_hora").substring(11, 19), 
+										   + rs.getString("data_hora").substring(0, 4) + " " + rs.getString("data_hora").substring(11, 16), 
 										   rs.getInt("clube1"), rs.getString("nome_clube1"), resultadoClube1, 
-										   rs.getInt("clube2"), rs.getString("nome_clube2"), resultadoClube2);
+										   rs.getInt("clube2"), rs.getString("nome_clube2"), resultadoClube2, rs.getString("trava").charAt(0));
 				rodadas.add(rodada);
 			}
 		}else{
@@ -165,7 +165,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 
 	public void atualizar(Rodada rodada) throws SQLException, ClubeJaCadastradoNessaRodadaException, RodadaJaCadastradaException, RodadaNaoCadastradaException, Exception {
 		if(rodada != null){
-			if (existeClubeNaRodada(rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2())) {
+			if (existeClubeNaRodada(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2()) == false) {
 				if (existe(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getIdJogo()) == false){
 				PreparedStatement ps = null;
 				String sql = "";
@@ -192,6 +192,34 @@ public class RepositorioRodada implements IRepositorioRodada {
 			}
 		}
 	}
+	
+	public void travar(int idCompeticao, int numeroRodada) throws SQLException, Exception {
+		if(idCompeticao == 0 || numeroRodada == 0){
+			PreparedStatement ps = null;
+			String sql = "";
+			// instrução de update da rodada
+			sql = "UPDATE " + NOME_TABELA + " SET trava='S' WHERE id_competicao=? and numero_rodada=?;";
+			ps = this.connection.prepareStatement(sql);
+			ps.setInt(1, idCompeticao);
+			ps.setInt(2, numeroRodada);
+			ps.executeUpdate();
+			ps.close();
+		}
+	}
+	
+	public void destravar(int idCompeticao, int numeroRodada) throws SQLException, Exception {
+		if(idCompeticao == 0 || numeroRodada == 0){
+			PreparedStatement ps = null;
+			String sql = "";
+			// instrução de update da rodada
+			sql = "UPDATE " + NOME_TABELA + " SET trava='N' WHERE id_competicao=? and numero_rodada=?;";
+			ps = this.connection.prepareStatement(sql);
+			ps.setInt(1, idCompeticao);
+			ps.setInt(2, numeroRodada);
+			ps.executeUpdate();
+			ps.close();
+		}
+	}
 
 	public void deletar(long id) throws SQLException, RodadaNaoCadastradaException, Exception {
 		PreparedStatement ps = null;
@@ -215,14 +243,18 @@ public class RepositorioRodada implements IRepositorioRodada {
 		ps.setInt(3, idJogo);
 		rs = ps.executeQuery();
 		if(rs.next()){
-			resposta = true;
+			if (id != 0 && id == rs.getLong("id")){
+				resposta = false;
+			}else{
+				resposta = true;
+			}
 		}
 		ps.close();
 		rs.close();
 		return resposta;
 	}
 	
-	private boolean existeClubeNaRodada(int idCompeticao, int numeroDaRodada, int Clube1, int Clube2) throws SQLException, Exception {
+	private boolean existeClubeNaRodada(long id, int idCompeticao, int numeroDaRodada, int Clube1, int Clube2) throws SQLException, Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "SELECT * FROM " + NOME_TABELA + " WHERE id_competicao=? and numero_rodada=? and (clube1=? or clube2=? or clube1=? or clube2=?)";
@@ -236,7 +268,16 @@ public class RepositorioRodada implements IRepositorioRodada {
 		ps.setInt(6, Clube2);
 		rs = ps.executeQuery();
 		if(rs.next()){
-			resposta = true;
+			if (id == 0) {
+				resposta = true;
+			}else if (id != 0 && id != rs.getLong("id")){
+				resposta = true;
+			}else if (id != 0 && id == rs.getLong("id") && (Clube1 == rs.getInt("clube1") && Clube2 == rs.getInt("clube2")) || 
+					(Clube2 == rs.getInt("clube1") && Clube1 == rs.getInt("clube2")) ){
+				resposta = false;
+			}else{
+				resposta = true;
+			}
 		}
 		ps.close();
 		rs.close();

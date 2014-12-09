@@ -14,6 +14,7 @@ public class Rodada {
 	private int clube2;
 	private String nomeClube2;
 	private Integer resultadoClube2;
+	private char trava;
 	
 	public Rodada(long id, int idCompeticao, int numeroRodada, int idJogo,
 			String dataHora, int clube1,int clube2) {
@@ -44,7 +45,7 @@ public class Rodada {
 	public Rodada(long id, int idCompeticao, String nomeCompeticao,
 			int numeroRodada, int idJogo, String dataHora, int clube1,
 			String nomeClube1, Integer resultadoClube1, int clube2,
-			String nomeClube2, Integer resultadoClube2) {
+			String nomeClube2, Integer resultadoClube2, char trava) {
 		super();
 		this.id = id;
 		this.idCompeticao = idCompeticao;
@@ -58,6 +59,7 @@ public class Rodada {
 		this.clube2 = clube2;
 		this.nomeClube2 = nomeClube2;
 		this.resultadoClube2 = resultadoClube2;
+		this.trava = trava;
 	}
 
 	public long getId() {
@@ -156,6 +158,14 @@ public class Rodada {
 		this.resultadoClube2 = resultadoClube2;
 	}
 
+	public char getTrava() {
+		return trava;
+	}
+
+	public void setTrava(char trava) {
+		this.trava = trava;
+	}
+	
 	@Override
 	public String toString() {
 		return "Rodada [id=" + id + ", idCompeticao=" + idCompeticao
@@ -164,7 +174,7 @@ public class Rodada {
 				+ dataHora + ", clube1=" + clube1 + ", nomeClube1="
 				+ nomeClube1 + ", resultadoClube1=" + resultadoClube1
 				+ ", clube2=" + clube2 + ", nomeClube2=" + nomeClube2
-				+ ", resultadoClube2=" + resultadoClube2 + "]";
+				+ ", resultadoClube2=" + resultadoClube2 + ", trava=" + trava + "]";
 	}
 
 }

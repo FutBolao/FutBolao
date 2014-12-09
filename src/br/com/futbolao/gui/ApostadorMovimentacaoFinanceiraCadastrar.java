@@ -18,25 +18,27 @@ import javax.swing.JComboBox;
 
 import br.com.futbolao.apostador.Apostador;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
-import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
-import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.movimentacao.financeira.apostador.MovimentacaoFinanceiraApostador;
+import br.com.futbolao.util.FormataCampoApenasNumeros;
 import br.com.futbolao.util.JMoneyField;
+import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.sql.SQLException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+@SuppressWarnings("serial")
 public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 	Fachada fachada = null;
 	private JTextField campoApostador;
 	private JMoneyField campoValor;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoTipoMovimentacao;
 	private JTextField campoIdApostador;
 
@@ -59,6 +61,7 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ApostadorMovimentacaoFinanceiraCadastrar() {
 		try {
 			fachada = Fachada.getInstance();
@@ -72,124 +75,128 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Movimentação Financeira Apostador");
 		setClosable(true);
-		setBounds(100, 100, 393, 298);
+		setBounds(100, 100, 466, 233);
 		getContentPane().setLayout(null);
 		
 		JPanel painelForm = new JPanel();
 		painelForm.setBackground(Color.WHITE);
-		painelForm.setBounds(10, 11, 357, 246);
+		painelForm.setBounds(10, 11, 430, 147);
 		getContentPane().add(painelForm);
 		painelForm.setLayout(null);
 		
 		JLabel lblApostador = new JLabel("Apostador : ");
 		lblApostador.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblApostador.setBounds(10, 69, 76, 14);
+		lblApostador.setBounds(122, 36, 76, 14);
 		painelForm.add(lblApostador);
 		
 		campoApostador = new JTextField();
-		campoApostador.setEditable(false);
-		campoApostador.setBounds(10, 94, 338, 20);
+		campoApostador.setEnabled(false);
+		campoApostador.setBounds(122, 61, 298, 20);
 		painelForm.add(campoApostador);
 		campoApostador.setColumns(10);
 		
-		JButton btnProcurar = new JButton("Procurar");
-		btnProcurar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				procurar();
-			}
-		});
-		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnProcurar.setBounds(134, 36, 89, 23);
-		painelForm.add(btnProcurar);
-		
 		JLabel lblTipoDaMovimentao = new JLabel("Tipo Da Movimentação : ");
 		lblTipoDaMovimentao.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTipoDaMovimentao.setBounds(10, 132, 145, 14);
+		lblTipoDaMovimentao.setBounds(10, 92, 145, 14);
 		painelForm.add(lblTipoDaMovimentao);
 		
 		campoTipoMovimentacao = new JComboBox();
-		campoTipoMovimentacao.setBounds(10, 157, 134, 20);
+		campoTipoMovimentacao.setEnabled(false);
+		campoTipoMovimentacao.setBounds(10, 117, 285, 20);
 		campoTipoMovimentacao.setModel(new DefaultComboBoxModel(new String[] {"", "CREDITO", "SAQUE"}));
 		painelForm.add(campoTipoMovimentacao);
 		
 		JLabel lblNewLabel = new JLabel("Valor : ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(208, 132, 46, 14);
+		lblNewLabel.setBounds(305, 92, 46, 14);
 		painelForm.add(lblNewLabel);
 		
 		campoValor = new JMoneyField();
-		campoValor.setBounds(208, 157, 86, 20);
+		campoValor.setEnabled(false);
+		campoValor.setBounds(305, 117, 115, 20);
 		painelForm.add(campoValor);
 		campoValor.setColumns(10);
 		
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cadastrar();
-			}
-		});
-		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnConfirmar.setBounds(10, 212, 89, 23);
-		painelForm.add(btnConfirmar);
-		
-		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				limparCampos();
-			}
-		});
-		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpar.setBounds(134, 212, 89, 23);
-		painelForm.add(btnLimpar);
-		
 		JLabel lblIdDoApostador = new JLabel("ID do Apostador : ");
 		lblIdDoApostador.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblIdDoApostador.setBounds(10, 11, 106, 14);
+		lblIdDoApostador.setBounds(10, 36, 102, 14);
 		painelForm.add(lblIdDoApostador);
 		
 		campoIdApostador = new JTextField();
-		campoIdApostador.addFocusListener(new FocusAdapter() {
+		campoIdApostador.addKeyListener(new KeyAdapter() {
 			@Override
-			public void focusLost(FocusEvent focus) {
-				procurar();			
+			public void keyPressed(KeyEvent tecla) {
+				if (tecla.getKeyCode() == KeyEvent.VK_ENTER && !campoIdApostador.getText().equals("0")) {
+					procurar();
+				}
 			}
 		});
-		campoIdApostador.setBounds(13, 38, 86, 20);
+		campoIdApostador.setBounds(10, 61, 102, 20);
 		painelForm.add(campoIdApostador);
+		campoIdApostador.setDocument(new FormataCampoApenasNumeros(13));
 		campoIdApostador.setColumns(10);
 		
-		JButton btnListar = new JButton("Listar");
-		btnListar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnListar.setBounds(259, 213, 89, 23);
-		painelForm.add(btnListar);
+		JLabel lblDigiteOId = new JLabel("Digite o ID do apostador e depois tecle enter para verificar se existe.");
+		lblDigiteOId.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblDigiteOId.setBounds(10, 11, 410, 14);
+		painelForm.add(lblDigiteOId);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(10, 156, 430, 42);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JButton button = new JButton("Cadastrar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cadastar();
+			}
+		});
+		button.setBounds(10, 11, 83, 23);
+		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel.add(button);
+		
+		JButton button_1 = new JButton("Limpar");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limpaCampos();
+			}
+		});
+		button_1.setBounds(103, 11, 67, 23);
+		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel.add(button_1);
 
 	}
 	
 	public void setPosicao() {  
 	    Dimension d = this.getDesktopPane().getSize();  
-	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
+	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
 	}
 	
-	private void limparCampos(){
-		campoApostador.setText("");
+	@SuppressWarnings("deprecation")
+	private void habilitaCampos(){
+		campoIdApostador.disable();
+		campoTipoMovimentacao.enable();
+		campoValor.enable();
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void limpaCampos(){
+		campoIdApostador.enable();
+		campoTipoMovimentacao.disable();
+		campoValor.disable();
 		campoIdApostador.setText("");
+		campoApostador.setText("");
 		campoTipoMovimentacao.setSelectedIndex(0);
-		campoValor.setText("0,00");
+		campoValor.setText("");
+		campoIdApostador.requestFocus();
 	}
 	
 	private boolean validaCampos(){
-		String id = campoIdApostador.getText();
 		String tipoMovimentacao = (String) campoTipoMovimentacao.getSelectedItem();
 		String valor = campoValor.getText();
-		if(id.equals("")){
-			try {
-				throw new CampoInvalidoException();
-			} catch (CampoInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoIdApostador.requestFocus();
-			}
-			return false;
-		}else if(tipoMovimentacao.equals("")){
+		if(tipoMovimentacao.equals("")){
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
@@ -211,11 +218,11 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 	}
 	
 	private void procurar(){
-		long id = Long.parseLong(campoIdApostador.getText());
-		if(id != 0){		
+		long id = Long.parseLong(campoIdApostador.getText());		
 		try {
 			Apostador apostador = fachada.procurarApostadorPorId(id);
 			campoApostador.setText(apostador.getNome());
+			habilitaCampos();
 		} catch (CpfInvalidoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (SQLException e) {
@@ -225,36 +232,26 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar procurar o apostador!");
 		}
-	  }else{		 
-			try {
-				throw new IdInvalidoException();
-			} catch (IdInvalidoException e) {
-				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-			}		
-	  }
 	}
 	
-	private void cadastrar(){
-		if(validaCampos()){
+	private void cadastar(){
+		if (validaCampos()) {
 			long idApostador = Long.parseLong(campoIdApostador.getText());
 			String tipoMovimentacao = (String) campoTipoMovimentacao.getSelectedItem();
-			double valor = Double.parseDouble(campoValor.getText());
+			Double valor = Double.parseDouble(campoValor.getText());
 			try {
 				fachada.cadastrarMovimentacaoFinanceiraApostador(new MovimentacaoFinanceiraApostador(0, idApostador, tipoMovimentacao, valor));
-				limparCampos();
 				try {
 					throw new CadastroEfetuadoComSucessoException();
-				} catch (Exception e) {
+				} catch (CadastroEfetuadoComSucessoException e) {
 					JOptionPane.showMessageDialog(rootPane, e.getMessage());
 				}
+				limpaCampos();
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao tentar cadastrar a movimentação financeira!");
+				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a movimentação financeira!");
 			}
-			
 		}
 	}
-	
-	
 }

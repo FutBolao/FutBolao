@@ -218,6 +218,14 @@ public class Fachada {
 		this.controladorRodada.atualizar(rodada);
 	}
 	
+	public void travarRodada(int idCompeticao, int numeroDaRodada) throws SQLException, Exception{
+		this.controladorRodada.travar(idCompeticao, numeroDaRodada);
+	}
+
+	public void destravarRodada(int idCompeticao, int numeroDaRodada) throws SQLException, Exception{
+		this.controladorRodada.destravar(idCompeticao, numeroDaRodada);
+	}
+	
 	public void deletarRodada(long id) throws SQLException, RodadaNaoCadastradaException, Exception{
 		this.controladorRodada.deletar(id);
 	}
