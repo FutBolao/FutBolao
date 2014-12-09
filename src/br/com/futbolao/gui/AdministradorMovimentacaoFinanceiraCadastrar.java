@@ -6,8 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -25,11 +23,12 @@ import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
-import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.movimentacao.financeira.administrador.MovimentacaoFinanceiraAdministrador;
+import br.com.futbolao.util.FormataCampoApenasNumeros;
 import br.com.futbolao.util.JMoneyField;
 
+@SuppressWarnings("serial")
 public class AdministradorMovimentacaoFinanceiraCadastrar extends
 		JInternalFrame {
 	
@@ -97,7 +96,7 @@ public class AdministradorMovimentacaoFinanceiraCadastrar extends
 			}
 		});
 		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpar.setBounds(135, 158, 89, 23);
+		btnLimpar.setBounds(109, 158, 89, 23);
 		painelForm.add(btnLimpar);
 		
 		
@@ -115,8 +114,9 @@ public class AdministradorMovimentacaoFinanceiraCadastrar extends
 				}
 			}
 		});
-		campoIdAdministrador.setBounds(10, 61, 89, 20);
+		campoIdAdministrador.setBounds(10, 61, 132, 20);
 		painelForm.add(campoIdAdministrador);
+		campoIdAdministrador.setDocument(new FormataCampoApenasNumeros(13));
 		campoIdAdministrador.setColumns(10);
 		
 		JLabel lblAdministrador = new JLabel("Administrador : ");
@@ -125,6 +125,7 @@ public class AdministradorMovimentacaoFinanceiraCadastrar extends
 		painelForm.add(lblAdministrador);
 		
 		campoAdministrador = new JTextField();
+		campoAdministrador.setEnabled(false);
 		campoAdministrador.setEditable(false);
 		campoAdministrador.setBounds(152, 61, 281, 20);
 		painelForm.add(campoAdministrador);
@@ -136,7 +137,8 @@ public class AdministradorMovimentacaoFinanceiraCadastrar extends
 		painelForm.add(lblValor);
 		
 		campoValor = new JMoneyField();
-		campoValor.setBounds(10, 117, 86, 20);
+		campoValor.setEnabled(false);
+		campoValor.setBounds(10, 117, 132, 20);
 		painelForm.add(campoValor);
 		campoValor.setColumns(10);
 		
@@ -153,11 +155,13 @@ public class AdministradorMovimentacaoFinanceiraCadastrar extends
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void habilitaCampos(){
 		campoIdAdministrador.disable();
 		campoValor.enable();
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void limpaCampos(){
 		campoIdAdministrador.enable();
 		campoValor.disable();
@@ -169,7 +173,7 @@ public class AdministradorMovimentacaoFinanceiraCadastrar extends
 	
 	private boolean validaCampos(){
 		String valor = campoValor.getText();
-		if(valor.equals("0,00")){
+		if(valor.equals("0.00")){
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {

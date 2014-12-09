@@ -105,7 +105,7 @@ public class RodadaListar extends JInternalFrame {
 		
 		tabelaRodada = new JTable();
 		tabelaRodada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		colunaTabelaRodada = new String[] {"","RODADA", "JOGO", "DATA/HORA", "CLUBE 1", "RESULTADO 1", "CLUBE 2", "RESULTADO 2", "TRAVADO"};
+		colunaTabelaRodada = new String[] {"","Rodada", "Jogo", "Data/Hora", "Clube 1", "Resultado 1", "Clube 2", "Resultado 2", "Travado"};
 		modeloTabelaRodada = new DefaultTableModel(new Object[][] {},colunaTabelaRodada){
 			boolean[] columnEditables = new boolean[] {false, false, false, false, false, false, false, false};
 			public boolean isCellEditable(int row, int column) {

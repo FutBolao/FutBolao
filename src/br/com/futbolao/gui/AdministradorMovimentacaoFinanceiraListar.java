@@ -7,7 +7,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -25,11 +28,13 @@ import br.com.futbolao.exception.MovimentacaoNaoCadastradaException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.movimentacao.financeira.administrador.MovimentacaoFinanceiraAdministrador;
 
+@SuppressWarnings("serial")
 public class AdministradorMovimentacaoFinanceiraListar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JTable tabelaMovimentacaoFinanceiraAdministrador;
 	private DefaultTableModel tabelaModeloMovimentacaoFinanceiraAdministrador;
 	private String[] colunaTabelaMovimentacaoFinanceiraAdministrador;
+	private DecimalFormat formatacaoDinheiro =  new DecimalFormat("#,##0.00;(#,##0.00)", new DecimalFormatSymbols(new Locale("pt", "BR")));
 	/**
 	 * Launch the application.
 	 */
@@ -123,6 +128,7 @@ public class AdministradorMovimentacaoFinanceiraListar extends JInternalFrame {
 		tabelaModeloMovimentacaoFinanceiraAdministrador.setNumRows(0);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void listar(){		
 		try {
 			limparTabela();
@@ -134,7 +140,7 @@ public class AdministradorMovimentacaoFinanceiraListar extends JInternalFrame {
 				vector.add(movimentacaoFinanceiraAdministrador.getIdAdministrador());
 				vector.add(movimentacaoFinanceiraAdministrador.getNomeAdministrador());
 				vector.add(movimentacaoFinanceiraAdministrador.getTipoMovimentacao());
-				vector.add(movimentacaoFinanceiraAdministrador.getValor());
+				vector.add(formatacaoDinheiro.format(movimentacaoFinanceiraAdministrador.getValor()));
 				vector.add(movimentacaoFinanceiraAdministrador.getDataHora());
 				tabelaModeloMovimentacaoFinanceiraAdministrador.addRow(vector);
 			}

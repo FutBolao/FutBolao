@@ -73,10 +73,11 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
 			while (rs.next()) {
-			MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador = new MovimentacaoFinanceiraAdministrador
-					(rs.getLong("id"), rs.getLong("id_administrador"), rs.getString("nome_administrador"), rs.getString("tipo_movimentacao"), 
-							rs.getDouble("valor"), rs.getString("data_hora"));
-			movimentacaoFinanceiraAdministradores.add(movimentacaoFinanceiraAdministrador);
+				MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador = new MovimentacaoFinanceiraAdministrador
+						(rs.getLong("id"), rs.getLong("id_administrador"), rs.getString("nome_administrador"), rs.getString("tipo_movimentacao"), 
+						rs.getDouble("valor"), rs.getString("data_hora").substring(8, 10) + "/" + rs.getString("data_hora").substring(5, 7) + "/"
+										   + rs.getString("data_hora").substring(0, 4) + " " + rs.getString("data_hora").substring(11, 16));
+				movimentacaoFinanceiraAdministradores.add(movimentacaoFinanceiraAdministrador);
 			}
 		}else{
 			throw new MovimentacaoNaoCadastradaException();

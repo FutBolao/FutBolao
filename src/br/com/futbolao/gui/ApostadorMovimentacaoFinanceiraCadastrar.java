@@ -195,7 +195,7 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 				campoTipoMovimentacao.requestFocus();
 			}
 			return false;
-		}else if(valor.equals("0,00")){
+		}else if(valor.equals("0.00")){
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {

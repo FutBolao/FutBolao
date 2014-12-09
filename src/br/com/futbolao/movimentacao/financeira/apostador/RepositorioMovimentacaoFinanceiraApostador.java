@@ -72,11 +72,12 @@ public class RepositorioMovimentacaoFinanceiraApostador implements IRepositorioM
 		rs.first();
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
-			while (rs.next()) {
-			MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador = new MovimentacaoFinanceiraApostador
-					(rs.getLong("id"), rs.getLong("id_apostador"), rs.getString("nome_apostador"), rs.getString("tipo_movimentacao"), 
-							rs.getDouble("valor"), rs.getString("data_hora"));
-			movimentacaoFinanceiraApostadores.add(movimentacaoFinanceiraApostador);
+			while (rs.next()) { 
+				MovimentacaoFinanceiraApostador movimentacaoFinanceiraApostador = new MovimentacaoFinanceiraApostador
+						(rs.getLong("id"), rs.getLong("id_apostador"), rs.getString("nome_apostador"), rs.getString("tipo_movimentacao"), 
+						rs.getDouble("valor"), rs.getString("data_hora").substring(8, 10) + "/" + rs.getString("data_hora").substring(5, 7) + "/"
+								   + rs.getString("data_hora").substring(0, 4) + " " + rs.getString("data_hora").substring(11, 16));
+				movimentacaoFinanceiraApostadores.add(movimentacaoFinanceiraApostador);
 			}
 		}else{
 			throw new MovimentacaoNaoCadastradaException();

@@ -18,21 +18,25 @@ import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.movimentacao.financeira.apostador.MovimentacaoFinanceiraApostador;
 
 import javax.swing.JScrollPane;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Vector;
 
+@SuppressWarnings("serial")
 public class ApostadorMovimentacaoFinanceiraListar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JTable tabelaMovimentacaoFinanceiraApostador;
 	private DefaultTableModel tabelaModeloMovimentacaoFinanceiraApostador;
 	private String[] colunaTabelaMovimentacaoFinanceiraApostador;
+	private DecimalFormat formatacaoDinheiro =  new DecimalFormat("#,##0.00;(#,##0.00)", new DecimalFormatSymbols(new Locale("pt", "BR"))); 
 
 	/**
 	 * Launch the application.
@@ -53,7 +57,6 @@ public class ApostadorMovimentacaoFinanceiraListar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("serial")
 	public ApostadorMovimentacaoFinanceiraListar() {
 		try {
 			fachada = Fachada.getInstance();
@@ -127,6 +130,7 @@ public class ApostadorMovimentacaoFinanceiraListar extends JInternalFrame {
 		tabelaModeloMovimentacaoFinanceiraApostador.setNumRows(0);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void listar(){		
 		try {
 			limparTabela();
@@ -138,7 +142,7 @@ public class ApostadorMovimentacaoFinanceiraListar extends JInternalFrame {
 				vector.add(movimentacaoFinanceiraApostador.getIdApostador());
 				vector.add(movimentacaoFinanceiraApostador.getNomeApostador());
 				vector.add(movimentacaoFinanceiraApostador.getTipoMovimentacao());
-				vector.add(movimentacaoFinanceiraApostador.getValor());
+				vector.add(formatacaoDinheiro.format(movimentacaoFinanceiraApostador.getValor()));
 				vector.add(movimentacaoFinanceiraApostador.getDataHora());
 				tabelaModeloMovimentacaoFinanceiraApostador.addRow(vector);
 			}
