@@ -9,7 +9,7 @@ import br.com.futbolao.exception.GrupoNaoCadastradoException;
 public interface IRepositorioGrupo {
 
 	public void cadastrar(Grupo grupo) throws SQLException, GrupoJaCadastradoException, Exception;
-	public ArrayList<Grupo> procurarPorNome(String nome) throws SQLException, GrupoNaoCadastradoException, Exception;
+	public ArrayList<Grupo> procurarPorCompeticao(int idCompeticao, int numeroRodada) throws SQLException, GrupoNaoCadastradoException, Exception;
 	public Grupo procurarPorId(long id) throws SQLException, GrupoNaoCadastradoException, Exception;
 	public ArrayList<Grupo> listar() throws SQLException, GrupoNaoCadastradoException, Exception;
 	public void atualizar(Grupo grupo) throws SQLException, GrupoNaoCadastradoException, Exception;

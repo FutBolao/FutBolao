@@ -22,17 +22,11 @@ public class ControladorGrupo {
 			}
 	}
 	
-	public ArrayList<Grupo> procurarPorNome(String nome) throws SQLException, NomeVazioException, Exception{
+	public ArrayList<Grupo> procurarPorCompeticao(int idCompeticao, int numeroRodada) throws SQLException, GrupoNaoCadastradoException, Exception{
 		ArrayList<Grupo> grupos = new ArrayList<Grupo>();
-		if (!nome.equals("")) {
-			grupos = repositorio.procurarPorNome(nome);
-		}else {
-			throw new NomeVazioException();
-		}
+			grupos = repositorio.procurarPorCompeticao(idCompeticao, numeroRodada);
 		return grupos;
 	}
-	
-	
 	
 	public ArrayList<Grupo> listar() throws SQLException, NomeVazioException, Exception{
 		return repositorio.listar();

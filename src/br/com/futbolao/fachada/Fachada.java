@@ -175,6 +175,10 @@ public class Fachada {
 	public ArrayList<Competicao> listarCompeticaoComRodada() throws SQLException, CompeticaoNaoCadastradaException, Exception{
 		return this.controladorCompeticao.listarCompeticaoComRodada();		
 	}
+
+	public ArrayList<Competicao> listarCompeticaoComGrupo(char ativo) throws SQLException, CompeticaoNaoCadastradaException, Exception{
+		return this.controladorCompeticao.listarCompeticaoComGrupo(ativo);		
+	}
 	
 	public void atualizaCompeticao(Competicao competicao) throws NomeVazioException, SQLException, CompeticaoNaoCadastradaException, Exception{
 		this.controladorCompeticao.atualizar(competicao);
@@ -219,6 +223,10 @@ public class Fachada {
 		return this.controladorRodada.listarPorCompeticao(idCompeticao, trava);
 	}
 
+	public ArrayList<Integer> listarRodadaPorCompeticaoComGrupo(int idCompeticao) throws SQLException, RodadaNaoCadastradaException, Exception{
+		return this.controladorRodada.listarPorCompeticaoComGrupo(idCompeticao);
+	}
+	
 	public Rodada procurarRodadaPorId(long id) throws SQLException, RodadaNaoCadastradaException, Exception{
 		return this.controladorRodada.procurarPorId(id);
 	}
@@ -245,8 +253,8 @@ public class Fachada {
 		this.controladorGrupo.cadastrar(grupo);
 	}
 	
-	public ArrayList<Grupo> procurarGrupoPorNome(String nome) throws SQLException, NomeVazioException, Exception{
-		return this.controladorGrupo.procurarPorNome(nome);
+	public ArrayList<Grupo> procurarGrupoPorCompeticao(int idCompeticao, int numeroRodada) throws SQLException, GrupoNaoCadastradoException, Exception{
+		return this.controladorGrupo.procurarPorCompeticao(idCompeticao, numeroRodada);
 	}
 	
 	public Grupo procurarGrupoPorId(long id) throws SQLException, GrupoNaoCadastradoException, Exception{

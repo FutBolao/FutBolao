@@ -96,7 +96,7 @@ public class RodadaListar extends JInternalFrame {
 		
 		JLabel lblSelelcioneCompeticao = new JLabel("Selecione a competi\u00E7\u00E3o:");
 		lblSelelcioneCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblSelelcioneCompeticao.setBounds(10, 11, 133, 20);
+		lblSelelcioneCompeticao.setBounds(10, 15, 133, 20);
 		painelTabela.add(lblSelelcioneCompeticao);
 		
 		JScrollPane scrollPaneRodada = new JScrollPane();

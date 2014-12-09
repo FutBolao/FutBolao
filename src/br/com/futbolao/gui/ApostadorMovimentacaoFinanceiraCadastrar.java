@@ -239,7 +239,7 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 		if (validaCampos()) {
 			long idApostador = Long.parseLong(campoIdApostador.getText());
 			String tipoMovimentacao = (String) campoTipoMovimentacao.getSelectedItem();
-			Double valor = Double.parseDouble(campoValor.getText());
+			double valor = Double.parseDouble(campoValor.getText());
 			try {
 				fachada.cadastrarMovimentacaoFinanceiraApostador(new MovimentacaoFinanceiraApostador(0, idApostador, tipoMovimentacao, valor));
 				try {

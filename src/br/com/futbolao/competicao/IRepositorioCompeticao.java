@@ -13,6 +13,7 @@ public interface IRepositorioCompeticao {
 	public ArrayList<Competicao> procurarPorNome(String nome) throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public Competicao procurarPorId(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public ArrayList<Competicao> listarCompeticaoComRodada() throws SQLException, CompeticaoNaoCadastradaException, Exception;
+	public ArrayList<Competicao> listarCompeticaoComGrupo(char ativo) throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public ArrayList<Competicao> listar(char ativo) throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public void atualizar(Competicao competicao) throws SQLException, CompeticaoNaoCadastradaException, Exception;
 	public void deletar(int id) throws SQLException, CompeticaoNaoCadastradaException, Exception;

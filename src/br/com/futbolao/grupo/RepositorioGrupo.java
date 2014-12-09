@@ -83,8 +83,7 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				Grupo grupo = new Grupo(rs.getLong("id"),/*
-						rs.getString("nome"),*/
+				Grupo grupo = new Grupo(rs.getLong("id"),
 						rs.getDouble("valor_aposta"),
 						rs.getLong("limite_apostas"),
 						rs.getInt("limite_apostas_por_apostador"),
@@ -104,12 +103,12 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 	}
 	
 	// método para listar grupo.
-	public ArrayList<Grupo> procurarPorNome(String nome) throws SQLException, GrupoNaoCadastradoException, Exception{
-		return listar(" and nome like '%" + nome + "%'");
+	public ArrayList<Grupo> procurarPorCompeticao(int idCompeticao, int numeroRodada) throws SQLException, GrupoNaoCadastradoException, Exception{
+		return listar(" AND id_competicao =" + idCompeticao + " AND id_rodada=" + numeroRodada);
 	}
 	
 	public Grupo procurarPorId(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
-		return listar(" and id =" + id).get(0);
+		return listar(" AND id =" + id).get(0);
 	}
 	
 	// método para listar grupo.

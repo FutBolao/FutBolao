@@ -422,7 +422,6 @@ public class RodadaCadastrar extends JInternalFrame {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a rodada!");
-				e.printStackTrace();
 			}
 		}
 	}

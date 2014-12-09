@@ -14,8 +14,9 @@ import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 
 public class RepositorioCompeticao implements IRepositorioCompeticao{
 
-	public static final String NOME_TABELA = "competicao";
-	public static final String NOME_VIEW_RODADA = "vw_rodada";
+	private static final String NOME_TABELA = "competicao";
+	private static final String NOME_VIEW_RODADA = "vw_rodada";
+	private static final String NOME_VIEW_GRUPO = "vw_grupo";
 	private Connection connection;
 	private int dataBase = 0;
 	
@@ -68,6 +69,40 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		String sql = "";
 		sql = "SELECT DISTINCT id_competicao, nome_competicao FROM " + NOME_VIEW_RODADA + " ";
 		sql += "WHERE id IS NOT NULL AND trava='N'";
+		sql += " ORDER BY id_competicao DESC;";
+		ps = this.connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
+		// resultado de cada linha ao array de clube, até que haja linhas.
+		rs.first();
+		if (rs.getRow() > 0) {
+			rs.beforeFirst();
+			while (rs.next()) {
+			Competicao competicao = new Competicao(rs.getInt("id_competicao"), rs.getString("nome_competicao"));
+			competicoes.add(competicao);
+			}
+		}else{
+			throw new CompeticaoNaoCadastradaException();
+		}
+		ps.close();
+		rs.close();
+		return competicoes;
+	}
+	
+	// método para listar competição que tem grupo cadastrado.
+	public ArrayList<Competicao> listarCompeticaoComGrupo(char ativo) throws SQLException, CompeticaoNaoCadastradaException, Exception {
+		ArrayList<Competicao> competicoes = new ArrayList<Competicao>();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		String complemento = "";
+		if (ativo == 'S') {
+			complemento = ">";
+		} else {
+			complemento = "<=";
+		}
+		sql = "SELECT DISTINCT id_competicao, nome_competicao FROM " + NOME_VIEW_GRUPO + " ";
+		sql += "WHERE id IS NOT NULL AND data_encerramento_aposta " + complemento + " CURDATE()";
 		sql += " ORDER BY id_competicao DESC;";
 		ps = this.connection.prepareStatement(sql);
 		rs = ps.executeQuery();

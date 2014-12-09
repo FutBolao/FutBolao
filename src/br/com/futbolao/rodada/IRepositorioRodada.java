@@ -14,6 +14,7 @@ public interface IRepositorioRodada {
 	public Rodada procurarPorId(long id) throws SQLException, JogoNaoCadastradoNessaRodadaException, Exception;
 	public ArrayList<Rodada> procurar(int idCompeticao, int numeroDaRodada) throws SQLException, JogoNaoCadastradoNessaRodadaException, Exception;
 	public ArrayList<Integer> listarPorCompeticao(int idCompeticao, char trava) throws SQLException, JogoNaoCadastradoNessaRodadaException, Exception;
+	public ArrayList<Integer> listarPorCompeticaoComGrupo(int idCompeticao) throws SQLException, JogoNaoCadastradoNessaRodadaException, Exception;
 	public void atualizar(Rodada rodada) throws SQLException, ClubeJaCadastradoNessaRodadaException, JogoJaCadastradoNessaRodadaException, JogoNaoCadastradoNessaRodadaException, Exception;
 	public void travar(int idCompeticao, int numeroRodada) throws SQLException, Exception;
 	public void destravar(int idCompeticao, int numeroRodada) throws SQLException, Exception;

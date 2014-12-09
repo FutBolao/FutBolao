@@ -18,8 +18,9 @@ import br.com.futbolao.exception.RodadaTravadaException;
 
 public class RepositorioRodada implements IRepositorioRodada {
 	
-	public static final String NOME_TABELA = "rodada";
-	public static final String NOME_VIEW = "vw_rodada";
+	private static final String NOME_TABELA = "rodada";
+	private static final String NOME_VIEW = "vw_rodada";
+	private static final String NOME_VIEW_GRUPO = "vw_grupo";
 	private Connection connection;
 	private int dataBase = 0;
 	
@@ -133,7 +134,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 			return listar(" and id_competicao=" + idCompeticao + " and numero_rodada=" + numeroDaRodada);
 	}
 	
-	// método para listar rodadas.
+	// método para listar rodadas por competicao.
 	public ArrayList<Integer> listarPorCompeticao(int competicao, char trava) throws SQLException, RodadaNaoCadastradaException, Exception {
 		ArrayList<Integer> rodadas = new ArrayList<Integer>();
 		PreparedStatement ps = null;
@@ -155,6 +156,33 @@ public class RepositorioRodada implements IRepositorioRodada {
 			rs.beforeFirst();
 			while (rs.next()) {
 			rodadas.add(rs.getInt("numero_rodada"));
+			}
+		}else{
+			throw new RodadaNaoCadastradaException();
+		}
+		ps.close();
+		rs.close();
+		return rodadas;
+	}
+	
+	// método para listar rodadas por competicao.
+	public ArrayList<Integer> listarPorCompeticaoComGrupo(int competicao) throws SQLException, RodadaNaoCadastradaException, Exception {
+		ArrayList<Integer> rodadas = new ArrayList<Integer>();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		sql = "SELECT DISTINCT id_rodada FROM " + NOME_VIEW_GRUPO + " ";
+		sql += "WHERE id_competicao=" + competicao;
+		sql += " ORDER BY id_rodada DESC;";
+		ps = this.connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
+		// resultado de cada linha ao array de rodada, até que haja linhas.
+		rs.first();
+		if (rs.getRow() > 0) {
+			rs.beforeFirst();
+			while (rs.next()) {
+			rodadas.add(rs.getInt("id_rodada"));
 			}
 		}else{
 			throw new RodadaNaoCadastradaException();
