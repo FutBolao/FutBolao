@@ -7,7 +7,7 @@ public class Imagem {
 
 	public Imagem() {
 		super();
-		this.backgroundTelaPrincipal = "/br/com/futbolao/imagem/fundo.jpg";
+		this.backgroundTelaPrincipal = "/br/com/futbolao/imagem/fundo.png";
 	}
 	
 	public static Imagem getInstance() throws Exception {
