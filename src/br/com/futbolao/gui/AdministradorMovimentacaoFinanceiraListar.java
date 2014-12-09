@@ -115,6 +115,16 @@ public class AdministradorMovimentacaoFinanceiraListar extends JInternalFrame {
 		btnDeletar.setBounds(0, 0, 89, 23);
 		painelBotoes.add(btnDeletar);	
 		
+		JButton btnAtualizar = new JButton("Atualizar Lista");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listar();
+			}
+		});
+		btnAtualizar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAtualizar.setBounds(99, 1, 122, 23);
+		painelBotoes.add(btnAtualizar);
+		
 		listar();
 
 	}
