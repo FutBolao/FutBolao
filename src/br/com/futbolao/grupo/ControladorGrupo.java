@@ -2,9 +2,6 @@ package br.com.futbolao.grupo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import br.com.futbolao.competicao.Competicao;
-import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.GrupoJaCadastradoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.IdInvalidoException;

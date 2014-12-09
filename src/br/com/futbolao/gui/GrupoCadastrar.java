@@ -24,22 +24,26 @@ import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
 import br.com.futbolao.fachada.Fachada;
-import br.com.futbolao.rodada.Rodada;
 import br.com.futbolao.util.JMoneyField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class GrupoCadastrar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JMoneyField campoValorAposta;
-	private JMoneyField campoLimiteApostas;
+	private JTextField campoLimiteApostas;
 	private JMoneyField campoPercentualADM;
 	private JTextField campoLimiteApostador;
 	private JTextField campoEncerramentoAposta;
 	private JTextField campoPontuacaoResultado;
 	private JTextField campoPontuacaoporPlacar;
+	private int[] valueCopeticao;
+	private int[] valueRodada;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoCompeticao;
+	@SuppressWarnings("rawtypes")
 	private JComboBox campoRodada;
 
 	/**
@@ -63,6 +67,7 @@ public class GrupoCadastrar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("rawtypes")
 	public GrupoCadastrar() {
 		try {
 			fachada = Fachada.getInstance();
@@ -101,7 +106,7 @@ public class GrupoCadastrar extends JInternalFrame {
 		lblLimiteApostas.setBounds(10, 73, 113, 20);
 		painelCadastrar.add(lblLimiteApostas);
 		
-		campoLimiteApostas = new JMoneyField();
+		campoLimiteApostas = new JTextField();
 		campoLimiteApostas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoLimiteApostas.setColumns(10);
 		campoLimiteApostas.setBounds(10, 104, 100, 20);
@@ -119,6 +124,13 @@ public class GrupoCadastrar extends JInternalFrame {
 		painelCadastrar.add(campoPercentualADM);
 		
 	    campoCompeticao = new JComboBox();
+		campoCompeticao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (campoCompeticao.getSelectedIndex() > 0){
+					listaRodada();
+				}
+			}
+		});
 		campoCompeticao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoCompeticao.setBounds(10, 42, 295, 20);
 		painelCadastrar.add(campoCompeticao);
@@ -156,9 +168,9 @@ public class GrupoCadastrar extends JInternalFrame {
 		painelCadastrar.add(campoLimiteApostador);
 		campoLimiteApostador.setColumns(10);
 		
-		JLabel lblEncerramentodaAposta = new JLabel("Encerramento da aposta:");
+		JLabel lblEncerramentodaAposta = new JLabel("Data de encerramento das apostas:");
 		lblEncerramentodaAposta.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblEncerramentodaAposta.setBounds(10, 202, 146, 20);
+		lblEncerramentodaAposta.setBounds(10, 202, 195, 20);
 		painelCadastrar.add(lblEncerramentodaAposta);
 		
 		campoEncerramentoAposta = new JTextField();
@@ -208,14 +220,17 @@ public class GrupoCadastrar extends JInternalFrame {
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
-	private void listaCompeticao(){
+	@SuppressWarnings({ "unchecked" })
+	private void  listaCompeticao(){
 		ArrayList<Competicao> lista = new ArrayList<>();
 		try {
 			campoCompeticao.addItem("");
 			lista = fachada.listarCompeticao();
-			for (Competicao competicao : lista){
-				campoCompeticao.addItem(competicao.getNome());
-			}			
+			valueCopeticao = new int[(lista.size()+1)];
+			for (int i = 1; i <= lista.size(); i++) {
+				campoCompeticao.addItem(lista.get(i-1).getNome());
+				valueCopeticao[i] = lista.get(i-1).getId();
+			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
 		} catch (CompeticaoNaoCadastradaException e) {
@@ -225,10 +240,25 @@ public class GrupoCadastrar extends JInternalFrame {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void listaRodada(){
-		
-	}
-	
-	
-	
+		campoRodada.removeAllItems();
+		ArrayList<Integer> lista = new ArrayList<>();
+		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		try {
+			campoRodada.addItem("");
+			lista = fachada.procurarRodada(idCompeticao, 0);
+			valueRodada = new int[(lista.size()+1)];
+			for (int i = 1; i <= lista.size(); i++) {
+				campoRodada.addItem(lista.get(i-1));
+				valueRodada[i] = lista.get(i-1);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (RodadaNaoCadastradaException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao listar as rodadas!");
+		}
+	}	
 }

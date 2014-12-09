@@ -5,14 +5,18 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class GrupoAlterar extends JInternalFrame {
 	private JTextField campoValordaAposta;
 	private JTextField campoLimiteApostas;
@@ -41,6 +45,7 @@ public class GrupoAlterar extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("rawtypes")
 	public GrupoAlterar() {
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("Alterar Grupo");

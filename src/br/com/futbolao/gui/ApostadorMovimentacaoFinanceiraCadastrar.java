@@ -156,6 +156,16 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 		button.setBounds(10, 11, 83, 23);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel.add(button);
+		
+		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limpaCampos();
+			}
+		});
+		btnLimpar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnLimpar.setBounds(103, 12, 89, 23);
+		panel.add(btnLimpar);
 
 
 	}

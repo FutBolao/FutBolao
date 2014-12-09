@@ -4,16 +4,21 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
+
 import java.awt.Font;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class GrupoListar extends JInternalFrame {
 	private JTextField campoCompeticao;
 	private JTable table;
