@@ -21,6 +21,7 @@ import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.ValorInvalidoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.movimentacao.financeira.apostador.MovimentacaoFinanceiraApostador;
 import br.com.futbolao.util.FormataCampoApenasNumeros;
@@ -197,6 +198,7 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 	private boolean validaCampos(){
 		String tipoMovimentacao = (String) campoTipoMovimentacao.getSelectedItem();
 		String valor = campoValor.getText();
+		Double novoValor = Double.parseDouble(valor);
 		if(tipoMovimentacao.equals("")){
 			try {
 				throw new CampoInvalidoException();
@@ -205,7 +207,15 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 				campoTipoMovimentacao.requestFocus();
 			}
 			return false;
-		}else if(valor.equals("0.00")){
+		}else if(tipoMovimentacao.equals("CREDITO") && novoValor < 10.00){
+			try {
+				throw new ValorInvalidoException();
+			} catch (ValorInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				campoValor.requestFocus();
+			}
+			return false;			
+		}else if(valor.equals("0.00")){			
 			try {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
