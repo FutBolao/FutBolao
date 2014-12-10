@@ -94,7 +94,7 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 						rs.getString("data_encerramento_aposta").substring(8, 10) + "/" + 
 						rs.getString("data_encerramento_aposta").substring(5, 7) + "/" + 
 						rs.getString("data_encerramento_aposta").substring(0, 4),
-						rs.getInt("id_competicao"), rs.getInt("id_rodada"),
+						rs.getInt("id_competicao"), rs.getString("nome_competicao"), rs.getInt("id_rodada"),
 						rs.getInt("pontuacao_por_resultado"),
 						rs.getInt("pontuacao_por_placar"));
 				grupos.add(grupo);

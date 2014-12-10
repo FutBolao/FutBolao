@@ -10,23 +10,41 @@ public class Grupo {
 	private int percentualLucroAdministrador;
 	private String dataEncerramentoAposta;
 	private int idCompeticao;
+	private String nomeCompeticao;
 	private int idRodada;
 	private int pontuacaoPorResultado;
 	private int pontuacaoPorPlacar;
 		
-	public Grupo(long id, /*String nome,*/ double valorAposta, long limiteApostas,
+	public Grupo(long id, double valorAposta, long limiteApostas,
 			int limiteApostasPorApostador, int percentualLucroAdministrador,
 			String dataEncerramentoAposta, int idCompeticao, int idRodada,
 			int pontuacaoPorResultado, int pontuacaoPorPlacar) {
 		super();
 		this.id = id;
-		//this.nome = nome;
 		this.valorAposta = valorAposta;
 		this.limiteApostas = limiteApostas;
 		this.limiteApostasPorApostador = limiteApostasPorApostador;
 		this.percentualLucroAdministrador = percentualLucroAdministrador;
 		this.dataEncerramentoAposta = dataEncerramentoAposta;
 		this.idCompeticao = idCompeticao;
+		this.idRodada = idRodada;
+		this.pontuacaoPorResultado = pontuacaoPorResultado;
+		this.pontuacaoPorPlacar = pontuacaoPorPlacar;
+	}
+	
+	public Grupo(long id, double valorAposta, long limiteApostas,
+			int limiteApostasPorApostador, int percentualLucroAdministrador,
+			String dataEncerramentoAposta, int idCompeticao, String nomeCompeticao, int idRodada,
+			int pontuacaoPorResultado, int pontuacaoPorPlacar) {
+		super();
+		this.id = id;
+		this.valorAposta = valorAposta;
+		this.limiteApostas = limiteApostas;
+		this.limiteApostasPorApostador = limiteApostasPorApostador;
+		this.percentualLucroAdministrador = percentualLucroAdministrador;
+		this.dataEncerramentoAposta = dataEncerramentoAposta;
+		this.idCompeticao = idCompeticao;
+		this.nomeCompeticao = nomeCompeticao;
 		this.idRodada = idRodada;
 		this.pontuacaoPorResultado = pontuacaoPorResultado;
 		this.pontuacaoPorPlacar = pontuacaoPorPlacar;
@@ -86,6 +104,14 @@ public class Grupo {
 
 	public void setIdCompeticao(int idCompeticao) {
 		this.idCompeticao = idCompeticao;
+	}
+	
+	public String getNomeCompeticao() {
+		return nomeCompeticao;
+	}
+
+	public void setNomeCompeticao(String nomeCompeticao) {
+		this.nomeCompeticao = nomeCompeticao;
 	}
 	
 	public int getIdRodada() {

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.administrador.ControladorAdministrador;
+import br.com.futbolao.aposta.Aposta;
+import br.com.futbolao.aposta.ControladorAposta;
 import br.com.futbolao.apostador.Apostador;
 import br.com.futbolao.apostador.ControladorApostador;
 import br.com.futbolao.clube.Clube;
@@ -13,6 +15,7 @@ import br.com.futbolao.competicao.Competicao;
 import br.com.futbolao.competicao.ControladorCompeticao;
 import br.com.futbolao.exception.AdministradorJaCadastradoException;
 import br.com.futbolao.exception.AdministradorNaoCadastradoException;
+import br.com.futbolao.exception.ApostaNaoCadastradaException;
 import br.com.futbolao.exception.ApostadorJaCadastradoException;
 import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.ClubeJaCadastradoException;
@@ -48,6 +51,7 @@ public class Fachada {
 	
 	private static Fachada instance = null;
 	private ControladorApostador controladorApostador;
+	private ControladorAposta controladorAposta;
 	private ControladorAdministrador controladorAdministrador;
 	private ControladorClube controladorClube;
 	private ControladorCompeticao controladorCompeticao;
@@ -59,6 +63,7 @@ public class Fachada {
 	
 	public Fachada() throws Exception {
 		this.controladorApostador = new ControladorApostador();
+		this.controladorAposta = new ControladorAposta();
 		this.controladorAdministrador = new ControladorAdministrador();
 		this.controladorClube = new ControladorClube();
 		this.controladorCompeticao = new ControladorCompeticao();
@@ -81,7 +86,7 @@ public class Fachada {
 		this.controladorApostador.cadastrar(apostador);
 	}
 	
-	public Apostador procurarApostadorPorId(long id) throws CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
+	public Apostador procurarApostadorPorId(long id) throws IdInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
 		return this.controladorApostador.procurarPorId(id);
 		
 	}
@@ -102,6 +107,23 @@ public class Fachada {
 	
 	public void deletarApostador(long id) throws CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
 		this.controladorApostador.deletar(id);
+	}
+	
+	//Métodos da Aposta
+	public void cadastrarAposta(ArrayList<Aposta> aposta) throws SQLException, ApostaNaoCadastradaException, Exception{
+		this.controladorAposta.cadastrar(aposta);
+	}
+	
+	public ArrayList<Aposta> procurarApostaPorApostador(long idApostador, char ativa) throws SQLException, ApostaNaoCadastradaException, Exception{
+		return this.controladorAposta.procurarPorApostador(idApostador, ativa);
+	}
+
+	public ArrayList<Aposta> procurarApostaPorGrupo(long idGrupo, char ativa) throws SQLException, ApostaNaoCadastradaException, Exception{
+		return this.controladorAposta.procurarPorGrupo(idGrupo, ativa);
+	}
+	
+	public void deletar(long id) throws SQLException, ApostaNaoCadastradaException, Exception{
+		this.controladorAposta.deletar(id);
 	}
 	
 	//Métodos do Administrador

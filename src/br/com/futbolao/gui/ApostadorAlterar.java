@@ -259,7 +259,7 @@ public class ApostadorAlterar extends JInternalFrame {
 		campoClube.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		campoClube.setColumns(10);
 		campoClube.setBounds(10, 390, 121, 20);
-		campoPais.setDocument(new FormataCampoPermiteTudoUpperCase(30));
+		campoClube.setDocument(new FormataCampoPermiteTudoUpperCase(30));
 		painelForm.add(campoClube);
 		
 		JLabel lblUsuario = new JLabel("Usuario : ");

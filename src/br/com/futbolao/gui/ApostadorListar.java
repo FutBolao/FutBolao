@@ -82,7 +82,7 @@ public class ApostadorListar extends JInternalFrame {
 		painelTabela.setLayout(null);
 		
 		JLabel lblDigitenome = new JLabel("Digite o nome do apostador desejado ou deixe em branco para listar todos: ");
-		lblDigitenome.setBounds(10, 11, 223, 14);
+		lblDigitenome.setBounds(10, 11, 510, 14);
 		lblDigitenome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		painelTabela.add(lblDigitenome);
 		

@@ -2,6 +2,7 @@ package br.com.futbolao.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,12 +12,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
 import org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel;
+
+import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.ErroAoInstanciarImagemException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.util.Imagem;
 import br.com.futbolao.util.JDesktopPaneComBackground;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -133,6 +138,14 @@ public class Principal extends JFrame {
 		menuBar.add(mnAposta);
 		
 		JMenuItem mntmApostaCadastrar = new JMenuItem("Cadastrar");
+		mntmApostaCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ApostaCadastrar apostaCadastrar = new ApostaCadastrar();
+				desktopPane.add(apostaCadastrar);
+				apostaCadastrar.setVisible(true);
+				apostaCadastrar.setPosicao();
+			}
+		});
 		mnAposta.add(mntmApostaCadastrar);
 		
 		JMenuItem mntmApostaListar = new JMenuItem("Listar");
