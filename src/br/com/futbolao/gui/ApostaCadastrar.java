@@ -403,6 +403,7 @@ public class ApostaCadastrar extends JInternalFrame {
 						throw new PreenchaTodosOsResultadosException();
 					} catch (PreenchaTodosOsResultadosException e) {
 						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+						return;
 					}
 				}
 			}

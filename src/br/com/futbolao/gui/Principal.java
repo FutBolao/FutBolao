@@ -12,10 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-
 import org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel;
-
-import br.com.futbolao.administrador.Administrador;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.ErroAoInstanciarImagemException;
 import br.com.futbolao.fachada.Fachada;
