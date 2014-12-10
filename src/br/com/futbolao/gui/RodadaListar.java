@@ -42,7 +42,7 @@ public class RodadaListar extends JInternalFrame {
 	private String[] colunaTabelaRodada;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoCompeticao;
-	private int[] valueCopeticao;
+	private int[] valueCompeticao;
 	private int[] valueRodada;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoRodada;
@@ -245,10 +245,10 @@ public class RodadaListar extends JInternalFrame {
 		try {
 			campoCompeticao.addItem("");
 			lista = fachada.listarCompeticaoComRodada();
-			valueCopeticao = new int[(lista.size()+1)];
+			valueCompeticao = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoCompeticao.addItem(lista.get(i-1).getNome());
-				valueCopeticao[i] = lista.get(i-1).getId();
+				valueCompeticao[i] = lista.get(i-1).getId();
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -263,7 +263,7 @@ public class RodadaListar extends JInternalFrame {
 	private void listaRodada(){
 		campoRodada.removeAllItems();
 		ArrayList<Integer> lista = new ArrayList<>();
-		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		int idCompeticao = valueCompeticao[campoCompeticao.getSelectedIndex()];
 		try {
 			campoRodada.addItem("");
 			lista = fachada.listarRodadaPorCompeticao(idCompeticao, ' ');
@@ -289,7 +289,7 @@ public class RodadaListar extends JInternalFrame {
 		ArrayList<Rodada> lista = new ArrayList<>();
 		try {
 			char acaoDosBotoes = ' ';
-			lista = fachada.procurarRodada(valueCopeticao[idCompeticao], valueRodada[numeroDaRodada]);
+			lista = fachada.procurarRodada(valueCompeticao[idCompeticao], valueRodada[numeroDaRodada]);
 			for (Rodada rodada: lista) {
 				Vector vector = new Vector();
 				vector.add(rodada.getId());
@@ -360,7 +360,7 @@ public class RodadaListar extends JInternalFrame {
 	}
 	
 	private void travar(){
-		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		int idCompeticao = valueCompeticao[campoCompeticao.getSelectedIndex()];
 		int numeroDaRodada = valueRodada[campoRodada.getSelectedIndex()];
 		try {
 			fachada.travarRodada(idCompeticao, numeroDaRodada);
@@ -378,7 +378,7 @@ public class RodadaListar extends JInternalFrame {
 	}
 	
 	private void destravar(){
-		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		int idCompeticao = valueCompeticao[campoCompeticao.getSelectedIndex()];
 		int numeroDaRodada = valueRodada[campoRodada.getSelectedIndex()];
 		try {
 			fachada.destravarRodada(idCompeticao, numeroDaRodada);

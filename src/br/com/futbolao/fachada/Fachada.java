@@ -21,6 +21,7 @@ import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.CompeticaoJaCadastradaException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.CpfInvalidoException;
+import br.com.futbolao.exception.ExisteApostaNesseGrupoException;
 import br.com.futbolao.exception.GrupoJaCadastradoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.IdInvalidoException;
@@ -265,7 +266,7 @@ public class Fachada {
 		this.controladorGrupo.atualizar(grupo);
 	}
 	
-	public void deletarGrupo(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
+	public void deletarGrupo(long id) throws SQLException, ExisteApostaNesseGrupoException, GrupoNaoCadastradoException, Exception{
 		this.controladorGrupo.deletar(id);
 	}
 	

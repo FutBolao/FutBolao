@@ -2,6 +2,8 @@ package br.com.futbolao.grupo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import br.com.futbolao.exception.ExisteApostaNesseGrupoException;
 import br.com.futbolao.exception.GrupoJaCadastradoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.IdInvalidoException;
@@ -48,7 +50,7 @@ public class ControladorGrupo {
 			}
 	}
 	
-	public void deletar(long id) throws SQLException, GrupoNaoCadastradoException, Exception{
+	public void deletar(long id) throws SQLException, ExisteApostaNesseGrupoException, GrupoNaoCadastradoException, Exception{
 		if (id > 0) {
 			repositorio.deletar(id);
 		}else {

@@ -14,7 +14,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
@@ -29,7 +32,9 @@ import javax.swing.JRadioButton;
 
 import br.com.futbolao.competicao.Competicao;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
+import br.com.futbolao.exception.ConfirmacaoDeExclusaoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.ExisteApostaNesseGrupoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
 import br.com.futbolao.fachada.Fachada;
@@ -41,7 +46,7 @@ public class GrupoListar extends JInternalFrame {
 	private JTable tabelaGrupo;
 	private DefaultTableModel modeloTabelaGrupo;
 	private String[] colunaTabelaGrupo;
-	private int[] valueCopeticao;
+	private int[] valueCompeticao;
 	private int[] valueRodada;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoCompeticao;
@@ -50,6 +55,7 @@ public class GrupoListar extends JInternalFrame {
 	private JRadioButton rdbtnGruposEncerrados;
 	private JRadioButton rdbtnGruposAtivos;
 	private ButtonGroup grupoRadio;
+	private DecimalFormat formatacaoDinheiro =  new DecimalFormat("#,##0.00;(#,##0.00)", new DecimalFormatSymbols(new Locale("pt", "BR")));
 
 	/**
 	 * Launch the application.
@@ -194,11 +200,21 @@ public class GrupoListar extends JInternalFrame {
 		painelBotoes.setLayout(null);
 		
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				alterar();
+			}
+		});
 		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAlterar.setBounds(10, 11, 89, 23);
 		painelBotoes.add(btnAlterar);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				deletar();
+			}
+		});
 		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnRemover.setBounds(109, 11, 89, 23);
 		painelBotoes.add(btnRemover);
@@ -230,10 +246,10 @@ public class GrupoListar extends JInternalFrame {
 		try {
 			campoCompeticao.addItem("");
 			lista = fachada.listarCompeticaoComGrupo(ativo);
-			valueCopeticao = new int[(lista.size()+1)];
+			valueCompeticao = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoCompeticao.addItem(lista.get(i-1).getNome());
-				valueCopeticao[i] = lista.get(i-1).getId();
+				valueCompeticao[i] = lista.get(i-1).getId();
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -248,7 +264,7 @@ public class GrupoListar extends JInternalFrame {
 	private void listaRodada(){
 		campoRodada.removeAllItems();
 		ArrayList<Integer> lista = new ArrayList<>();
-		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		int idCompeticao = valueCompeticao[campoCompeticao.getSelectedIndex()];
 		try {
 			campoRodada.addItem("");
 			lista = fachada.listarRodadaPorCompeticaoComGrupo(idCompeticao);
@@ -272,11 +288,11 @@ public class GrupoListar extends JInternalFrame {
 		int numeroDaRodada = campoRodada.getSelectedIndex();
 		ArrayList<Grupo> lista = new ArrayList<>();
 		try {
-			lista = fachada.procurarGrupoPorCompeticao(valueCopeticao[idCompeticao], valueRodada[numeroDaRodada]);
+			lista = fachada.procurarGrupoPorCompeticao(valueCompeticao[idCompeticao], valueRodada[numeroDaRodada]);
 			for (Grupo grupo: lista) {
 				Vector vector = new Vector();
 				vector.add(grupo.getId());
-				vector.add(grupo.getValorAposta());
+				vector.add(formatacaoDinheiro.format(grupo.getValorAposta()));
 				vector.add(grupo.getLimiteApostas());
 				vector.add(grupo.getLimiteApostasPorApostador());
 				vector.add(grupo.getPercentualLucroAdministrador());
@@ -292,6 +308,44 @@ public class GrupoListar extends JInternalFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao listar os grupos!");
 			e.printStackTrace();
+		}
+	}
+	
+	private void alterar(){
+		if (tabelaGrupo.getSelectedRowCount() == 1) {
+			int linha = tabelaGrupo.getSelectedRow();
+			long id = (long)tabelaGrupo.getValueAt(linha, 0);
+			GrupoAlterar grupoAlterar = new GrupoAlterar(id);
+			Principal.desktopPane.add(grupoAlterar);
+			grupoAlterar.setVisible(true);
+			grupoAlterar.setPosicao();	
+		}
+	}
+	
+	private void deletar(){
+		if (tabelaGrupo.getSelectedRowCount() == 1) {
+			try {
+				throw new ConfirmacaoDeExclusaoException();
+			} catch (ConfirmacaoDeExclusaoException ex) {
+				int confirmacao = JOptionPane.showConfirmDialog(rootPane, ex.getMessage(), "Alerta", JOptionPane.YES_NO_OPTION);
+				if (confirmacao == 0) {
+					try {
+						int linha = tabelaGrupo.getSelectedRow();
+						long id = (long)tabelaGrupo.getValueAt(linha, 0);
+						fachada.deletarGrupo(id);
+						limparTabela();
+						procurar();
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					} catch (ExisteApostaNesseGrupoException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					} catch (GrupoNaoCadastradoException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao deletar o grupo");
+					}
+				}
+			}
 		}
 	}
 }

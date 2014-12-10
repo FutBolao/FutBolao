@@ -6,15 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 import br.com.futbolao.conexao.Conexao;
 import br.com.futbolao.conexao.DataBase;
+import br.com.futbolao.exception.ExisteApostaNesseGrupoException;
 import br.com.futbolao.exception.GrupoJaCadastradoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 
 public class RepositorioGrupo implements IRepositorioGrupo{
 	
-	public static final String NOME_TABELA = "grupo";
-	public static final String NOME_VIEW = "vw_grupo";
+	private static final String NOME_TABELA = "grupo";
+	private static final String NOME_VIEW = "vw_grupo";
+	private static final String NOME_TABELA_APOSTA = "aposta";
 	private Connection connection;
 	private int dataBase = 0;
 	
@@ -88,7 +91,9 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 						rs.getLong("limite_apostas"),
 						rs.getInt("limite_apostas_por_apostador"),
 						rs.getInt("percentual_lucro_administrador"),
-						rs.getString("data_encerramento_aposta"),
+						rs.getString("data_encerramento_aposta").substring(8, 10) + "/" + 
+						rs.getString("data_encerramento_aposta").substring(5, 7) + "/" + 
+						rs.getString("data_encerramento_aposta").substring(0, 4),
 						rs.getInt("id_competicao"), rs.getInt("id_rodada"),
 						rs.getInt("pontuacao_por_resultado"),
 						rs.getInt("pontuacao_por_placar"));
@@ -134,7 +139,7 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 			ps.setInt(6, grupo.getIdCompeticao());
 			ps.setInt(7, grupo.getIdRodada());
 			ps.setInt(8, grupo.getPontuacaoPorResultado());
-			ps.setInt(8, grupo.getPontuacaoPorPlacar());
+			ps.setInt(9, grupo.getPontuacaoPorPlacar());
 			ps.setLong(10, grupo.getId());
 			Integer resultado = ps.executeUpdate();
 			// se a atualizaçãp for efetuada com êxito o atributo resultado terá um valor diferente de 0, caso contrario levanta uma exception
@@ -145,14 +150,18 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 	}
 	
 	// método para deletar grupo.
-	public void deletar(long id) throws SQLException, GrupoNaoCadastradoException, Exception {
-		PreparedStatement ps = null;
-		String sql = "DELETE FROM " + NOME_TABELA + " WHERE id=?";
-		ps = connection.prepareStatement(sql);
-		ps.setLong(1, id);
-		Integer resultado = ps.executeUpdate();
-		ps.close();
-		if(resultado == 0) throw new GrupoNaoCadastradoException();
+	public void deletar(long id) throws SQLException, ExisteApostaNesseGrupoException, GrupoNaoCadastradoException, Exception {
+		if (existeAposta(id) == false) {
+			PreparedStatement ps = null;
+			String sql = "DELETE FROM " + NOME_TABELA + " WHERE id=?";
+			ps = connection.prepareStatement(sql);
+			ps.setLong(1, id);
+			Integer resultado = ps.executeUpdate();
+			ps.close();
+			if(resultado == 0) throw new GrupoNaoCadastradoException();
+		} else {
+			throw new ExisteApostaNesseGrupoException();
+		}
 	}
 	
 	// método para verificar se existe grupo.
@@ -178,4 +187,21 @@ public class RepositorioGrupo implements IRepositorioGrupo{
 		rs.close();
 		return resposta;
 	}
+	
+	// método para verificar se existe apostas já realizadas no grupo.
+	public boolean existeAposta(long grupo) throws SQLException, Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM " + NOME_TABELA_APOSTA + " WHERE id_grupo=" + grupo;
+		boolean resposta = false;		
+		ps = connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		if(rs.next()){
+			resposta = true;
+		}
+		ps.close();
+		rs.close();
+		return resposta;
+	}
+	
 }

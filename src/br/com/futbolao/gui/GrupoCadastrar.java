@@ -50,7 +50,7 @@ public class GrupoCadastrar extends JInternalFrame {
 	private JFormattedTextField campoEncerramentoAposta;
 	private JTextField campoPontuacaoPorResultado;
 	private JTextField campoPontuacaoPorPlacar;
-	private int[] valueCopeticao;
+	private int[] valueCompeticao;
 	private int[] valueRodada;
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoCompeticao;
@@ -348,10 +348,10 @@ public class GrupoCadastrar extends JInternalFrame {
 		try {
 			campoCompeticao.addItem("");
 			lista = fachada.listarCompeticaoComRodada();
-			valueCopeticao = new int[(lista.size()+1)];
+			valueCompeticao = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoCompeticao.addItem(lista.get(i-1).getNome());
-				valueCopeticao[i] = lista.get(i-1).getId();
+				valueCompeticao[i] = lista.get(i-1).getId();
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -366,7 +366,7 @@ public class GrupoCadastrar extends JInternalFrame {
 	private void listaRodada(){
 		campoRodada.removeAllItems();
 		ArrayList<Integer> lista = new ArrayList<>();
-		int idCompeticao = valueCopeticao[campoCompeticao.getSelectedIndex()];
+		int idCompeticao = valueCompeticao[campoCompeticao.getSelectedIndex()];
 		try {
 			campoRodada.addItem("");
 			lista = fachada.listarRodadaPorCompeticao(idCompeticao, 'N');
@@ -420,7 +420,7 @@ public class GrupoCadastrar extends JInternalFrame {
 			double valorDaAposta = Double.parseDouble(campoValorDaAposta.getText());
 			String data = campoEncerramentoAposta.getText().substring(6, 10) + "-" + campoEncerramentoAposta.getText().substring(3, 5) + "-" + campoEncerramentoAposta.getText().substring(0, 2);
 			try {
-				fachada.cadastrarGrupo(new Grupo(0, valorDaAposta, limiteDeApostas, limiteDeApostasPorApostador, percentualAdministrador, data, valueCopeticao[competicao], valueRodada[rodada], pontosPorResultado, pontosPorPlacar));
+				fachada.cadastrarGrupo(new Grupo(0, valorDaAposta, limiteDeApostas, limiteDeApostasPorApostador, percentualAdministrador, data, valueCompeticao[competicao], valueRodada[rodada], pontosPorResultado, pontosPorPlacar));
 				try {
 					throw new CadastroEfetuadoComSucessoException();
 				} catch (CadastroEfetuadoComSucessoException e) {
