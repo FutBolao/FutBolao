@@ -44,7 +44,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 		if (existeTrava(rodada.getIdCompeticao(), rodada.getNumeroRodada()) ==  false){
 			if (existeClubeNaRodada(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2()) == false) {
 				if (existe(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getIdJogo()) == false){
-					sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, clube1, clube2) VALUES (?,?,?,?,?);";
+					sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, data_hora, clube1, clube2) VALUES (?,?,?,?,?);";
 					if (this.dataBase == DataBase.ORACLE) {
 						ps = this.connection.prepareStatement(sql, new String[] { "id" });
 					} else {
@@ -53,8 +53,9 @@ public class RepositorioRodada implements IRepositorioRodada {
 					ps.setInt(1, rodada.getIdCompeticao());
 					ps.setInt(2, rodada.getNumeroRodada());
 					ps.setInt(3, rodada.getIdJogo());
-					ps.setInt(4, rodada.getClube1());
-					ps.setInt(5, rodada.getClube2());
+					ps.setString(4, rodada.getDataHora());
+					ps.setInt(5, rodada.getClube1());
+					ps.setInt(6, rodada.getClube2());
 					ps.execute();
 					rs = ps.getGeneratedKeys();
 					long id = 0;
