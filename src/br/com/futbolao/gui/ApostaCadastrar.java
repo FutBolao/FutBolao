@@ -17,6 +17,7 @@ import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NaoFoiPossivelRealizarApostaException;
 import br.com.futbolao.exception.PreenchaTodosOsResultadosException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
+import br.com.futbolao.exception.SaldoInsulficienteException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.grupo.Grupo;
 import br.com.futbolao.rodada.Rodada;
@@ -63,6 +64,8 @@ public class ApostaCadastrar extends JInternalFrame {
 	private String limiteApostas = "";
 	private String limiteApostasPorApostador = "";
 	private String valorAposta = "";
+	private double saldoApostadorDouble;
+	private double valorApostaDouble;
 	private String taxaDeAdministracao = "";
 	private String pontuacaoPorPlacar = "";
 	private String pontuacaoPorResultado = "";
@@ -320,6 +323,7 @@ public class ApostaCadastrar extends JInternalFrame {
 			campoIdApostador.setEditable(false);
 			campoIdApostador.disable();
 			campoNomeApostador.setText(apostador.getNome());
+			saldoApostadorDouble = apostador.getSaldo();
 			campoIdGrupo.requestFocus();
 		} catch (IdInvalidoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -345,6 +349,7 @@ public class ApostaCadastrar extends JInternalFrame {
 			limiteApostasPorApostador = String.valueOf(grupo.getLimiteApostasPorApostador());
 			taxaDeAdministracao = String.valueOf(grupo.getPercentualLucroAdministrador());
 			valorAposta = formatacaoDinheiro.format(grupo.getValorAposta());
+			valorApostaDouble = grupo.getValorAposta();
 			pontuacaoPorPlacar = String.valueOf(grupo.getPontuacaoPorPlacar());
 			pontuacaoPorResultado = String.valueOf(grupo.getPontuacaoPorResultado());
 			dataEncerramentoAposta = String.valueOf(grupo.getDataEncerramentoAposta());
@@ -398,6 +403,14 @@ public class ApostaCadastrar extends JInternalFrame {
 			long idApostador = Long.parseLong(campoIdApostador.getText());
 			long idGrupo = Long.parseLong(campoIdGrupo.getText());
 			int linhas = tabelaRodada.getRowCount();
+			if (saldoApostadorDouble < valorApostaDouble) {
+				try {
+					throw new SaldoInsulficienteException();
+				} catch (SaldoInsulficienteException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				return;
+			}
 			for (int i=0; i < linhas; i++) {
 				if (tabelaRodada.getValueAt(i, 3) != null && tabelaRodada.getValueAt(i, 5) != null){
 					if (!tabelaRodada.getValueAt(i, 3).equals("") && !tabelaRodada.getValueAt(i, 5).equals("")){
@@ -438,7 +451,6 @@ public class ApostaCadastrar extends JInternalFrame {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a aposta");
-				e.printStackTrace();
 			}
 		}
 	}

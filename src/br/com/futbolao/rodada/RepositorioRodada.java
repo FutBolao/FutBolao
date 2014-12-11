@@ -323,6 +323,8 @@ public class RepositorioRodada implements IRepositorioRodada {
 			}else if (id != 0 && id == rs.getLong("id") && (Clube1 == rs.getInt("clube1") && Clube2 == rs.getInt("clube2")) || 
 					(Clube2 == rs.getInt("clube1") && Clube1 == rs.getInt("clube2")) ){
 				resposta = false;
+			}else if (id != 0 && id == rs.getLong("id")){
+				resposta = false;
 			}else{
 				resposta = true;
 			}

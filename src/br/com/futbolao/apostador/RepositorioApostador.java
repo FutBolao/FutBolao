@@ -16,6 +16,7 @@ import br.com.futbolao.util.Endereco;
 public class RepositorioApostador implements IRepositorioApostador {
 	
 	private static final String NOME_TABELA = "apostador";
+	private static final String NOME_VIEW = "vw_apostador";
 	private Connection connection;
 	private int dataBase = 0;
 	
@@ -85,7 +86,7 @@ public class RepositorioApostador implements IRepositorioApostador {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
-		sql = "SELECT * FROM " + NOME_TABELA + " ";
+		sql = "SELECT * FROM " + NOME_VIEW + " ";
 		sql += "WHERE id IS NOT NULL";
 		sql += complemento;
 		ps = this.connection.prepareStatement(sql);
@@ -100,12 +101,12 @@ public class RepositorioApostador implements IRepositorioApostador {
 						rs.getString("numero"), rs.getString("bairro"),
 						rs.getString("cidade"), rs.getString("estado"),
 						rs.getString("pais"));
-				Apostador apostador = new Apostador(rs.getInt("id"),
+				Apostador apostador = new Apostador(rs.getLong("id"),
 						rs.getString("nome"), rs.getString("cpf"), rs.getString("sexo").charAt(0),
 						rs.getString("telefone"), rs.getString("email"),
 						endereco, String.valueOf(rs.getDate("data_de_nascimento")),
 						rs.getString("usuario"), rs.getString("senha"),
-						rs.getString("clube"));
+						rs.getString("clube"), rs.getDouble("saldo"));
 				apostadores.add(apostador);
 			}
 		} else {
