@@ -2,6 +2,7 @@ package br.com.futbolao.administrador;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import br.com.futbolao.exception.AdministradorJaCadastradoException;
 import br.com.futbolao.exception.AdministradorNaoCadastradoException;
 
@@ -14,4 +15,5 @@ public interface IRepositorioAdministrador {
 	public void atualizar(Administrador administrador) throws SQLException, AdministradorNaoCadastradoException, Exception;
 	public void deletar(long id) throws SQLException, AdministradorNaoCadastradoException, Exception;
 	public boolean existe(String cpf) throws SQLException, Exception;
+	public boolean login(String usuario, String senha) throws SQLException, Exception;
 }

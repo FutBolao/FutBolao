@@ -7,6 +7,12 @@ public class Administrador extends Pessoa {
 	
 	private long id;
 	private char ativo;
+	
+	
+
+	public Administrador(String usuario, String senha) {
+		super("", "", ' ', "", "", new Endereco("", "", "", "", "", ""), "",usuario, senha);
+	}
 
 	public Administrador(long id, String nome, String cpf, char sexo, String telefone,
 			String email, Endereco endereco, String dataDeNascimento,

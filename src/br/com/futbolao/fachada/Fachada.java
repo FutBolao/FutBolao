@@ -36,6 +36,8 @@ import br.com.futbolao.exception.PermissaoJaCadastradaException;
 import br.com.futbolao.exception.PermissaoNaoCadastradaException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
 import br.com.futbolao.exception.RodadaTravadaException;
+import br.com.futbolao.ganhadores.ControladorGanhador;
+import br.com.futbolao.ganhadores.Ganhador;
 import br.com.futbolao.grupo.ControladorGrupo;
 import br.com.futbolao.grupo.Grupo;
 import br.com.futbolao.movimentacao.financeira.administrador.ControladorMovimentacaoFinanceiraAdministrador;
@@ -51,6 +53,7 @@ public class Fachada {
 	
 	private static Fachada instance = null;
 	private ControladorApostador controladorApostador;
+	private ControladorGanhador controladorGanhador;
 	private ControladorAposta controladorAposta;
 	private ControladorAdministrador controladorAdministrador;
 	private ControladorClube controladorClube;
@@ -63,6 +66,7 @@ public class Fachada {
 	
 	public Fachada() throws Exception {
 		this.controladorApostador = new ControladorApostador();
+		this.controladorGanhador = new ControladorGanhador();
 		this.controladorAposta = new ControladorAposta();
 		this.controladorAdministrador = new ControladorAdministrador();
 		this.controladorClube = new ControladorClube();
@@ -107,6 +111,16 @@ public class Fachada {
 	
 	public void deletarApostador(long id) throws CpfInvalidoException, SQLException, ApostadorNaoCadastradoException, Exception{
 		this.controladorApostador.deletar(id);
+	}
+	
+	//Métodos do ganhador
+	
+	public void verificarGanhador(long idGrupo) throws SQLException, Exception{
+		this.controladorGanhador.verificar(idGrupo);
+	}
+	
+	public ArrayList<Ganhador> listarGanhador(long idGrupo) throws SQLException, Exception{
+		return this.controladorGanhador.listar(idGrupo);
 	}
 	
 	//Métodos da Aposta
@@ -155,6 +169,10 @@ public class Fachada {
 	
 	public void deletarAdministrador(long id) throws CpfInvalidoException, SQLException, AdministradorNaoCadastradoException, Exception{
 		this.controladorAdministrador.deletar(id);
+	}
+	
+	public boolean login(String usuario, String senha) throws SQLException, Exception{
+		return this.controladorAdministrador.login(usuario, senha);
 	}
 	
 	//Métodos do Clube

@@ -81,4 +81,8 @@ public class ControladorAdministrador {
 		}
 	}
 	
+	public boolean login(String usuario, String senha) throws SQLException, Exception{
+			return repositorio.login(usuario, senha);
+	}
+	
 }

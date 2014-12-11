@@ -216,8 +216,22 @@ public class Principal extends JFrame {
 		});
 		mnGrupo.add(mntmGrupoListar);
 		
+		JMenu mnGanhadores = new JMenu("Verificar Ganhadores");
+		mnAposta.add(mnGanhadores);
+		
 		JMenuItem mntmVerificarGanhadores = new JMenuItem("Verificar Ganhadores");
-		mnAposta.add(mntmVerificarGanhadores);
+		mnGanhadores.add(mntmVerificarGanhadores);
+		
+		JMenuItem mntmListarGanhadores = new JMenuItem("Listar Ganhadores");
+		mntmListarGanhadores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GanhadorListar ganhadorListar = new GanhadorListar();
+				desktopPane.add(ganhadorListar);
+				ganhadorListar.setVisible(true);
+				ganhadorListar.setPosicao();
+			}
+		});
+		mnGanhadores.add(mntmListarGanhadores);
 		
 		JMenu mnClubes = new JMenu("Clube");
 		mnClubes.setMnemonic('l');

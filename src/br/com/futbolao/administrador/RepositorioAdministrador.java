@@ -192,5 +192,22 @@ public class RepositorioAdministrador implements IRepositorioAdministrador {
 		rs.close();
 		return resposta;
 	}
+	
+	public boolean login(String usuario, String senha) throws SQLException, Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM " + NOME_TABELA + " WHERE usuario=? and senha=?";
+		boolean resposta = false;
+		ps = connection.prepareStatement(sql);
+		ps.setString(1, usuario);
+		ps.setString(2, senha);
+		rs = ps.executeQuery();
+		if(rs.next()){
+			resposta = true;
+		}
+		ps.close();
+		rs.close();
+		return resposta;
+	}
 
 }
