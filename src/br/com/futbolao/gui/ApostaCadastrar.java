@@ -391,7 +391,7 @@ public class ApostaCadastrar extends JInternalFrame {
 			long idGrupo = Long.parseLong(campoIdGrupo.getText());
 			int linhas = tabelaRodada.getRowCount();
 			for (int i=0; i < linhas; i++) {
-				if (tabelaRodada.getValueAt(i, 3) != null && tabelaRodada.getValueAt(i, 5) != null){
+				if (tabelaRodada.getValueAt(i, 3) != null || tabelaRodada.getValueAt(i, 5) != null){
 					int idJogo = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 0)));
 					int clube1 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 1)));
 					int resultadoClube1 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 3)));
@@ -403,8 +403,8 @@ public class ApostaCadastrar extends JInternalFrame {
 						throw new PreenchaTodosOsResultadosException();
 					} catch (PreenchaTodosOsResultadosException e) {
 						JOptionPane.showMessageDialog(rootPane, e.getMessage());
-						return;
 					}
+					return;
 				}
 			}
 			try {
