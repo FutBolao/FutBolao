@@ -1,5 +1,6 @@
 package br.com.futbolao.exception;
 
+@SuppressWarnings("serial")
 public class ValorInvalidoException extends Exception{
 
 	public ValorInvalidoException(){

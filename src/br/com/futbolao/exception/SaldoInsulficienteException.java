@@ -4,7 +4,7 @@ package br.com.futbolao.exception;
 public class SaldoInsulficienteException extends Exception{
 
 	public SaldoInsulficienteException(){
-		super("Competição Já Cadastrada!");
+		super("Saldo insulficiente para realizar essa operação!");
 	}
 	
 	public SaldoInsulficienteException(String msg){
