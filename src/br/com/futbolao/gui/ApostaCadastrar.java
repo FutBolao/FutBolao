@@ -361,9 +361,9 @@ public class ApostaCadastrar extends JInternalFrame {
 					vector.add(rodada.getId());
 					vector.add(rodada.getClube1());
 					vector.add(rodada.getNomeClube1());
-					vector.add(rodada.getResultadoClube1());
+					vector.add("");
 					vector.add("X");
-					vector.add(rodada.getResultadoClube2());
+					vector.add("");
 					vector.add(rodada.getClube2());
 					vector.add(rodada.getNomeClube2());
 					modeloTabelaRodada.addRow(vector);

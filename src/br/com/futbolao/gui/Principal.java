@@ -12,7 +12,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
 import org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel;
+
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.ErroAoInstanciarImagemException;
 import br.com.futbolao.fachada.Fachada;
@@ -21,6 +23,7 @@ import br.com.futbolao.util.JDesktopPaneComBackground;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Calendar;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame {
@@ -51,6 +54,7 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setTitle("FutBol\u00E3o - Gerenciador de Bol\u00F5es de Apostas.");
 		try {
 			fachada = Fachada.getInstance();
 		} catch (Exception e) {
