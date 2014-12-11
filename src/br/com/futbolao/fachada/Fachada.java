@@ -122,7 +122,7 @@ public class Fachada {
 		return this.controladorAposta.procurarPorGrupo(idGrupo, ativa);
 	}
 	
-	public void deletar(long id) throws SQLException, ApostaNaoCadastradaException, Exception{
+	public void deletarAposta(long id) throws SQLException, ApostaNaoCadastradaException, Exception{
 		this.controladorAposta.deletar(id);
 	}
 	
@@ -338,5 +338,9 @@ public class Fachada {
 		
 		public void deletarMovimentacaoFinanceiraAdministrador(long id) throws SQLException, MovimentacaoNaoCadastradaException, Exception{
 			this.controladorMovimentacaoFinanceiraAdministrador.deletar(id);
+		}
+		
+		public double caixa() throws SQLException, Exception{
+			return this.controladorMovimentacaoFinanceiraAdministrador.caixa();
 		}
 }

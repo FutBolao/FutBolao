@@ -14,6 +14,7 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 	
 	public static final String NOME_TABELA = "mov_fin_admin";
 	public static final String NOME_VIEW = "vw_mov_fin_admin";
+	public static final String NOME_VIEW_CAIXA = "vw_caixa";
 	private Connection connection;
 	private int dataBase = 0;
 	
@@ -138,6 +139,21 @@ public class RepositorioMovimentacaoFinanceiraAdministrador implements IReposito
 		rs = ps.executeQuery();
 		if(rs.next()){
 			resposta = true;
+		}
+		ps.close();
+		rs.close();
+		return resposta;
+	}
+	
+	public double caixa() throws SQLException, Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM " + NOME_VIEW_CAIXA;
+		double resposta = 0;		
+		ps = connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		if(rs.next()){
+			resposta = rs.getDouble("caixa");
 		}
 		ps.close();
 		rs.close();

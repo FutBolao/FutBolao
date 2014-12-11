@@ -156,6 +156,14 @@ public class Principal extends JFrame {
 		mnAposta.add(mntmApostaCadastrar);
 		
 		JMenuItem mntmApostaListar = new JMenuItem("Listar");
+		mntmApostaListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ApostaListar apostaListar = new ApostaListar();
+				desktopPane.add(apostaListar);
+				apostaListar.setVisible(true);
+				apostaListar.setPosicao();
+			}
+		});
 		mnAposta.add(mntmApostaListar);
 		
 		JMenu mnRodada = new JMenu("Rodada");

@@ -2,6 +2,7 @@ package br.com.futbolao.movimentacao.financeira.administrador;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import br.com.futbolao.exception.MovimentacaoNaoCadastradaException;
 
 
@@ -40,5 +41,9 @@ public class ControladorMovimentacaoFinanceiraAdministrador {
 		}else {
 			throw new MovimentacaoNaoCadastradaException();
 		}
+	}
+	
+	public double caixa() throws SQLException, Exception{
+		return repositorio.caixa();
 	}
 }

@@ -15,10 +15,17 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.futbolao.aposta.Aposta;
+import br.com.futbolao.apostador.Apostador;
+import br.com.futbolao.exception.ApostaNaoCadastradaException;
+import br.com.futbolao.exception.ApostadorNaoCadastradoException;
+import br.com.futbolao.exception.CampoInvalidoException;
+import br.com.futbolao.exception.ConfirmacaoDeExclusaoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
+import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.grupo.Grupo;
+import br.com.futbolao.util.FormataCampoApenasNumeros;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -33,7 +40,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Vector;
 
+@SuppressWarnings("serial")
 public class ApostaListar extends JInternalFrame {
 	private Fachada fachada = null;
 	private JTable tabelaAposta;
@@ -47,6 +56,7 @@ public class ApostaListar extends JInternalFrame {
 	private ButtonGroup grupoRadio2;
 	private JRadioButton rdbtnAtivas;
 	private JRadioButton rdbtnInativas;
+	private String campoNomeApostador;
 	private String nomeCompeticao = "";
 	private String numeroRodada = "";
 	private String limiteApostas = "";
@@ -63,6 +73,7 @@ public class ApostaListar extends JInternalFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println("abriu");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -88,19 +99,21 @@ public class ApostaListar extends JInternalFrame {
 				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
 			}
 		}
-		setTitle("Listar Apostas");
 		setClosable(true);
+		setTitle("Listar Apostas");
 		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
+		setBounds(100, 100, 879, 494);
 		getContentPane().setLayout(null);
 		
 		JPanel painelTabela = new JPanel();
 		painelTabela.setBackground(Color.WHITE);
-		painelTabela.setBounds(10, 11, 843, 392);
+		painelTabela.setBounds(10, 11, 843, 413);
 		getContentPane().add(painelTabela);
 		painelTabela.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 111, 823, 270);
+		scrollPane.setBounds(10, 131, 823, 270);
 		painelTabela.add(scrollPane);
 		
 		tabelaAposta = new JTable();
@@ -123,12 +136,13 @@ public class ApostaListar extends JInternalFrame {
 		
 		JLabel lblID = new JLabel("Digite o ID : ");
 		lblID.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblID.setBounds(10, 79, 71, 21);
+		lblID.setBounds(10, 69, 71, 21);
 		painelTabela.add(lblID);
 		
 		campoID = new JTextField();
-		campoID.setBounds(84, 80, 136, 20);
+		campoID.setBounds(10, 101, 99, 20);
 		painelTabela.add(campoID);
+		campoID.setDocument(new FormataCampoApenasNumeros(13));
 		campoID.setColumns(10);
 		
 		rdbtnApostador = new JRadioButton("Apostador");
@@ -137,12 +151,6 @@ public class ApostaListar extends JInternalFrame {
 		painelTabela.add(rdbtnApostador);
 		
 		rdbtnGrupo = new JRadioButton("Grupo");
-		rdbtnGrupo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				textoDadosGrupo.setText("");
-				procurarGrupo();
-			}
-		});
 		rdbtnGrupo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rdbtnGrupo.setBounds(10, 7, 99, 21);
 		rdbtnGrupo.setSelected(true);
@@ -156,21 +164,17 @@ public class ApostaListar extends JInternalFrame {
 		textoDadosGrupo.setEnabled(false);
 		textoDadosGrupo.setEditable(false);
 		textoDadosGrupo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textoDadosGrupo.setBounds(272, 7, 349, 93);
+		textoDadosGrupo.setBounds(226, 7, 421, 113);
 		painelTabela.add(textoDadosGrupo);
 		
 		JButton btnListar = new JButton("Listar");
 		btnListar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(rdbtnApostador.isSelected()){
-					listarApostasPorApostador();
-				}else if(rdbtnGrupo.isSelected()) {
-					listarApostasPorGrupo();
-				}
+				procurar();
 			}
 		});
 		btnListar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnListar.setBounds(651, 77, 89, 23);
+		btnListar.setBounds(119, 99, 78, 23);
 		painelTabela.add(btnListar);
 		
 		rdbtnAtivas = new JRadioButton("Ativas");
@@ -191,17 +195,19 @@ public class ApostaListar extends JInternalFrame {
 		
 		JPanel painelBotoes = new JPanel();
 		painelBotoes.setBackground(Color.WHITE);
-		painelBotoes.setBounds(10, 403, 843, 37);
+		painelBotoes.setBounds(10, 424, 843, 37);
 		getContentPane().add(painelBotoes);
 		painelBotoes.setLayout(null);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				remover();
+			}
+		});
 		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnRemover.setBounds(10, 11, 89, 23);
 		painelBotoes.add(btnRemover);
-
-		
-		
 	}
 	
 	public void setPosicao() {  
@@ -209,8 +215,41 @@ public class ApostaListar extends JInternalFrame {
 	    this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2); 
 	}
 	
+	private boolean validaCampos(){
+		String id = campoID.getText();
+		if (id.equals("")) {
+			try {
+				throw new CampoInvalidoException();
+			} catch (CampoInvalidoException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			}
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 	private void limparTabela(){
 		this.modeloTabelaAposta.setNumRows(0);
+		textoDadosGrupo.setText("");
+	}
+	
+	private void procurarApostador(){
+		limparTabela();
+		long idApostador = Long.parseLong(campoID.getText());
+		try {
+			Apostador apostador = fachada.procurarApostadorPorId(idApostador);
+			campoNomeApostador = apostador.getNome();
+			textoDadosGrupo.setText(campoNomeApostador);
+		} catch (IdInvalidoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (ApostadorNaoCadastradoException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao procurar o apostador");
+		}
 	}
 	
 	private void procurarGrupo(){
@@ -246,29 +285,104 @@ public class ApostaListar extends JInternalFrame {
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void listarApostasPorApostador(){
-		long id = Long.parseLong(campoID.getText());
+		long idApostador = Long.parseLong(campoID.getText());
 		char ativa = 'S';
 		if (rdbtnAtivas.isSelected()) {
 			ativa = 'S';
 		}else{
 			ativa = 'N';
 		}
-		limparTabela();
-		ArrayList<Aposta> lista = new ArrayList<>();
-		
-		
+		try {
+			procurarApostador();
+			ArrayList<Aposta> lista = new ArrayList<>();
+			lista = fachada.procurarApostaPorApostador(idApostador, ativa);
+			for (Aposta aposta: lista) {
+				Vector vector = new Vector();
+				vector.add(aposta.getId());
+				vector.add(aposta.getIdApostador());
+				vector.add(aposta.getNomeApostador());
+				vector.add(aposta.getIdGrupo());
+				vector.add(formatacaoDinheiro.format(aposta.getValorAposta()));
+				vector.add(aposta.getDataAposta());
+				vector.add(aposta.getAtiva());
+				modeloTabelaAposta.addRow(vector);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (ApostaNaoCadastradaException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao listar as apostas");
+		}
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void listarApostasPorGrupo(){
-		long id = Long.parseLong(campoID.getText());
+		long idGrupo = Long.parseLong(campoID.getText());
 		char ativa = 'S';
 		if (rdbtnAtivas.isSelected()) {
 			ativa = 'S';
 		}else{
 			ativa = 'N';
 		}
-		limparTabela();
+		try {
+			procurarGrupo();
+			ArrayList<Aposta> lista = new ArrayList<>();
+			lista = fachada.procurarApostaPorGrupo(idGrupo, ativa);
+			for (Aposta aposta: lista) {
+				Vector vector = new Vector();
+				vector.add(aposta.getId());
+				vector.add(aposta.getIdApostador());
+				vector.add(aposta.getNomeApostador());
+				vector.add(aposta.getIdGrupo());
+				vector.add(formatacaoDinheiro.format(aposta.getValorAposta()));
+				vector.add(aposta.getDataAposta());
+				vector.add(aposta.getAtiva());
+				modeloTabelaAposta.addRow(vector);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (ApostaNaoCadastradaException e) {
+			JOptionPane.showMessageDialog(rootPane, e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao listar as apostas");
+		}
+	}
+	
+	private void procurar(){
+		if (validaCampos()) {
+			if (rdbtnGrupo.isSelected()) {
+				listarApostasPorGrupo();
+			}else{
+				listarApostasPorApostador();
+			}
+		}
+	}
+	
+	private void remover(){
+		if (tabelaAposta.getSelectedRowCount() == 1) {
+			try {
+				throw new ConfirmacaoDeExclusaoException();
+			} catch (ConfirmacaoDeExclusaoException ex) {
+				int confirmacao = JOptionPane.showConfirmDialog(rootPane, ex.getMessage(), "Alerta", JOptionPane.YES_NO_OPTION);
+				if (confirmacao == 0) {
+					try {
+						int linha = tabelaAposta.getSelectedRow();
+						long id = (long)tabelaAposta.getValueAt(linha, 0);
+						fachada.deletarAposta(id);
+						procurar();
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					} catch (ApostaNaoCadastradaException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao deletar a aposta!");
+					}
+				}
+			}
+		}
 	}
 }
 

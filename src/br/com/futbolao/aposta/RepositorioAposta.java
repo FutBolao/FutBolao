@@ -88,19 +88,20 @@ public class RepositorioAposta implements IRepositorioAposta{
 		ResultSet rs = null;
 		String sql = "";
 		sql = "SELECT * FROM " + NOME_VIEW + " ";
-		sql += "WHERE id IS NOT NULL";
+		sql += "WHERE id_aposta IS NOT NULL";
 		sql += complemento;
-		sql += " ORDER BY id DESC";
+		sql += " ORDER BY id_aposta DESC";
 		ps = this.connection.prepareStatement(sql);
 		rs = ps.executeQuery();
-		//se a consulta tiver algum resultado entro no loop e o executo adicionando o
-		// resultado de cada linha ao array de clube, até que haja linhas.
 		rs.first();
 		if (rs.getRow() > 0) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				Aposta aposta = new Aposta(rs.getLong("id"), rs.getLong("id_apostador"), rs.getString("nome_apostador"), rs.getLong("id_grupo"), 
-						rs.getDouble("valor"), rs.getString("data_aposta"), rs.getString("ativa").charAt(0));
+				Aposta aposta = new Aposta(rs.getLong("id_aposta"), rs.getLong("id_apostador"), rs.getString("nome_apostador"), rs.getLong("id_grupo"), 
+						rs.getDouble("valor"), 
+						rs.getString("data_aposta").substring(8, 10) + "/" + rs.getString("data_aposta").substring(5, 7) + "/"
+								   + rs.getString("data_aposta").substring(0, 4) + " " + rs.getString("data_aposta").substring(11, 16), 
+								   rs.getString("ativa").charAt(0));
 				apostas.add(aposta);
 			}
 		}else{
@@ -121,7 +122,7 @@ public class RepositorioAposta implements IRepositorioAposta{
 
 	public void deletar(long id) throws SQLException, ApostaNaoCadastradaException, Exception {
 		PreparedStatement ps = null;
-		String sql = "UPDATE " + NOME_TABELA + " SET ativa='S' WHERE id=?;";
+		String sql = "UPDATE " + NOME_TABELA + " SET ativa='N' WHERE id=" + id;
 		ps = this.connection.prepareStatement(sql);
 		Integer resultado = ps.executeUpdate();
 		// se a atualização for efetuada com êxito o atributo resultado terá um valor diferente de 0, caso contrario levanta uma exception

@@ -2,6 +2,7 @@ package br.com.futbolao.movimentacao.financeira.administrador;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import br.com.futbolao.exception.MovimentacaoNaoCadastradaException;
 
 public interface IRepositorioMovimentacaoFinanceiraAdministrador {
@@ -11,4 +12,5 @@ public interface IRepositorioMovimentacaoFinanceiraAdministrador {
 	public void atualizar(MovimentacaoFinanceiraAdministrador movimentacaoFinanceiraAdministrador) throws SQLException, MovimentacaoNaoCadastradaException, Exception;
 	public void deletar(long id) throws SQLException, MovimentacaoNaoCadastradaException, Exception;
 	public boolean existe(int id) throws SQLException, Exception;
+	public double caixa() throws SQLException, Exception;
 }

@@ -23,6 +23,7 @@ import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.SaldoInsulficienteException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.movimentacao.financeira.administrador.MovimentacaoFinanceiraAdministrador;
 import br.com.futbolao.util.FormataCampoApenasNumeros;
@@ -206,9 +207,19 @@ public class AdministradorMovimentacaoFinanceiraCadastrar extends
 	
 	private void cadastrar(){
 		if(validaCampos()){
+			
 			long idAdministrador = Long.parseLong(campoIdAdministrador.getText());
-			Double valor = Double.parseDouble(campoValor.getText());
+			double valor = Double.parseDouble(campoValor.getText());
 			try {
+				double caixa = fachada.caixa();
+				if (caixa < valor){
+					try {
+						throw new SaldoInsulficienteException();
+					} catch (SaldoInsulficienteException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					}
+					return;
+				}
 				fachada.cadastrarMovimentacaoFinanceiraAdministrador(new MovimentacaoFinanceiraAdministrador(0, idAdministrador, "SAQUE", valor));
 				try {
 					throw new CadastroEfetuadoComSucessoException();
