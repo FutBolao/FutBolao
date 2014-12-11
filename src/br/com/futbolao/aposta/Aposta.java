@@ -14,6 +14,8 @@ public class Aposta {
 	private int clube2;
 	private String nomeClube2;
 	private int resultadoClube2;
+	private double valorAposta;
+	private char ativa;
 	
 	public Aposta(long id, long idApostador, long idGrupo,
 			int idJogo, int clube1, int resultadoClube1, int clube2,
@@ -46,6 +48,18 @@ public class Aposta {
 		this.clube2 = clube2;
 		this.nomeClube2 = nomeClube2;
 		this.resultadoClube2 = resultadoClube2;
+	}
+	
+	public Aposta(long id, long idApostador, String nomeApostador, 
+			long idGrupo, double valorAposta, String dataAposta, char ativa){
+		super();	
+		this.id = id;
+		this.idApostador = idApostador;
+		this.nomeApostador = nomeApostador;
+		this.idGrupo = idGrupo;
+		this.valorAposta = valorAposta;
+		this.dataAposta = dataAposta;
+		this.ativa = ativa;
 	}
 
 	public long getId() {
