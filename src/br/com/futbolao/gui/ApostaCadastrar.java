@@ -161,6 +161,7 @@ public class ApostaCadastrar extends JInternalFrame {
 		});
 		campoIdGrupo.setBounds(10, 117, 94, 20);
 		painelForm.add(campoIdGrupo);
+		campoIdGrupo.setDocument(new FormataCampoApenasNumeros(13));
 		campoIdGrupo.setColumns(10);
 		
 		textoDadosGrupo = new JTextPane();
@@ -292,7 +293,7 @@ public class ApostaCadastrar extends JInternalFrame {
 				campoIdGrupo.requestFocus();
 			}
 			return false;
-		} else if (tabelaRodada.getSelectedRowCount() == 0) {
+		} else if (tabelaRodada.getRowCount() == 0) {
 			try {
 				throw new NaoFoiPossivelRealizarApostaException();
 			} catch (NaoFoiPossivelRealizarApostaException e) {
@@ -391,13 +392,15 @@ public class ApostaCadastrar extends JInternalFrame {
 			long idGrupo = Long.parseLong(campoIdGrupo.getText());
 			int linhas = tabelaRodada.getRowCount();
 			for (int i=0; i < linhas; i++) {
-				if (tabelaRodada.getValueAt(i, 3) != null || tabelaRodada.getValueAt(i, 5) != null){
-					int idJogo = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 0)));
-					int clube1 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 1)));
-					int resultadoClube1 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 3)));
-					int clube2 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 6)));
-					int resultadoClube2 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 5)));
-					apostas.add(new Aposta(0, idApostador, idGrupo, idJogo, clube1, resultadoClube1, clube2, resultadoClube2));
+				if (tabelaRodada.getValueAt(i, 3) != null && tabelaRodada.getValueAt(i, 5) != null){
+					if (!tabelaRodada.getValueAt(i, 3).equals("") && !tabelaRodada.getValueAt(i, 5).equals("")){
+						int idJogo = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 0)));
+						int clube1 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 1)));
+						int resultadoClube1 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 3)));
+						int clube2 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 6)));
+						int resultadoClube2 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 5)));
+						apostas.add(new Aposta(0, idApostador, idGrupo, idJogo, clube1, resultadoClube1, clube2, resultadoClube2));
+					}
 				} else {
 					try {
 						throw new PreenchaTodosOsResultadosException();

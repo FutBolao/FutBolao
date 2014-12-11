@@ -310,7 +310,7 @@ public class GrupoCadastrar extends JInternalFrame {
 				throw new CampoInvalidoException();
 			} catch (CampoInvalidoException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				campoLimiteDeApostas.requestFocus();
+				campoValorDaAposta.requestFocus();
 			}
 			return false;
 	    } else if (percentualAdministrador.equals("")){
