@@ -97,7 +97,9 @@ public class Principal extends JFrame {
 				administradorCadastrar.setVisible(true);
 				administradorCadastrar.setPosicao();
 			}
+			
 		});
+		
 		mnAdministrador.add(mntmAdministradorCadastrar);
 		
 		JMenuItem mntmAdministradorListar = new JMenuItem("Listar");
