@@ -40,7 +40,10 @@ import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -59,11 +62,13 @@ public class ApostaCadastrar extends JInternalFrame {
 	private String numeroRodada = "";
 	private String limiteApostas = "";
 	private String limiteApostasPorApostador = "";
+	private String valorAposta = "";
 	private String taxaDeAdministracao = "";
 	private String pontuacaoPorPlacar = "";
 	private String pontuacaoPorResultado = "";
 	private String dataEncerramentoAposta = "";
 	private String dadosCompeticao = "";
+	private DecimalFormat formatacaoDinheiro =  new DecimalFormat("#,##0.00;(#,##0.00)", new DecimalFormatSymbols(new Locale("pt", "BR")));
 
 	/**
 	 * Launch the application.
@@ -339,6 +344,7 @@ public class ApostaCadastrar extends JInternalFrame {
 			limiteApostas = String.valueOf(grupo.getLimiteApostas());
 			limiteApostasPorApostador = String.valueOf(grupo.getLimiteApostasPorApostador());
 			taxaDeAdministracao = String.valueOf(grupo.getPercentualLucroAdministrador());
+			valorAposta = formatacaoDinheiro.format(grupo.getValorAposta());
 			pontuacaoPorPlacar = String.valueOf(grupo.getPontuacaoPorPlacar());
 			pontuacaoPorResultado = String.valueOf(grupo.getPontuacaoPorResultado());
 			dataEncerramentoAposta = String.valueOf(grupo.getDataEncerramentoAposta());
@@ -349,7 +355,8 @@ public class ApostaCadastrar extends JInternalFrame {
 					 + "\r\nPontua\u00E7\u00E3o por placar: " + pontuacaoPorPlacar
 					 + "  |  Pontua\u00E7\u00E3o po Resultado: " + pontuacaoPorResultado
 					 + "\r\nTaxa de Administra\u00E7\u00E3o: " + taxaDeAdministracao + "%"
-					 + "  |  Encerramento das apostas: " + dataEncerramentoAposta;
+					 + "  |  Valor da Aposta: " + valorAposta
+					 + "\r\nEncerramento das apostas: " + dataEncerramentoAposta;
 			textoDadosGrupo.setText(dadosCompeticao);
 			campoIdGrupo.setEditable(false);
 			campoIdGrupo.disable();
@@ -400,6 +407,13 @@ public class ApostaCadastrar extends JInternalFrame {
 						int clube2 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 6)));
 						int resultadoClube2 = Integer.parseInt(String.valueOf(tabelaRodada.getValueAt(i, 5)));
 						apostas.add(new Aposta(0, idApostador, idGrupo, idJogo, clube1, resultadoClube1, clube2, resultadoClube2));
+					} else {
+						try {
+							throw new PreenchaTodosOsResultadosException();
+						} catch (PreenchaTodosOsResultadosException e) {
+							JOptionPane.showMessageDialog(rootPane, e.getMessage());
+						}
+						return;
 					}
 				} else {
 					try {
@@ -424,6 +438,7 @@ public class ApostaCadastrar extends JInternalFrame {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a aposta");
+				e.printStackTrace();
 			}
 		}
 	}
