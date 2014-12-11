@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
@@ -60,8 +59,6 @@ public class RodadaAlterar extends JInternalFrame {
 	private JComboBox campoClube2;
 	private int[] valueClube2;
 	private JButton btnAlterar;
-	private String data = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + Calendar.getInstance().get(Calendar.MONTH) + "/" + Calendar.getInstance().get(Calendar.YEAR);
-	private dat
 
 	/**
 	 * Launch the application.

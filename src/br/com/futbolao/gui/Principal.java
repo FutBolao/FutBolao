@@ -23,7 +23,6 @@ import br.com.futbolao.util.JDesktopPaneComBackground;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Calendar;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame {
