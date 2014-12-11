@@ -21,6 +21,7 @@ import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.CpfInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.SaldoInsulficienteException;
 import br.com.futbolao.exception.ValorInvalidoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.movimentacao.financeira.apostador.MovimentacaoFinanceiraApostador;
@@ -42,6 +43,7 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 	@SuppressWarnings("rawtypes")
 	private JComboBox campoTipoMovimentacao;
 	private JTextField campoIdApostador;
+	private double saldoApostadorDouble;
 
 	/**
 	 * Launch the application.
@@ -233,6 +235,7 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 		try {
 			Apostador apostador = fachada.procurarApostadorPorId(id);
 			campoApostador.setText(apostador.getNome());
+			saldoApostadorDouble = apostador.getSaldo();
 			habilitaCampos();
 		} catch (CpfInvalidoException e) {
 			JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -250,6 +253,14 @@ public class ApostadorMovimentacaoFinanceiraCadastrar extends JInternalFrame {
 			long idApostador = Long.parseLong(campoIdApostador.getText());
 			String tipoMovimentacao = (String) campoTipoMovimentacao.getSelectedItem();
 			double valor = Double.parseDouble(campoValor.getText());
+			if (tipoMovimentacao.equals("SAQUE") && saldoApostadorDouble < valor) {
+				try {
+					throw new SaldoInsulficienteException();
+				} catch (SaldoInsulficienteException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				return;
+			}
 			try {
 				fachada.cadastrarMovimentacaoFinanceiraApostador(new MovimentacaoFinanceiraApostador(0, idApostador, tipoMovimentacao, valor));
 				try {
