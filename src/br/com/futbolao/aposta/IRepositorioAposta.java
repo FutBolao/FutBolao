@@ -11,5 +11,6 @@ public interface IRepositorioAposta {
 	public ArrayList<Aposta> procurarPorApostador(long idApostador, char ativa) throws SQLException, ApostaNaoCadastradaException, Exception;
 	public ArrayList<Aposta> procurarPorGrupo(long idGrupo, char ativa) throws SQLException, ApostaNaoCadastradaException, Exception;
 	public void deletar(long id) throws SQLException, ApostaNaoCadastradaException, Exception;
+	public long totalDeApostasPoGrupo(long id_apostador, long id_grupo) throws SQLException, Exception;
 
 }

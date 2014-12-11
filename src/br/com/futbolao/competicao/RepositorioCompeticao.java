@@ -97,9 +97,9 @@ public class RepositorioCompeticao implements IRepositorioCompeticao{
 		String sql = "";
 		String complemento = "";
 		if (ativo == 'S') {
-			complemento = ">";
+			complemento = ">=";
 		} else {
-			complemento = "<=";
+			complemento = "<";
 		}
 		sql = "SELECT DISTINCT id_competicao, nome_competicao FROM " + NOME_VIEW_GRUPO + " ";
 		sql += "WHERE id IS NOT NULL AND data_encerramento_aposta " + complemento + " CURDATE()";

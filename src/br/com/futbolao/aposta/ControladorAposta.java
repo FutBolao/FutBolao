@@ -2,6 +2,7 @@ package br.com.futbolao.aposta;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import br.com.futbolao.exception.ApostaNaoCadastradaException;
 
 public class ControladorAposta {
@@ -42,7 +43,15 @@ public class ControladorAposta {
 	public void deletar(long id) throws SQLException, ApostaNaoCadastradaException, Exception{
 		if (id > 0) {
 			repositorio.deletar(id);
-		}else {
+		} else {
+			throw new ApostaNaoCadastradaException();
+		}
+	}
+	
+	public long totalDeApostasPoGrupo(long id_apostador, long id_grupo) throws SQLException, Exception {
+		if (id_apostador > 0 && id_grupo > 0){
+			return repositorio.totalDeApostasPoGrupo(id_apostador, id_grupo);
+		} else {
 			throw new ApostaNaoCadastradaException();
 		}
 	}

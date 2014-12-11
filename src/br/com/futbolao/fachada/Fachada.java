@@ -126,6 +126,10 @@ public class Fachada {
 		this.controladorAposta.deletar(id);
 	}
 	
+	public long totalDeApostasPoGrupo(long id_apostador, long id_grupo) throws SQLException, Exception {
+		return this.controladorAposta.totalDeApostasPoGrupo(id_apostador, id_grupo);
+	}
+	
 	//Métodos do Administrador
 	public void cadastrarAdministrador(Administrador administrador) throws SQLException, AdministradorJaCadastradoException, NomeVazioException, CpfInvalidoException, Exception{
 		this.controladorAdministrador.cadastrar(administrador);
@@ -246,8 +250,8 @@ public class Fachada {
 		return this.controladorRodada.listarPorCompeticao(idCompeticao, trava);
 	}
 
-	public ArrayList<Integer> listarRodadaPorCompeticaoComGrupo(int idCompeticao) throws SQLException, RodadaNaoCadastradaException, Exception{
-		return this.controladorRodada.listarPorCompeticaoComGrupo(idCompeticao);
+	public ArrayList<Integer> listarRodadaPorCompeticaoComGrupo(int idCompeticao, char ativo) throws SQLException, RodadaNaoCadastradaException, Exception{
+		return this.controladorRodada.listarPorCompeticaoComGrupo(idCompeticao, ativo);
 	}
 	
 	public Rodada procurarRodadaPorId(long id) throws SQLException, RodadaNaoCadastradaException, Exception{

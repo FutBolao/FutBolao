@@ -267,7 +267,13 @@ public class GrupoListar extends JInternalFrame {
 		int idCompeticao = valueCompeticao[campoCompeticao.getSelectedIndex()];
 		try {
 			campoRodada.addItem("");
-			lista = fachada.listarRodadaPorCompeticaoComGrupo(idCompeticao);
+			char ativo = 'S';
+			if (rdbtnGruposAtivos.isSelected()) {
+				ativo = 'S';
+			}else{
+				ativo = 'N';
+			}
+			lista = fachada.listarRodadaPorCompeticaoComGrupo(idCompeticao, ativo);
 			valueRodada = new int[(lista.size()+1)];
 			for (int i = 1; i <= lista.size(); i++) {
 				campoRodada.addItem(lista.get(i-1));

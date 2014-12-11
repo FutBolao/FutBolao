@@ -69,6 +69,7 @@ public class ApostaCadastrar extends JInternalFrame {
 	private String valorAposta = "";
 	private double saldoApostadorDouble;
 	private double valorApostaDouble;
+	private int limiteApostasPorApostadorInt;
 	private String taxaDeAdministracao = "";
 	private String pontuacaoPorPlacar = "";
 	private String pontuacaoPorResultado = "";
@@ -370,6 +371,7 @@ public class ApostaCadastrar extends JInternalFrame {
 			numeroRodada = String.valueOf(grupo.getIdRodada());
 			limiteApostas = String.valueOf(grupo.getLimiteApostas());
 			limiteApostasPorApostador = String.valueOf(grupo.getLimiteApostasPorApostador());
+			limiteApostasPorApostadorInt = grupo.getLimiteApostasPorApostador();
 			taxaDeAdministracao = String.valueOf(grupo.getPercentualLucroAdministrador());
 			valorAposta = formatacaoDinheiro.format(grupo.getValorAposta());
 			valorApostaDouble = grupo.getValorAposta();
@@ -427,6 +429,21 @@ public class ApostaCadastrar extends JInternalFrame {
 			long idApostador = Long.parseLong(campoIdApostador.getText());
 			long idGrupo = Long.parseLong(campoIdGrupo.getText());
 			int linhas = tabelaRodada.getRowCount();
+			try {
+				if (!(fachada.totalDeApostasPoGrupo(idApostador, idGrupo) < limiteApostasPorApostadorInt)) {
+					try {
+						throw new TotalDeApostasDoGrupoAtingidoException();
+					} catch (TotalDeApostasDoGrupoAtingidoException e) {
+						JOptionPane.showMessageDialog(rootPane, e.getMessage());
+					}
+					limparCampos();
+					return;
+				}
+			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(rootPane, e1.getMessage());
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao verificar quantas apostas o apostador já fez no grupo");
+			}
 			if (saldoApostadorDouble < valorApostaDouble) {
 				try {
 					throw new SaldoInsulficienteException();

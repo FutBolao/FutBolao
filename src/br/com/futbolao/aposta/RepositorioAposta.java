@@ -129,5 +129,21 @@ public class RepositorioAposta implements IRepositorioAposta{
 		// fecha a conexão
 		ps.close();
 	}
+	
+	// método para verificar se existe apostas já realizadas no grupo.
+	public long totalDeApostasPoGrupo(long id_apostador, long id_grupo) throws SQLException, Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "SELECT COUNT(id) AS total_apostas FROM " + NOME_TABELA + " WHERE id_apostador=" + id_apostador + " AND id_grupo" + id_grupo;
+		long resposta = 0;		
+		ps = connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		if(rs.next()){
+			resposta = rs.getLong("total_apostas");
+		}
+		ps.close();
+		rs.close();
+		return resposta;
+	}
 
 }

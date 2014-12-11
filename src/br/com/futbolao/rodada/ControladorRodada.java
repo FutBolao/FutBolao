@@ -36,8 +36,8 @@ public class ControladorRodada {
 		return repositorio.listarPorCompeticao(idCompeticao, trava);
 	}
 	
-	public ArrayList<Integer> listarPorCompeticaoComGrupo(int idCompeticao) throws SQLException, RodadaNaoCadastradaException, Exception{
-		return repositorio.listarPorCompeticaoComGrupo(idCompeticao);
+	public ArrayList<Integer> listarPorCompeticaoComGrupo(int idCompeticao, char ativo) throws SQLException, RodadaNaoCadastradaException, Exception{
+		return repositorio.listarPorCompeticaoComGrupo(idCompeticao, ativo);
 	}
 	
 	public Rodada procurarPorId(long id) throws SQLException, RodadaNaoCadastradaException, Exception{

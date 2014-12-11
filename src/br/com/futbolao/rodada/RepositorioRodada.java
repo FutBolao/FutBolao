@@ -167,13 +167,19 @@ public class RepositorioRodada implements IRepositorioRodada {
 	}
 	
 	// método para listar rodadas por competicao.
-	public ArrayList<Integer> listarPorCompeticaoComGrupo(int competicao) throws SQLException, RodadaNaoCadastradaException, Exception {
+	public ArrayList<Integer> listarPorCompeticaoComGrupo(int competicao, char ativo) throws SQLException, RodadaNaoCadastradaException, Exception {
 		ArrayList<Integer> rodadas = new ArrayList<Integer>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "";
+		String complemento = "";
+		if (ativo == 'S') {
+			complemento = ">=";
+		} else {
+			complemento = "<";
+		}
 		sql = "SELECT DISTINCT id_rodada FROM " + NOME_VIEW_GRUPO + " ";
-		sql += "WHERE id_competicao=" + competicao;
+		sql += "WHERE id IS NOT NULL AND id_competicao=" + competicao + " AND data_encerramento_aposta " + complemento + " CURDATE()";
 		sql += " ORDER BY id_rodada DESC;";
 		ps = this.connection.prepareStatement(sql);
 		rs = ps.executeQuery();
