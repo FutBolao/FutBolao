@@ -29,6 +29,7 @@ import br.com.futbolao.exception.ClubeJaCadastradoNessaRodadaException;
 import br.com.futbolao.exception.ClubeNaoCadastradoException;
 import br.com.futbolao.exception.CompeticaoNaoCadastradaException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.JogoJaCadastradoNessaRodadaException;
 import br.com.futbolao.exception.RodadaJaCadastradaException;
 import br.com.futbolao.exception.RodadaTravadaException;
 import br.com.futbolao.fachada.Fachada;
@@ -419,6 +420,8 @@ public class RodadaCadastrar extends JInternalFrame {
 			} catch (ClubeJaCadastradoNessaRodadaException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (RodadaJaCadastradaException e) {
+				JOptionPane.showMessageDialog(rootPane, e.getMessage());
+			} catch (JogoJaCadastradoNessaRodadaException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado ao cadastrar a rodada!");

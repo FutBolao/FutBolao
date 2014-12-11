@@ -307,7 +307,6 @@ public class RepositorioRodada implements IRepositorioRodada {
 		String sql = "SELECT * FROM " + NOME_TABELA + " WHERE id_competicao=? and numero_rodada=? and (clube1=? or clube2=? or clube1=? or clube2=?)";
 		boolean resposta = false;		
 		ps = connection.prepareStatement(sql);
-		System.out.println(ps);
 		ps.setInt(1, idCompeticao);
 		ps.setInt(2, numeroDaRodada);
 		ps.setInt(3, Clube1);
