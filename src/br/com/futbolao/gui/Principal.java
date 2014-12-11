@@ -23,6 +23,7 @@ import br.com.futbolao.util.JDesktopPaneComBackground;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame {
@@ -53,6 +54,7 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Anderson Felipe\\Pictures\\futebol5.jpg"));
 		setTitle("FutBol\u00E3o - Gerenciador de Bol\u00F5es de Apostas.");
 		try {
 			fachada = Fachada.getInstance();
@@ -84,6 +86,7 @@ public class Principal extends JFrame {
 		contentPane.add(menuBar, BorderLayout.NORTH);
 		
 		JMenu mnAdministrador = new JMenu("Administrador");
+		mnAdministrador.setMnemonic('a');
 		menuBar.add(mnAdministrador);
 		
 		JMenuItem mntmAdministradorCadastrar = new JMenuItem("Cadastrar");
@@ -109,6 +112,7 @@ public class Principal extends JFrame {
 		mnAdministrador.add(mntmAdministradorListar);
 		
 		JMenu mnApostador = new JMenu("Apostador");
+		mnApostador.setMnemonic('p');
 		menuBar.add(mnApostador);
 		
 		JMenuItem mntmApostadorCadastrar = new JMenuItem("Cadastrar");
@@ -135,6 +139,7 @@ public class Principal extends JFrame {
 		mnApostador.add(mntmApostadorListar);
 		
 		JMenu mnAposta = new JMenu("Aposta");
+		mnAposta.setMnemonic('o');
 		menuBar.add(mnAposta);
 		
 		JMenuItem mntmApostaCadastrar = new JMenuItem("Cadastrar");
@@ -205,6 +210,7 @@ public class Principal extends JFrame {
 		mnAposta.add(mntmVerificarGanhadores);
 		
 		JMenu mnClubes = new JMenu("Clube");
+		mnClubes.setMnemonic('l');
 		menuBar.add(mnClubes);
 		
 		JMenuItem mntmClubeCadastrar = new JMenuItem("Cadastrar");
@@ -230,6 +236,7 @@ public class Principal extends JFrame {
 		mnClubes.add(mntmClubeListar);
 		
 		JMenu mnCompeties = new JMenu("Competi\u00E7\u00E3o");
+		mnCompeties.setMnemonic('c');
 		menuBar.add(mnCompeties);
 		
 		JMenuItem mntmCompeticaoCadastrar = new JMenuItem("Cadastrar");
@@ -255,6 +262,7 @@ public class Principal extends JFrame {
 		mnCompeties.add(mntmCompeticaoListar);
 		
 		JMenu mnMovimentaoFinanceira = new JMenu("Movimenta\u00E7\u00E3o Financeira");
+		mnMovimentaoFinanceira.setMnemonic('m');
 		menuBar.add(mnMovimentaoFinanceira);
 		
 		JMenu mnApostador_1 = new JMenu("Apostador");
