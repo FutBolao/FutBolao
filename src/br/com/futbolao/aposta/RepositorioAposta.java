@@ -100,8 +100,7 @@ public class RepositorioAposta implements IRepositorioAposta{
 			rs.beforeFirst();
 			while (rs.next()) {
 				Aposta aposta = new Aposta(rs.getLong("id"), rs.getLong("id_apostador"), rs.getString("nome_apostador"), rs.getLong("id_grupo"), 
-						rs.getString("data_aposta"), rs.getInt("id_jogo"), rs.getInt("clube1"), rs.getString("nome_clube1"), 
-						rs.getInt("resultado_clube1"), rs.getInt("clube2"), rs.getString("nome_clube2"), rs.getInt("resultado_clube2"));
+						rs.getDouble("valor"), rs.getString("data_aposta"), rs.getString("ativa").charAt(0));
 				apostas.add(aposta);
 			}
 		}else{

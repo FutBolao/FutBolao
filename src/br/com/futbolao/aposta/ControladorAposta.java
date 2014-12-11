@@ -37,6 +37,7 @@ public class ControladorAposta {
 		}
 		return aposta;
 	}
+
 	
 	public void deletar(long id) throws SQLException, ApostaNaoCadastradaException, Exception{
 		if (id > 0) {
