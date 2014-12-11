@@ -44,7 +44,7 @@ public class RepositorioRodada implements IRepositorioRodada {
 		if (existeTrava(rodada.getIdCompeticao(), rodada.getNumeroRodada()) ==  false){
 			if (existeClubeNaRodada(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getClube1(), rodada.getClube2()) == false) {
 				if (existe(rodada.getId(), rodada.getIdCompeticao(), rodada.getNumeroRodada(), rodada.getIdJogo()) == false){
-					sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, data_hora, clube1, clube2) VALUES (?,?,?,?,?);";
+					sql = "INSERT INTO " + NOME_TABELA + " (id_competicao, numero_rodada, id_jogo, data_hora, clube1, clube2) VALUES (?,?,?,?,?,?);";
 					if (this.dataBase == DataBase.ORACLE) {
 						ps = this.connection.prepareStatement(sql, new String[] { "id" });
 					} else {
