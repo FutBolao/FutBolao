@@ -33,6 +33,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 
+
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
@@ -208,6 +210,16 @@ public class ApostaListar extends JInternalFrame {
 		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnRemover.setBounds(10, 11, 89, 23);
 		painelBotoes.add(btnRemover);
+		
+		JButton btnVerAposta = new JButton("Ver Aposta");
+		btnVerAposta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mostrarAposta();
+			}
+		});
+		btnVerAposta.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnVerAposta.setBounds(149, 12, 115, 23);
+		painelBotoes.add(btnVerAposta);
 	}
 	
 	public void setPosicao() {  
@@ -382,6 +394,21 @@ public class ApostaListar extends JInternalFrame {
 					}
 				}
 			}
+		}
+	}
+	
+	private void mostrarAposta(){
+		if (tabelaAposta.getSelectedRowCount() == 1){
+			int linha = tabelaAposta.getSelectedRow();
+			long idApostador = (long) tabelaAposta.getValueAt(linha, 3);
+			long idGrupo = (long) tabelaAposta.getValueAt(linha, 1);
+			//new ApostaMostrar(idApostador, idGrupo).setVisible(true);
+			
+			
+			ApostaMostrar apostaMostrar = new ApostaMostrar(idApostador, idGrupo);
+			Principal.desktopPane.add(apostaMostrar);
+			apostaMostrar.setVisible(true);
+			apostaMostrar.setPosicao();
 		}
 	}
 }
