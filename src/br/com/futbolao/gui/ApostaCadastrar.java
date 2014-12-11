@@ -12,17 +12,20 @@ import br.com.futbolao.exception.ApostadorNaoCadastradoException;
 import br.com.futbolao.exception.CadastroEfetuadoComSucessoException;
 import br.com.futbolao.exception.CampoInvalidoException;
 import br.com.futbolao.exception.ErroAoInstanciarFachadaException;
+import br.com.futbolao.exception.GrupoEncerradoException;
 import br.com.futbolao.exception.GrupoNaoCadastradoException;
 import br.com.futbolao.exception.IdInvalidoException;
 import br.com.futbolao.exception.NaoFoiPossivelRealizarApostaException;
 import br.com.futbolao.exception.PreenchaTodosOsResultadosException;
 import br.com.futbolao.exception.RodadaNaoCadastradaException;
 import br.com.futbolao.exception.SaldoInsulficienteException;
+import br.com.futbolao.exception.TotalDeApostasDoGrupoAtingidoException;
 import br.com.futbolao.fachada.Fachada;
 import br.com.futbolao.grupo.Grupo;
 import br.com.futbolao.rodada.Rodada;
 import br.com.futbolao.util.EditorDeTabela;
 import br.com.futbolao.util.FormataCampoApenasNumeros;
+import br.com.futbolao.util.VerificaData;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -306,7 +309,6 @@ public class ApostaCadastrar extends JInternalFrame {
 				throw new NaoFoiPossivelRealizarApostaException();
 			} catch (NaoFoiPossivelRealizarApostaException e) {
 				JOptionPane.showMessageDialog(rootPane, e.getMessage());
-				this.dispose();
 			}
 			return false;
 		} else {
@@ -343,6 +345,27 @@ public class ApostaCadastrar extends JInternalFrame {
 		long idGrupo = Long.parseLong(campoIdGrupo.getText());
 		try {
 			Grupo grupo = fachada.procurarGrupoPorId(idGrupo);
+			String vencimento = grupo.getDataEncerramentoAposta().substring(6,10)
+					+ grupo.getDataEncerramentoAposta().substring(3,5) + grupo.getDataEncerramentoAposta().substring(0,2);
+			String dataAtual = grupo.getDataAtual().replace("-", "");
+			if (!(grupo.getLimiteApostas() > grupo.getTotalApostas())) {
+				try {
+					throw new TotalDeApostasDoGrupoAtingidoException();
+				} catch (TotalDeApostasDoGrupoAtingidoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				campoIdGrupo.requestFocus();
+				return;
+			}
+			if(VerificaData.verifica(vencimento, dataAtual) == false){
+				try {
+					throw new GrupoEncerradoException();
+				} catch (GrupoEncerradoException e) {
+					JOptionPane.showMessageDialog(rootPane, e.getMessage());
+				}
+				campoIdGrupo.requestFocus();
+				return;
+			}
 			nomeCompeticao = grupo.getNomeCompeticao();
 			numeroRodada = String.valueOf(grupo.getIdRodada());
 			limiteApostas = String.valueOf(grupo.getLimiteApostas());
@@ -398,6 +421,7 @@ public class ApostaCadastrar extends JInternalFrame {
 	}
 	
 	private void cadastrar(){
+		procurarGrupo();
 		if (validarCampos()) {
 			ArrayList<Aposta> apostas = new ArrayList<>();
 			long idApostador = Long.parseLong(campoIdApostador.getText());
@@ -409,6 +433,7 @@ public class ApostaCadastrar extends JInternalFrame {
 				} catch (SaldoInsulficienteException e) {
 					JOptionPane.showMessageDialog(rootPane, e.getMessage());
 				}
+				limparCampos();
 				return;
 			}
 			for (int i=0; i < linhas; i++) {

@@ -72,12 +72,12 @@ public class ApostadorListar extends JInternalFrame {
 		setClosable(true);
 		setTitle("Listar Apostador");
 		getContentPane().setBackground(Color.WHITE);
-		setBounds(100, 100, 560, 503);
+		setBounds(100, 100, 694, 503);
 		getContentPane().setLayout(null);
 		
 		JPanel painelTabela = new JPanel();
 		painelTabela.setBackground(Color.WHITE);
-		painelTabela.setBounds(10, 11, 530, 446);
+		painelTabela.setBounds(10, 11, 658, 446);
 		getContentPane().add(painelTabela);
 		painelTabela.setLayout(null);
 		
@@ -88,7 +88,7 @@ public class ApostadorListar extends JInternalFrame {
 		
 		campoProcurar = new JTextField();
 		campoProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		campoProcurar.setBounds(10, 36, 411, 20);
+		campoProcurar.setBounds(10, 36, 539, 20);
 		painelTabela.add(campoProcurar);
 		campoProcurar.setColumns(10);
 		
@@ -99,16 +99,16 @@ public class ApostadorListar extends JInternalFrame {
 			}
 		});
 		btnProcurar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnProcurar.setBounds(431, 35, 89, 23);
+		btnProcurar.setBounds(559, 35, 89, 23);
 		painelTabela.add(btnProcurar);
 		
 		JScrollPane scrollPaneListarApostador = new JScrollPane();
-		scrollPaneListarApostador.setBounds(10, 67, 510, 336);
+		scrollPaneListarApostador.setBounds(10, 67, 638, 336);
 		painelTabela.add(scrollPaneListarApostador);
 		
 		tabelaApostador = new JTable();
 		tabelaApostador.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		colunaTabelaApostador = new String[] {"ID", "Nome", "CPF", "Telefone"};
+		colunaTabelaApostador = new String[] {"ID", "Nome", "CPF", "Telefone", "Saldo"};
 		tabelaModeloapostador = new DefaultTableModel(new Object[][] {},colunaTabelaApostador){
 			boolean[] columnEditables = new boolean[] {false, false, false, false};
 			public boolean isCellEditable(int row, int column) {
@@ -120,11 +120,12 @@ public class ApostadorListar extends JInternalFrame {
 		tabelaApostador.getColumnModel().getColumn(1).setPreferredWidth(251);
 		tabelaApostador.getColumnModel().getColumn(2).setPreferredWidth(123);
 		tabelaApostador.getColumnModel().getColumn(3).setPreferredWidth(109);
+		tabelaApostador.getColumnModel().getColumn(3).setPreferredWidth(100);
 		scrollPaneListarApostador.setViewportView(tabelaApostador);
 		
 		JPanel painelBotoes = new JPanel();
 		painelBotoes.setBackground(Color.WHITE);
-		painelBotoes.setBounds(10, 400, 510, 35);
+		painelBotoes.setBounds(10, 400, 638, 35);
 		painelTabela.add(painelBotoes);
 		painelBotoes.setLayout(null);
 		
@@ -176,6 +177,7 @@ public class ApostadorListar extends JInternalFrame {
 				vector.add(apostador.getNome());
 				vector.add(apostador.getCpf());
 				vector.add(apostador.getTelefone());
+				vector.add(apostador.getSaldo());
 				tabelaModeloapostador.addRow(vector);
 			}			
 		} catch (SQLException e) {

@@ -3,17 +3,19 @@ package br.com.futbolao.grupo;
 public class Grupo {
 	
 	private long id;
-	//private String nome;
 	private double valorAposta;
 	private long limiteApostas;
 	private int limiteApostasPorApostador;
 	private int percentualLucroAdministrador;
 	private String dataEncerramentoAposta;
+	private String dataAtual;
 	private int idCompeticao;
 	private String nomeCompeticao;
 	private int idRodada;
 	private int pontuacaoPorResultado;
 	private int pontuacaoPorPlacar;
+	private long totalApostas;
+	private double totalValorApostas;
 		
 	public Grupo(long id, double valorAposta, long limiteApostas,
 			int limiteApostasPorApostador, int percentualLucroAdministrador,
@@ -35,7 +37,7 @@ public class Grupo {
 	public Grupo(long id, double valorAposta, long limiteApostas,
 			int limiteApostasPorApostador, int percentualLucroAdministrador,
 			String dataEncerramentoAposta, int idCompeticao, String nomeCompeticao, int idRodada,
-			int pontuacaoPorResultado, int pontuacaoPorPlacar) {
+			int pontuacaoPorResultado, int pontuacaoPorPlacar, String dataAtual, long totalApostas, double totalValorAposta) {
 		super();
 		this.id = id;
 		this.valorAposta = valorAposta;
@@ -48,6 +50,9 @@ public class Grupo {
 		this.idRodada = idRodada;
 		this.pontuacaoPorResultado = pontuacaoPorResultado;
 		this.pontuacaoPorPlacar = pontuacaoPorPlacar;
+		this.dataAtual = dataAtual;
+		this.totalApostas = totalApostas;
+		this.totalValorApostas = totalValorAposta;
 	}
 
 	public long getId() {
@@ -137,6 +142,30 @@ public class Grupo {
 	public void setPontuacaoPorPlacar(int pontuacaoPorPlacar) {
 		this.pontuacaoPorPlacar = pontuacaoPorPlacar;
 	}
+	
+	public String getDataAtual() {
+		return dataAtual;
+	}
+
+	public void setDataAtual(String dataAtual) {
+		this.dataAtual = dataAtual;
+	}
+	
+	public long getTotalApostas() {
+		return totalApostas;
+	}
+
+	public void setTotalApostas(long totalApostas) {
+		this.totalApostas = totalApostas;
+	}
+	
+	public double getTotalValorApostas() {
+		return totalValorApostas;
+	}
+
+	public void setTotalValorApostas(double totalValorApostas) {
+		this.totalValorApostas = totalValorApostas;
+	}
 
 	@Override
 	public String toString() {
@@ -147,7 +176,7 @@ public class Grupo {
 				+ percentualLucroAdministrador + ", dataEncerramentoAposta="
 				+ dataEncerramentoAposta + ",idRodada=" + idRodada + " ,idRodada=" + idRodada
 				+ ", pontuacaoPorResultado=" + pontuacaoPorResultado
-				+ ", pontuacaoPorPlacar=" + pontuacaoPorPlacar + "]";
+				+ ", pontuacaoPorPlacar=" + pontuacaoPorPlacar + ",dataAtual=" + dataAtual + "]";
 	}
 
 }

@@ -158,6 +158,22 @@ public class Aposta {
 		this.resultadoClube2 = resultadoClube2;
 	}
 
+	public double getValorAposta() {
+		return valorAposta;
+	}
+
+	public void setValorAposta(double valorAposta) {
+		this.valorAposta = valorAposta;
+	}
+	
+	public char getAtiva() {
+		return ativa;
+	}
+
+	public void setAtiva(char ativa) {
+		this.ativa = ativa;
+	}
+	
 	@Override
 	public String toString() {
 		return "Aposta [id=" + id + ", idApostador=" + idApostador
